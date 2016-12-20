@@ -71,10 +71,8 @@ namespace BrakeNeck.Entities
                 movementRatio = 1;
             }
 
-            this.Velocity = movementRatio * this.RotationMatrix.Right * MaxSpeed;
-
-            // eventually adjust this...
-
+            this.Velocity = movementRatio * this.RotationMatrix.Up * MaxSpeed;
+            
             var radianVelocity = MathHelper.ToRadians(RotationSpeed);
             this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * movementRatio;
         }

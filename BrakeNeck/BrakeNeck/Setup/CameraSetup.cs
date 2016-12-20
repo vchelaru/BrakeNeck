@@ -14,11 +14,26 @@ namespace BrakeNeck
 	{
 			internal static void SetupCamera (Camera cameraToSetUp, GraphicsDeviceManager graphicsDeviceManager)
 			{
-				SetupCamera(cameraToSetUp, graphicsDeviceManager, 800, 600);
+				SetupCamera(cameraToSetUp, graphicsDeviceManager, 800, 450);
 			}
 			internal static void SetupCamera (Camera cameraToSetUp, GraphicsDeviceManager graphicsDeviceManager, int width, int height)
 			{
-				cameraToSetUp.UsePixelCoordinates();
+				#if WINDOWS
+				FlatRedBall.FlatRedBallServices.GraphicsOptions.SetResolution(width, height);
+				#elif IOS || ANDROID
+				FlatRedBall.FlatRedBallServices.GraphicsOptions.SetFullScreen(FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionWidth, FlatRedBall.FlatRedBallServices.GraphicsOptions.ResolutionHeight);
+				#endif
+				#if WINDOWS_PHONE || WINDOWS_8 || IOS || ANDROID
+				if (height > width)
+				{
+					graphicsDeviceManager.SupportedOrientations = DisplayOrientation.Portrait;
+				}
+				else
+				{
+					graphicsDeviceManager.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+				}
+				#endif
+				cameraToSetUp.UsePixelCoordinates(false, 1920, 1080);
 			}
 			internal static void ResetCamera (Camera cameraToReset)
 			{
