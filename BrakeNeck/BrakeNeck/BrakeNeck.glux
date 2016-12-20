@@ -183,8 +183,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>X</Name>
+          <Name>BulletSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1000</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -193,8 +194,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Y</Name>
+          <Name>MaxSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">300</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -203,8 +205,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Z</Name>
+          <Name>RotationSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">180</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -362,6 +365,7 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
+      <CreatedByOtherEntities>true</CreatedByOtherEntities>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -407,6 +411,11 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-32</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
             <Member>Width</Member>
             <ValueAsFloat>800</ValueAsFloat>
           </CustomProperty>
@@ -414,11 +423,6 @@
             <Type>float</Type>
             <Member>Height</Member>
             <ValueAsFloat>64</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>-32</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

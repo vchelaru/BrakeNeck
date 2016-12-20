@@ -3,3 +3,8 @@
 *.metaproj
 *.tmp
 *.gvwx
+BrakeNeck/BrakeNeck/obj/
+*.suo
+BrakeNeck/BrakeNeck/bin/
+*.FileListAbsolute.txt
+BrakeNeck/BrakeNeckContent/obj/
