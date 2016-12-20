@@ -2,12 +2,12 @@
 <GlueProjectSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <In2D>true</In2D>
   <RunFullscreen>false</RunFullscreen>
-  <SetResolution>false</SetResolution>
+  <SetResolution>true</SetResolution>
   <ResolutionWidth>800</ResolutionWidth>
-  <ResolutionHeight>600</ResolutionHeight>
-  <SetOrthogonalResolution>false</SetOrthogonalResolution>
-  <OrthogonalWidth>800</OrthogonalWidth>
-  <OrthogonalHeight>600</OrthogonalHeight>
+  <ResolutionHeight>450</ResolutionHeight>
+  <SetOrthogonalResolution>true</SetOrthogonalResolution>
+  <OrthogonalWidth>1920</OrthogonalWidth>
+  <OrthogonalHeight>1080</OrthogonalHeight>
   <Screens>
     <ScreenSave>
       <Tags>
@@ -183,8 +183,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>X</Name>
+          <Name>BulletSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1000</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -193,8 +194,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Y</Name>
+          <Name>MaxSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">300</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -203,8 +205,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Z</Name>
+          <Name>RotationSpeed</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">180</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -217,14 +220,9 @@
             <ValueAsFloat>1</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
-            <Type>float</Type>
-            <Member>Width</Member>
-            <ValueAsFloat>32</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Height</Member>
-            <ValueAsFloat>32</ValueAsFloat>
+            <Type>Texture2D</Type>
+            <Member>Texture</Member>
+            <ValueAsString>truck</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -272,6 +270,20 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>truck.png</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>tire.png</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -362,6 +374,7 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
+      <CreatedByOtherEntities>true</CreatedByOtherEntities>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -407,6 +420,11 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-32</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
             <Member>Width</Member>
             <ValueAsFloat>800</ValueAsFloat>
           </CustomProperty>
@@ -414,11 +432,6 @@
             <Type>float</Type>
             <Member>Height</Member>
             <ValueAsFloat>64</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>-32</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

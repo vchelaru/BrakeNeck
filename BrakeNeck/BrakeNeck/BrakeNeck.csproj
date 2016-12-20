@@ -130,6 +130,7 @@
     <Compile Include="Entities\SandStorm.Generated.cs">
       <DependentUpon>SandStorm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\PlayerBulletFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
@@ -218,7 +219,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FlatRedBallXna4TemplateContent\FlatRedBallXna4TemplateContent.contentproj">
+    <ProjectReference Include="..\BrakeNeckContent\BrakeNeckContent.contentproj">
       <Project>{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}</Project>
       <Name>FlatRedBallXna4TemplateContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
@@ -226,7 +227,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libraries\Xna4Pc\Release\" />
-    <Folder Include="Screens\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
