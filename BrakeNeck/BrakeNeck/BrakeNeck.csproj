@@ -114,12 +114,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="Entities\Obstacle.cs" />
+    <Compile Include="Entities\Obstacle.Generated.cs">
+      <DependentUpon>Obstacle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PlayerBuggy.cs" />
+    <Compile Include="Entities\PlayerBuggy.Generated.cs">
+      <DependentUpon>PlayerBuggy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PlayerBullet.cs" />
+    <Compile Include="Entities\PlayerBullet.Generated.cs">
+      <DependentUpon>PlayerBullet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\SandStorm.cs" />
+    <Compile Include="Entities\SandStorm.Generated.cs">
+      <DependentUpon>SandStorm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\GameScreen.Generated.cs">
+      <DependentUpon>GameScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setup\CameraSetup.cs" />
     <Compile Include="StateInterpolation\Back.cs" />
     <Compile Include="StateInterpolation\Bounce.cs" />

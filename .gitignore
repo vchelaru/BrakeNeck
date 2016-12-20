@@ -2,3 +2,4 @@
 *.Generated.cs
 *.metaproj
 *.tmp
+*.gvwx
