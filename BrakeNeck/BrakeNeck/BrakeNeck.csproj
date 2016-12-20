@@ -130,6 +130,14 @@
     <Compile Include="Entities\SandStorm.Generated.cs">
       <DependentUpon>SandStorm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Tire.cs" />
+    <Compile Include="Entities\Tire.Generated.cs">
+      <DependentUpon>Tire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Turret.cs" />
+    <Compile Include="Entities\Turret.Generated.cs">
+      <DependentUpon>Turret.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factories\PlayerBulletFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />

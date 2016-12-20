@@ -79,9 +79,16 @@ namespace BrakeNeck.Entities
 
         private void PerformShootingInput()
         {
-            if(this.ShootingInput.IsDown)
+            float angle = TurretInstance.RotationZ;
+
+            if(AimingInput.X != 0 || AimingInput.Y != 0)
             {
-                var angle = (float)Math.Atan2(AimingInput.Y, AimingInput.X);
+                angle = (float)Math.Atan2(AimingInput.Y, AimingInput.X);
+                TurretInstance.RelativeRotationZ = angle - RotationZ - MathHelper.PiOver2;
+
+            }
+            if (this.ShootingInput.IsDown)
+            {
                 this.ShootBullet(angle);
             }
         }
