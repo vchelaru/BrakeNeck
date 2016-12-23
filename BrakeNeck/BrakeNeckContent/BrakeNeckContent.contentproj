@@ -45,17 +45,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tireTexture.png">
+    <None Include="Entities\Obstacle\AnimationChainListFile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>tireTexture</Name>
+      <Name>AnimationChainListFile</Name>
     </None>
-    <None Include="truck.png">
+    <None Include="Entities\PlayerBuggy\AnimationChainListFile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>truck</Name>
+      <Name>AnimationChainListFile</Name>
     </None>
-    <None Include="turretTexture.png">
+    <None Include="Entities\PlayerBullet\AnimationChainListFile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>turretTexture</Name>
+      <Name>AnimationChainListFile</Name>
+    </None>
+    <None Include="spriteSheet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>spriteSheet</Name>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

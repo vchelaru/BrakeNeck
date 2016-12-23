@@ -50,9 +50,9 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
-            //CreateKeyboardInput();
+            CreateKeyboardInput();
 
-            CreateOnePlayerXboxControllerInput();
+            //CreateOnePlayerXboxControllerInput();
 
         }
 
@@ -98,20 +98,26 @@ namespace BrakeNeck.Entities
             currentSpeedRatio = Math.Min(1, currentSpeedRatio);
             currentSpeedRatio = Math.Max(0, currentSpeedRatio);
 
-            this.Velocity = currentSpeedRatio * this.RotationMatrix.Up * MaxSpeed;
+            this.BackLeftTire.AnimationSpeed = currentSpeedRatio;
+            this.BackRightTire.AnimationSpeed = currentSpeedRatio;
+            this.FrontLeftTire.AnimationSpeed = currentSpeedRatio;
+            this.FrontRightTire.AnimationSpeed = currentSpeedRatio;
+
+            this.Velocity = currentSpeedRatio * this.RotationMatrix.Right * MaxSpeed;
             
             var radianVelocity = MathHelper.ToRadians(RotationSpeed);
             this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * currentSpeedRatio;
+            this.TurnRatio = this.SteeringInput.Value;
         }
 
         private void PerformShootingInput()
         {
-            float angle = TurretInstance.RotationZ + MathHelper.PiOver2;
+            float angle = TurretInstance.RotationZ;
 
             if(AimingInput.X != 0 || AimingInput.Y != 0)
             {
                 angle = (float)Math.Atan2(AimingInput.Y, AimingInput.X);
-                TurretInstance.RelativeRotationZ = angle - RotationZ - MathHelper.PiOver2;
+                TurretInstance.RelativeRotationZ = angle - RotationZ;
 
             }
 
@@ -132,7 +138,7 @@ namespace BrakeNeck.Entities
             bullet.RotationZ = angle;
             bullet.Velocity = BulletSpeed * bullet.RotationMatrix.Right;
             
-            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Up; 
+            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right; 
         }
 
         private void CustomDestroy()

@@ -123,7 +123,13 @@
       <DependentUpon>ObstacleSpawner.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\PlayerBuggy.cs" />
+    <Compile Include="Entities\PlayerBuggy.Event.cs">
+      <DependentUpon>PlayerBuggy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\PlayerBuggy.Generated.cs">
+      <DependentUpon>PlayerBuggy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PlayerBuggy.Generated.Event.cs">
       <DependentUpon>PlayerBuggy.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\PlayerBullet.cs" />
