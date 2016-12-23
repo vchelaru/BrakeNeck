@@ -27,14 +27,17 @@ namespace BrakeNeck.Screens
 {
 	public partial class GameScreen
 	{
+        #region Initialize
 
-		void CustomInitialize()
+        void CustomInitialize()
 		{
             Camera.Main.BackgroundColor = Color.SandyBrown;
 
 		}
 
-		void CustomActivity(bool firstTimeCalled)
+        #endregion
+
+        void CustomActivity(bool firstTimeCalled)
 		{
             BulletDestructionActivity();
 
@@ -48,19 +51,36 @@ namespace BrakeNeck.Screens
 
         private void CollisionActivity()
         {
-            for(int bulletIndex = PlayerBulletList.Count -1; bulletIndex > -1; bulletIndex--)
+            PerformBulletVsBoxCollision();
+
+            PlayerVsBoxCollision();
+        }
+
+        private void PlayerVsBoxCollision()
+        {
+            for (int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
+            {
+                var obstacle = ObstacleList[obstacleIndex];
+
+                this.PlayerBuggyInstance.CollideAgainstMove(obstacle, 0, 1);
+            }
+        }
+
+        private void PerformBulletVsBoxCollision()
+        {
+            for (int bulletIndex = PlayerBulletList.Count - 1; bulletIndex > -1; bulletIndex--)
             {
                 var bullet = PlayerBulletList[bulletIndex];
 
-                for(int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
+                for (int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
                 {
                     var obstacle = ObstacleList[obstacleIndex];
 
-                    if(bullet.CollideAgainst(obstacle))
+                    if (bullet.CollideAgainst(obstacle))
                     {
                         bullet.Destroy();
                         obstacle.Health--;
-                        if(obstacle.Health <= 0)
+                        if (obstacle.Health <= 0)
                         {
                             obstacle.Destroy();
                         }
@@ -77,7 +97,7 @@ namespace BrakeNeck.Screens
             {
                 var obstacle = ObstacleList[i];
 
-                if(obstacle.Y < -1000)
+                if(obstacle.Y < -1000 + Camera.Main.Y)
                 {
                     obstacle.Destroy();
                 }
@@ -88,7 +108,7 @@ namespace BrakeNeck.Screens
         {
             this.SandStormInstance.Y += SandStormInstance.MovingSpeed * TimeManager.SecondDifference;
 
-            float desiredTruckY = -Camera.Main.OrthogonalHeight / 4;
+            float desiredTruckY = Camera.Main.Y - Camera.Main.OrthogonalHeight / 4;
             float heightAbove = this.PlayerBuggyInstance.Y - desiredTruckY;
 
             float velocity = Math.Max(0, heightAbove);
@@ -98,19 +118,7 @@ namespace BrakeNeck.Screens
 
         private void OffsetEverythingBy(float amount)
         {
-            PlayerBuggyInstance.Y -= amount;
-
-            this.SandStormInstance.Y -= amount;
-
-            foreach(var obstacle in this.ObstacleList)
-            {
-                obstacle.Y -= amount;
-            }
-
-            foreach(var bullet in PlayerBulletList)
-            {
-                bullet.Y -= amount;
-            }
+            Camera.Main.Y += amount;
         }
 
         private void BulletDestructionActivity()
@@ -121,7 +129,7 @@ namespace BrakeNeck.Screens
                 var bullet = PlayerBulletList[i];
 
                 if(bullet.X > 1000 || bullet.X < -1000 ||
-                    bullet.Y > 1000 || bullet.Y < -1000)
+                   bullet.Y > Camera.Main.Y + 1000 || bullet.Y < Camera.Main.Y - 1000)
                 {
                     bullet.Destroy();
                 }

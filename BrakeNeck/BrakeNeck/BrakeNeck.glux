@@ -65,6 +65,7 @@
           <SourceClassType>Entities\ObstacleSpawner</SourceClassType>
           <InstanceName>ObstacleSpawnerInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
+          <AttachToCamera>true</AttachToCamera>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
@@ -85,42 +86,59 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>X</Name>
-          <Type>float</Type>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>Y</Name>
-          <Type>float</Type>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>Z</Name>
-          <Type>float</Type>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
           <Name>ParticlesPerSecond</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">4</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>double</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>ParticleDuration</Name>
+          <Type>double</Type>
+          <DefaultValue xsi:type="xsd:double">3</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MaxVelocity</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">17</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>PositionSpread</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <Name>Entities\MissileEmitter</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
+          <SourceClassGenericType>FlatRedBall.Sprite</SourceClassGenericType>
+          <InstanceName>Sprites</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
       <ReferencedFiles>
         <ReferencedFileSave>
           <Name>Entities/MissileEmitter/AnimationChainListFile.achx</Name>
@@ -208,11 +226,6 @@
             <Type>ColorOperation</Type>
             <Member>ColorOperation</Member>
             <ValueAsInt>4</ValueAsInt>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Red</Member>
-            <ValueAsFloat>255</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

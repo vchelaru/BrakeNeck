@@ -9,10 +9,10 @@
     <Frame>
       <TextureName>..\..\spritesheet.png</TextureName>
       <FrameLength>0.1</FrameLength>
-      <LeftCoordinate>2</LeftCoordinate>
-      <RightCoordinate>127</RightCoordinate>
-      <TopCoordinate>897</TopCoordinate>
-      <BottomCoordinate>1024</BottomCoordinate>
+      <LeftCoordinate>130</LeftCoordinate>
+      <RightCoordinate>255</RightCoordinate>
+      <TopCoordinate>892</TopCoordinate>
+      <BottomCoordinate>1028</BottomCoordinate>
     </Frame>
   </AnimationChain>
 </AnimationChainArraySave>
