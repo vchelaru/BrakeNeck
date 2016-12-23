@@ -16,6 +16,7 @@ using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using Microsoft.Xna.Framework;
+using FlatRedBall.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -29,6 +30,13 @@ namespace BrakeNeck.Entities
 {
 	public partial class PlayerBuggy
 	{
+        /// <summary>
+        /// The ratio that the car is moving relative to its max speed. Range is 0 to 1
+        /// </summary>
+        float currentSpeedRatio;
+
+        // Start as a negative number so the bullet can be shot immediately
+        double lastBulletShot = -100;
 
         public IPressableInput GasInput { get; set; }
         public I1DInput SteeringInput { get; set; }
@@ -42,9 +50,22 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
-            CreateKeyboardInput();
+            //CreateKeyboardInput();
 
-		}
+            CreateOnePlayerXboxControllerInput();
+
+        }
+
+        private void CreateOnePlayerXboxControllerInput()
+        {
+            var controller = InputManager.Xbox360GamePads[0];
+
+            GasInput = controller.GetButton(Xbox360GamePad.Button.LeftTrigger);
+            ShootingInput = controller.GetButton(Xbox360GamePad.Button.RightTrigger);
+
+            AimingInput = controller.RightStick;
+            SteeringInput = controller.LeftStick.Horizontal;
+        }
 
         private void CreateKeyboardInput()
         {
@@ -65,21 +86,27 @@ namespace BrakeNeck.Entities
 
         private void PerformMovementInput()
         {
-            float movementRatio = 0;
             if(GasInput.IsDown)
             {
-                movementRatio = 1;
+                currentSpeedRatio += TimeManager.SecondDifference / TimeToSpeedUp;
+            }
+            else
+            {
+                currentSpeedRatio -= TimeManager.SecondDifference / TimeToSpeedUp;
             }
 
-            this.Velocity = movementRatio * this.RotationMatrix.Up * MaxSpeed;
+            currentSpeedRatio = Math.Min(1, currentSpeedRatio);
+            currentSpeedRatio = Math.Max(0, currentSpeedRatio);
+
+            this.Velocity = currentSpeedRatio * this.RotationMatrix.Up * MaxSpeed;
             
             var radianVelocity = MathHelper.ToRadians(RotationSpeed);
-            this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * movementRatio;
+            this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * currentSpeedRatio;
         }
 
         private void PerformShootingInput()
         {
-            float angle = TurretInstance.RotationZ;
+            float angle = TurretInstance.RotationZ + MathHelper.PiOver2;
 
             if(AimingInput.X != 0 || AimingInput.Y != 0)
             {
@@ -87,8 +114,14 @@ namespace BrakeNeck.Entities
                 TurretInstance.RelativeRotationZ = angle - RotationZ - MathHelper.PiOver2;
 
             }
-            if (this.ShootingInput.IsDown)
+
+            var screen = ScreenManager.CurrentScreen;
+
+            if (this.ShootingInput.IsDown && 
+                screen.PauseAdjustedSecondsSince(lastBulletShot) > 1/TurretInstance.BulletsPerSecond)
             {
+                lastBulletShot = screen.PauseAdjustedCurrentTime;
+
                 this.ShootBullet(angle);
             }
         }
@@ -98,6 +131,8 @@ namespace BrakeNeck.Entities
             var bullet = Factories.PlayerBulletFactory.CreateNew();
             bullet.RotationZ = angle;
             bullet.Velocity = BulletSpeed * bullet.RotationMatrix.Right;
+            
+            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Up; 
         }
 
         private void CustomDestroy()

@@ -45,9 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="tire.png">
+    <None Include="tireTexture.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>tire</Name>
+      <Name>tireTexture</Name>
     </None>
     <None Include="truck.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

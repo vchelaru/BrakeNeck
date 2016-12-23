@@ -118,6 +118,10 @@
     <Compile Include="Entities\Obstacle.Generated.cs">
       <DependentUpon>Obstacle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\ObstacleSpawner.cs" />
+    <Compile Include="Entities\ObstacleSpawner.Generated.cs">
+      <DependentUpon>ObstacleSpawner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\PlayerBuggy.cs" />
     <Compile Include="Entities\PlayerBuggy.Generated.cs">
       <DependentUpon>PlayerBuggy.cs</DependentUpon>
@@ -138,6 +142,7 @@
     <Compile Include="Entities\Turret.Generated.cs">
       <DependentUpon>Turret.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\ObstacleFactory.Generated.cs" />
     <Compile Include="Factories\PlayerBulletFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IEntityFactory.Generated.cs" />
