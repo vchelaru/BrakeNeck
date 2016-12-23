@@ -114,6 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="Entities\MissileEmitter.cs" />
+    <Compile Include="Entities\MissileEmitter.Generated.cs">
+      <DependentUpon>MissileEmitter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Obstacle.cs" />
     <Compile Include="Entities\Obstacle.Generated.cs">
       <DependentUpon>Obstacle.cs</DependentUpon>

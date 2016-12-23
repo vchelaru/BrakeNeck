@@ -8,3 +8,4 @@ BrakeNeck/BrakeNeck/obj/
 BrakeNeck/BrakeNeck/bin/
 *.FileListAbsolute.txt
 BrakeNeck/BrakeNeckContent/obj/
+*.aeproperties

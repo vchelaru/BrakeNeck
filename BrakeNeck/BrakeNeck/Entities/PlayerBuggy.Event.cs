@@ -21,8 +21,8 @@ namespace BrakeNeck.Entities
                 int m = 3;
             }
             float maxRotationRadians = MathHelper.ToRadians(MaxTireTurnDegrees);
-            FrontLeftTire.RelativeRotationZ = maxRotationRadians * TurnRatio;
-            FrontRightTire.RelativeRotationZ = maxRotationRadians * TurnRatio;
+            FrontLeftTire.RelativeRotationZ = -maxRotationRadians * TurnRatio;
+            FrontRightTire.RelativeRotationZ = -maxRotationRadians * TurnRatio;
         }
 		
 	}
