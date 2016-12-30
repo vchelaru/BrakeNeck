@@ -22,6 +22,7 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using Microsoft.Xna.Framework;
+using BrakeNeck.Entities;
 
 namespace BrakeNeck.Screens
 {
@@ -32,13 +33,14 @@ namespace BrakeNeck.Screens
         void CustomInitialize()
 		{
             Camera.Main.BackgroundColor = Color.SandyBrown;
-
 		}
 
         #endregion
 
         void CustomActivity(bool firstTimeCalled)
 		{
+            SpawningActivity();
+
             BulletDestructionActivity();
 
             ObstacleDestructionActivity();
@@ -48,6 +50,35 @@ namespace BrakeNeck.Screens
             ScrollingActivity();
 
 		}
+
+        private void SpawningActivity()
+        {
+            if(ObstacleSpawnerInstance.GetIfShouldSpawn())
+            {
+                var newObstacle = ObstacleSpawnerInstance.PerformSpawn();
+
+                // We don't want obstacles to overlap, so we'll minimize it by 
+                // colliding the newly-spawned obstacle against all other obstacles.
+                // This doesn't guarantee no overlaps, but it does make overlapping less 
+                // likely.
+
+                foreach (var existingObstacle in ObstacleList)
+                {
+                    if (existingObstacle != newObstacle)
+                    {
+                        newObstacle.CollideAgainstMove(existingObstacle, 0, 1);
+                    }
+                }
+            }
+
+            if(GroundDecorationSpawnerInstance.GetIfShouldSpawn())
+            {
+                // this spawner keeps track of its own objects, we don't have to 
+                // do anything here.
+                GroundDecorationSpawnerInstance.PerformSpawn();
+            }
+            GroundDecorationSpawnerInstance.RemoveOffScreenDecorations();
+        }
 
         private void CollisionActivity()
         {
@@ -120,8 +151,6 @@ namespace BrakeNeck.Screens
 
             var ratioOfMaxBuggyVelocity = velocity / PlayerBuggyInstance.MaxSpeed;
 
-            this.ObstacleSpawnerInstance.SpawningRatio = ratioOfMaxBuggyVelocity;
-
             Camera.Main.Y += velocity * TimeManager.SecondDifference;
         }
 
@@ -143,7 +172,7 @@ namespace BrakeNeck.Screens
                 }
             }
         }
-
+        
         void CustomDestroy()
 		{
 

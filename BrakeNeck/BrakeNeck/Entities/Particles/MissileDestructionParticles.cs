@@ -48,7 +48,7 @@ namespace BrakeNeck.Entities.Particles
                 sprite.TextureScale = 1;
 
                 float rotationRadians = MathHelper.ToRadians(MaxRotationPerSecondDegrees);
-                sprite.RotationZVelocity = rotationRadians + (float)FlatRedBallServices.Random.NextDouble() * 2 * rotationRadians;
+                sprite.RotationZVelocity = rotationRadians - (float)FlatRedBallServices.Random.NextDouble() * 2 * rotationRadians;
 
                 float offsetAngle = (float)FlatRedBallServices.Random.NextDouble() * MathHelper.TwoPi;
                 var offset = new Vector3((float)Math.Cos(offsetAngle), (float)Math.Sin(offsetAngle), 0) * (float)(FlatRedBallServices.Random.NextDouble() * EmissionRadius);

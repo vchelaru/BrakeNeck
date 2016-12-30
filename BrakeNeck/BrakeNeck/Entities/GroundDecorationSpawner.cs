@@ -26,11 +26,8 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace BrakeNeck.Entities
 {
-	public partial class SpawnerBase
+	public partial class GroundDecorationSpawner
 	{
-        // Start at 0 to give some time before the first spawn
-        protected double lastSpawnY = 0;
-
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
@@ -60,24 +57,31 @@ namespace BrakeNeck.Entities
 
         }
 
-        public bool GetIfShouldSpawn()
+        public void RemoveOffScreenDecorations()
         {
-#if DEBUG
-            if (this.YDistanceBetweenSpawns == 0)
+            var absoluteBottom = Camera.Main.AbsoluteBottomYEdgeAt(0);
+            for(int i = SpawnedDecorations.Count - 1; i > -1; i--)
             {
-                throw new InvalidOperationException("ObstaclesPerSecond cannot be 0");
+                var decoration = SpawnedDecorations[i];
+                if (decoration.Top < absoluteBottom)
+                {
+                    SpriteManager.RemoveSprite(decoration);
+                }
             }
-#endif
-            return this.Y > lastSpawnY + this.YDistanceBetweenSpawns;
         }
 
-        protected void PositionNewObstacle(PositionedObject newObstacle)
+        public void PerformSpawn()
         {
-            // Set the entire position...
-            newObstacle.Position = this.Position;
-            // ...then overwrite the X:
-            var width = Camera.Main.OrthogonalWidth;
-            newObstacle.X = -width / 2.0f + (float)FlatRedBallServices.Random.NextDouble() * width;
+            var sprite = SpriteManager.AddParticleSprite(null);
+            sprite.AnimationChains = AnimationChainListFile;
+            sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
+            sprite.TextureScale = 1;
+
+            this.PositionNewObstacle(sprite);
+
+            SpawnedDecorations.Add(sprite);
+
+            this.lastSpawnY = Y;
         }
     }
 }

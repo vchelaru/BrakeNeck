@@ -61,6 +61,11 @@
             <Member>Y</Member>
             <ValueAsFloat>600</ValueAsFloat>
           </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\ObstacleSpawner</SourceClassType>
           <InstanceName>ObstacleSpawnerInstance</InstanceName>
@@ -78,10 +83,67 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>600</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\GroundDecorationSpawner</SourceClassType>
+          <InstanceName>GroundDecorationSpawnerInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AttachToCamera>true</AttachToCamera>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
       </NamedObjects>
     </ScreenSave>
   </Screens>
   <Entities>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Y</Name>
+          <Type>float</Type>
+        </CustomVariable>
+      </CustomVariables>
+      <BaseEntity>Entities\SpawnerBase</BaseEntity>
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Name>Entities\GroundDecorationSpawner</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
+          <SourceClassGenericType>FlatRedBall.Sprite</SourceClassGenericType>
+          <InstanceName>SpawnedDecorations</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/GroundDecorationSpawner/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <Is2D>true</Is2D>
+    </EntitySave>
     <EntitySave>
       <Properties>
         <PropertySave>
@@ -180,6 +242,11 @@
             <Member>Height</Member>
             <ValueAsFloat>128</ValueAsFloat>
           </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Visible</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
           <SourceName />
@@ -225,11 +292,12 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>YDistanceBetweenSpawns</Name>
+          <Name>Z</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">15</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">0</DefaultValue>
         </CustomVariable>
       </CustomVariables>
+      <BaseEntity>Entities\SpawnerBase</BaseEntity>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <Name>Entities\ObstacleSpawner</Name>
       <Is2D>true</Is2D>
@@ -282,7 +350,7 @@
           </Properties>
           <Name>TimeLasting</Name>
           <Type>double</Type>
-          <DefaultValue xsi:type="xsd:double">5</DefaultValue>
+          <DefaultValue xsi:type="xsd:double">3.5</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -878,6 +946,11 @@
             <Type>float</Type>
             <Member>Height</Member>
             <ValueAsFloat>64</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Color</Type>
+            <Member>Color</Member>
+            <ValueAsString>Red</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

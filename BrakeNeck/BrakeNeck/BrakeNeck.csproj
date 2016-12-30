@@ -114,6 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
+    <Compile Include="Entities\GroundDecorationSpawner.cs" />
+    <Compile Include="Entities\GroundDecorationSpawner.Generated.cs">
+      <DependentUpon>GroundDecorationSpawner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Obstacle.cs" />
     <Compile Include="Entities\Obstacle.Generated.cs">
       <DependentUpon>Obstacle.cs</DependentUpon>
