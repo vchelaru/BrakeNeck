@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using FlatRedBall.Audio;
 using FlatRedBall.Screens;
 using BrakeNeck.Entities;
+using BrakeNeck.Entities.Particles;
 using BrakeNeck.Screens;
 namespace BrakeNeck.Entities
 {

@@ -3,7 +3,7 @@
   <In2D>true</In2D>
   <RunFullscreen>false</RunFullscreen>
   <SetResolution>true</SetResolution>
-  <ResolutionWidth>1900</ResolutionWidth>
+  <ResolutionWidth>1600</ResolutionWidth>
   <ResolutionHeight>900</ResolutionHeight>
   <SetOrthogonalResolution>true</SetOrthogonalResolution>
   <OrthogonalWidth>1920</OrthogonalWidth>
@@ -46,7 +46,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Y</Member>
-            <ValueAsFloat>-540</ValueAsFloat>
+            <ValueAsFloat>-300</ValueAsFloat>
           </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\SandStorm</SourceClassType>
@@ -69,86 +69,19 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
-      </NamedObjects>
-    </ScreenSave>
-  </Screens>
-  <Entities>
-    <EntitySave>
-      <Tags>
-        <string>GLUE</string>
-      </Tags>
-      <Source>GLUE</Source>
-      <CustomVariables>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>ParticlesPerSecond</Name>
-          <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">4</DefaultValue>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>double</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>ParticleDuration</Name>
-          <Type>double</Type>
-          <DefaultValue xsi:type="xsd:double">3</DefaultValue>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>MaxVelocity</Name>
-          <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">17</DefaultValue>
-        </CustomVariable>
-        <CustomVariable>
-          <Properties>
-            <PropertySave>
-              <Name>Type</Name>
-              <ValueAsString>float</ValueAsString>
-            </PropertySave>
-          </Properties>
-          <Name>PositionSpread</Name>
-          <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
-        </CustomVariable>
-      </CustomVariables>
-      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
-      <Name>Entities\MissileEmitter</Name>
-      <NamedObjects>
         <NamedObjectSave>
           <SourceType>FlatRedBallType</SourceType>
-          <SourceFile />
-          <SourceName />
           <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
-          <SourceClassGenericType>FlatRedBall.Sprite</SourceClassGenericType>
-          <InstanceName>Sprites</InstanceName>
+          <SourceClassGenericType>Entities\Particles\MissileDestructionParticles</SourceClassGenericType>
+          <InstanceName>MissileDestructionParticlesList</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
-      <ReferencedFiles>
-        <ReferencedFileSave>
-          <Name>Entities/MissileEmitter/AnimationChainListFile.achx</Name>
-          <IsSharedStatic>true</IsSharedStatic>
-          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
-          <ProjectsToExcludeFrom />
-        </ReferencedFileSave>
-      </ReferencedFiles>
-      <Is2D>true</Is2D>
-    </EntitySave>
+    </ScreenSave>
+  </Screens>
+  <Entities>
     <EntitySave>
       <Properties>
         <PropertySave>
@@ -292,13 +225,176 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>ObstaclesPerSecond</Name>
+          <Name>YDistanceBetweenSpawns</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">15</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <Name>Entities\ObstacleSpawner</Name>
+      <Is2D>true</Is2D>
+    </EntitySave>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>int</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>NumberOfSprites</Name>
+          <Type>int</Type>
+          <DefaultValue xsi:type="xsd:int">10</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>EmissionRadius</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">30</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MaxRotationPerSecondDegrees</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">45</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>double</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>TimeLasting</Name>
+          <Type>double</Type>
+          <DefaultValue xsi:type="xsd:double">5</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MaxSubtleMovementSpeed</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
+        </CustomVariable>
+      </CustomVariables>
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Name>Entities\Particles\MissileDestructionParticles</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
+          <SourceClassGenericType>FlatRedBall.Sprite</SourceClassGenericType>
+          <InstanceName>Sprites</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/Particles/MissileDestructionParticles/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <Is2D>true</Is2D>
+    </EntitySave>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>ParticlesPerSecond</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">4</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>double</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>ParticleDuration</Name>
+          <Type>double</Type>
+          <DefaultValue xsi:type="xsd:double">3</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MaxVelocity</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">17</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>PositionSpread</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
+        </CustomVariable>
+      </CustomVariables>
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Name>Entities\Particles\MissileEmitter</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
+          <SourceClassGenericType>FlatRedBall.Sprite</SourceClassGenericType>
+          <InstanceName>Sprites</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/MissileEmitter/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -378,6 +474,17 @@
           <Name>MaxTireTurnDegrees</Name>
           <Type>float</Type>
           <DefaultValue xsi:type="xsd:float">30</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>RotationZ</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">1.57</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -676,7 +783,7 @@
         </NamedObjectSave>
         <NamedObjectSave>
           <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\MissileEmitter</SourceClassType>
+          <SourceClassType>Entities\Particles\MissileEmitter</SourceClassType>
           <InstanceName>MissileEmitterInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
@@ -739,7 +846,18 @@
           </Properties>
           <Name>MovingSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">55</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>MaxDistanceBehindScreen</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">150</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -772,6 +890,38 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
+      <Is2D>true</Is2D>
+    </EntitySave>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Y</Name>
+          <Type>float</Type>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>YDistanceBetweenSpawns</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">15</DefaultValue>
+        </CustomVariable>
+      </CustomVariables>
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Name>Entities\SpawnerBase</Name>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -1019,7 +1169,7 @@
     </ResolutionValues>
     <ResolutionValues>
       <Name>Large</Name>
-      <Width>1900</Width>
+      <Width>1600</Width>
       <Height>900</Height>
     </ResolutionValues>
   </ResolutionPresets>

@@ -14,7 +14,7 @@ namespace BrakeNeck
 	{
 			internal static void SetupCamera (Camera cameraToSetUp, GraphicsDeviceManager graphicsDeviceManager)
 			{
-				SetupCamera(cameraToSetUp, graphicsDeviceManager, 1900, 900);
+				SetupCamera(cameraToSetUp, graphicsDeviceManager, 1600, 900);
 			}
 			internal static void SetupCamera (Camera cameraToSetUp, GraphicsDeviceManager graphicsDeviceManager, int width, int height)
 			{

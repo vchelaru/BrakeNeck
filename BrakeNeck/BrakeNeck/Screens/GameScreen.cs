@@ -53,10 +53,10 @@ namespace BrakeNeck.Screens
         {
             PerformBulletVsBoxCollision();
 
-            PlayerVsBoxCollision();
+            PerformPlayerVsBoxCollision();
         }
 
-        private void PlayerVsBoxCollision()
+        private void PerformPlayerVsBoxCollision()
         {
             for (int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
             {
@@ -78,7 +78,14 @@ namespace BrakeNeck.Screens
 
                     if (bullet.CollideAgainst(obstacle))
                     {
+
+                        var particles = new Entities.Particles.MissileDestructionParticles();
+                        particles.Position = bullet.Position;
+                        particles.Emit();
+                        MissileDestructionParticlesList.Add(particles);
+
                         bullet.Destroy();
+
                         obstacle.Health--;
                         if (obstacle.Health <= 0)
                         {
@@ -106,30 +113,31 @@ namespace BrakeNeck.Screens
 
         void ScrollingActivity()
         {
-            this.SandStormInstance.Y += SandStormInstance.MovingSpeed * TimeManager.SecondDifference;
-
             float desiredTruckY = Camera.Main.Y - Camera.Main.OrthogonalHeight / 4;
             float heightAbove = this.PlayerBuggyInstance.Y - desiredTruckY;
 
             float velocity = Math.Max(0, heightAbove);
 
-            OffsetEverythingBy(velocity * TimeManager.SecondDifference);
-        }
+            var ratioOfMaxBuggyVelocity = velocity / PlayerBuggyInstance.MaxSpeed;
 
-        private void OffsetEverythingBy(float amount)
-        {
-            Camera.Main.Y += amount;
+            this.ObstacleSpawnerInstance.SpawningRatio = ratioOfMaxBuggyVelocity;
+
+            Camera.Main.Y += velocity * TimeManager.SecondDifference;
         }
 
         private void BulletDestructionActivity()
         {
-            for(int i = PlayerBulletList.Count - 1; i > -1; i--)
+            // Add/subtract 20 so the bullet is fully off screen
+            float top = Camera.Main.AbsoluteTopYEdgeAt(0) + 20;
+            float bottom = Camera.Main.AbsoluteBottomYEdgeAt(0) - 20;
+
+            for (int i = PlayerBulletList.Count - 1; i > -1; i--)
             {
                 // We'll use 1000 as the out-of-screen values:
                 var bullet = PlayerBulletList[i];
 
                 if(bullet.X > 1000 || bullet.X < -1000 ||
-                   bullet.Y > Camera.Main.Y + 1000 || bullet.Y < Camera.Main.Y - 1000)
+                   bullet.Y > top || bullet.Y < bottom)
                 {
                     bullet.Destroy();
                 }

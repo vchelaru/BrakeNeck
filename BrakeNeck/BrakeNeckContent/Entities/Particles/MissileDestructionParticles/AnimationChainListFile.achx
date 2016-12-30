@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationChainArraySave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileRelativeTextures>true</FileRelativeTextures>
+  <TimeMeasurementUnit>Undefined</TimeMeasurementUnit>
+  <CoordinateType>Pixel</CoordinateType>
+  <AnimationChain>
+    <Name>WhiteSmoke</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>213</LeftCoordinate>
+      <RightCoordinate>252</RightCoordinate>
+      <TopCoordinate>1153</TopCoordinate>
+      <BottomCoordinate>1184</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>WhiteSmoke2</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>212</LeftCoordinate>
+      <RightCoordinate>235</RightCoordinate>
+      <TopCoordinate>1190</TopCoordinate>
+      <BottomCoordinate>1210</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>WhiteSmoke3</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>240</LeftCoordinate>
+      <RightCoordinate>256</RightCoordinate>
+      <TopCoordinate>1202</TopCoordinate>
+      <BottomCoordinate>1216</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+</AnimationChainArraySave>

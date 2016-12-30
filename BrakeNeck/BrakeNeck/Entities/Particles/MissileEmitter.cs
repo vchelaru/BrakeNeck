@@ -25,7 +25,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 #endif
 #endregion
 
-namespace BrakeNeck.Entities
+namespace BrakeNeck.Entities.Particles
 {
 	public partial class MissileEmitter
 	{

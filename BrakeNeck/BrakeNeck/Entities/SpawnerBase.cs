@@ -26,7 +26,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace BrakeNeck.Entities
 {
-	public partial class SandStorm
+	public partial class SpawnerBase
 	{
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
@@ -41,27 +41,11 @@ namespace BrakeNeck.Entities
 
 		private void CustomActivity()
 		{
-            MovementActivity();
+
 
 		}
 
-        private void MovementActivity()
-        {
-            // The sandstorm moves forward at a certain rate, 
-            // but if it falls too far behind, its position is 
-            // directly set to keep the user from accumulating a
-            // huge lead. If we don't do this, the sandstorm would
-            // fall way behind, then all of a sudden surprise the user
-            // (if its velocity every got big enough to catch up) or would
-            // never catch up. 
-            this.Y += MovingSpeed * TimeManager.SecondDifference;
-
-            float minY = Camera.Main.AbsoluteBottomYEdgeAt(0) - MaxDistanceBehindScreen;
-
-            this.Y = Math.Max(this.Y, minY);
-        }
-
-        private void CustomDestroy()
+		private void CustomDestroy()
 		{
 
 
