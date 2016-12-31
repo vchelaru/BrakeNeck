@@ -152,6 +152,10 @@
     <Compile Include="Entities\SandStorm.Generated.cs">
       <DependentUpon>SandStorm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\SandStormEffect.cs" />
+    <Compile Include="Entities\SandStormEffect.Generated.cs">
+      <DependentUpon>SandStormEffect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\SpawnerBase.cs" />
     <Compile Include="Entities\SpawnerBase.Generated.cs">
       <DependentUpon>SpawnerBase.cs</DependentUpon>
@@ -164,6 +168,7 @@
     <Compile Include="Entities\Turret.Generated.cs">
       <DependentUpon>Turret.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Factories\ObstacleFactory.Generated.cs" />
     <Compile Include="Factories\PlayerBulletFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />

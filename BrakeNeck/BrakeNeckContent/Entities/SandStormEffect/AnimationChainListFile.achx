@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationChainArraySave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileRelativeTextures>true</FileRelativeTextures>
+  <TimeMeasurementUnit>Undefined</TimeMeasurementUnit>
+  <CoordinateType>Pixel</CoordinateType>
+  <AnimationChain>
+    <Name>SandstormCloud</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>../../spriteSheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>1088</LeftCoordinate>
+      <RightCoordinate>1280</RightCoordinate>
+      <TopCoordinate>1088</TopCoordinate>
+      <BottomCoordinate>1280</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>SandstormLayer</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>../../spriteSheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>1088</LeftCoordinate>
+      <RightCoordinate>1280</RightCoordinate>
+      <TopCoordinate>896</TopCoordinate>
+      <BottomCoordinate>1088</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+</AnimationChainArraySave>
