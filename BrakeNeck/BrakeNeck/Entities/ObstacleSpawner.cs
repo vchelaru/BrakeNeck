@@ -30,6 +30,17 @@ namespace BrakeNeck.Entities
 {
 	public partial class ObstacleSpawner
 	{
+        /// <summary>
+        /// The spawner will create a path by keeping an
+        /// x value. If any crate is within a certain distance
+        /// of the path, it will attempt to reposition itself, making
+        /// it less likely that crates will be along the path.
+        /// </summary>
+        float pathX;
+
+        float pathXVelocity;
+
+        public float MovementRatio { get; set; } = 1;
 
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
@@ -38,15 +49,33 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
+            this.PathXDisplay.Visible = DebuggingVariables.ShowPath;
 
-
+            StartMovingPath();
 		}
 
-		private void CustomActivity()
+        private void StartMovingPath()
+        {
+            float edgeX = Camera.Main.AbsoluteRightXEdgeAt(0);
+
+            float endX = -edgeX + 2 * edgeX * (float)FlatRedBallServices.Random.NextDouble();
+
+            const int timeToTake = 5;
+
+            pathXVelocity = (endX - pathX) / timeToTake;
+
+            this.Call(StartMovingPath).After(timeToTake);
+        }
+
+        private void CustomActivity()
 		{
+            pathX += pathXVelocity * TimeManager.SecondDifference * MovementRatio;
+
+            PathXDisplay.RelativeX = pathX;
+            PathXDisplay.RelativeY = Camera.Main.AbsoluteTopYEdgeAt(0) - this.Y;
 		}
 
-
+        
         private void CustomDestroy()
 		{
 
@@ -64,7 +93,24 @@ namespace BrakeNeck.Entities
         {
             var newObstacle = ObstacleFactory.CreateNew();
 
-            PositionNewObstacle(newObstacle);
+            int repositionsSoFar = 0;
+            while(repositionsSoFar <= NumberOfTimesToRepositionCrates)
+            {
+                PositionNewObstacle(newObstacle);
+
+                var distanceFromCenterOfPath = Math.Abs(newObstacle.X - pathX) - newObstacle.Width;
+
+                bool isOnPath = distanceFromCenterOfPath < PathWidth / 2.0f;
+
+                if(!isOnPath)
+                {
+                    break;
+                }
+
+                repositionsSoFar++;
+            }
+
+
 
             lastSpawnY = this.Y;
 

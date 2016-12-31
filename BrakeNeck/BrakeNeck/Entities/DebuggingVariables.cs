@@ -26,16 +26,8 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace BrakeNeck.Entities
 {
-	public partial class Obstacle
+	public partial class DebuggingVariables
 	{
-        public float Width
-        {
-            get
-            {
-                return AxisAlignedRectangleInstance.Width;
-            }
-        }
-
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not

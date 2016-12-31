@@ -151,6 +151,8 @@ namespace BrakeNeck.Screens
 
             var ratioOfMaxBuggyVelocity = velocity / PlayerBuggyInstance.MaxSpeed;
 
+            ObstacleSpawnerInstance.MovementRatio = ratioOfMaxBuggyVelocity;
+
             Camera.Main.Y += velocity * TimeManager.SecondDifference;
         }
 
