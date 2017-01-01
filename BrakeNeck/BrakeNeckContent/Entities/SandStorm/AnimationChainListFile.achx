@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationChainArraySave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileRelativeTextures>true</FileRelativeTextures>
+  <TimeMeasurementUnit>Undefined</TimeMeasurementUnit>
+  <CoordinateType>Pixel</CoordinateType>
+  <AnimationChain>
+    <Name>SandstormMask</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>../../spriteSheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>1264</LeftCoordinate>
+      <RightCoordinate>1280</RightCoordinate>
+      <TopCoordinate>576</TopCoordinate>
+      <BottomCoordinate>896</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+</AnimationChainArraySave>

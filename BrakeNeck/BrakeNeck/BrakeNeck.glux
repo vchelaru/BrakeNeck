@@ -1039,6 +1039,11 @@
             <Member>Color</Member>
             <ValueAsString>Red</ValueAsString>
           </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Visible</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
           <SourceName />
@@ -1051,9 +1056,59 @@
         </NamedObjectSave>
         <NamedObjectSave>
           <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>string</Type>
+            <Member>CurrentChainName</Member>
+            <ValueAsString>SandstormMask</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>2300</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Animate</Member>
+            <ValueAsBool>true</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Height</Member>
+            <ValueAsFloat>800</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-400</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
             <Type>float</Type>
             <Member>X</Member>
-            <ValueAsFloat>-900</ValueAsFloat>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>SpriteInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>900</ValueAsFloat>
           </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\SandStormEffect</SourceClassType>
@@ -1066,11 +1121,89 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>X</Member>
-            <ValueAsFloat>-800</ValueAsFloat>
+            <ValueAsFloat>700</ValueAsFloat>
           </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance2</InstanceName>
+          <InstanceName>SandStormEffectInstance10</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>500</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance9</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>300</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance8</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>100</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance7</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-100</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance6</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-300</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance5</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-500</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\SandStormEffect</SourceClassType>
+          <InstanceName>SandStormEffectInstance4</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -1092,94 +1225,24 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>X</Member>
-            <ValueAsFloat>-600</ValueAsFloat>
+            <ValueAsFloat>-900</ValueAsFloat>
           </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance4</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-500</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance5</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-400</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance6</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-300</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance7</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-200</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance8</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-100</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance9</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>true</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>0</ValueAsFloat>
-          </CustomProperty>
-          <SourceType>Entity</SourceType>
-          <SourceClassType>Entities\SandStormEffect</SourceClassType>
-          <InstanceName>SandStormEffectInstance10</InstanceName>
+          <InstanceName>SandStormEffectInstance2</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/SandStorm/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -1238,7 +1301,7 @@
           </Properties>
           <Name>RotationVelocityMax</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">5</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">8</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -1248,12 +1311,12 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Z</Member>
-            <ValueAsFloat>0.4</ValueAsFloat>
+            <ValueAsFloat>0.5</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>TextureScale</Member>
-            <ValueAsFloat>1.25</ValueAsFloat>
+            <ValueAsFloat>1.5</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1268,7 +1331,7 @@
           <CustomProperty>
             <Type>string</Type>
             <Member>CurrentChainName</Member>
-            <ValueAsString>SandstormCloud</ValueAsString>
+            <ValueAsString>SandstormLayer</ValueAsString>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1278,7 +1341,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Alpha</Member>
-            <ValueAsFloat>0.15</ValueAsFloat>
+            <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1293,7 +1356,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Z</Member>
-            <ValueAsFloat>0.3</ValueAsFloat>
+            <ValueAsFloat>0.4</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -1313,7 +1376,7 @@
           <CustomProperty>
             <Type>string</Type>
             <Member>CurrentChainName</Member>
-            <ValueAsString>SandstormLayer</ValueAsString>
+            <ValueAsString>SandstormCloud</ValueAsString>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1323,7 +1386,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Alpha</Member>
-            <ValueAsFloat>0.6</ValueAsFloat>
+            <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -1343,12 +1406,12 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Z</Member>
-            <ValueAsFloat>0.2</ValueAsFloat>
+            <ValueAsFloat>0.3</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>TextureScale</Member>
-            <ValueAsFloat>1.25</ValueAsFloat>
+            <ValueAsFloat>2</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1373,12 +1436,12 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Alpha</Member>
-            <ValueAsFloat>0.9</ValueAsFloat>
+            <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>RotationZ</Member>
-            <ValueAsFloat>0.8</ValueAsFloat>
+            <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1393,12 +1456,12 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Z</Member>
-            <ValueAsFloat>0.1</ValueAsFloat>
+            <ValueAsFloat>0.2</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>TextureScale</Member>
-            <ValueAsFloat>0.75</ValueAsFloat>
+            <ValueAsFloat>1.5</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1413,7 +1476,7 @@
           <CustomProperty>
             <Type>string</Type>
             <Member>CurrentChainName</Member>
-            <ValueAsString>SandstormLayer</ValueAsString>
+            <ValueAsString>SandstormCloud</ValueAsString>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1423,6 +1486,11 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>RotationZ</Member>
+            <ValueAsFloat>0.7</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Alpha</Member>
             <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
@@ -1438,7 +1506,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>TextureScale</Member>
-            <ValueAsFloat>0.75</ValueAsFloat>
+            <ValueAsFloat>2</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
@@ -1463,7 +1531,12 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Alpha</Member>
-            <ValueAsFloat>0.5</ValueAsFloat>
+            <ValueAsFloat>0.9</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>0.1</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
