@@ -55,4 +55,28 @@
       <BottomCoordinate>1148</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>TreadLeft</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>292</LeftCoordinate>
+      <RightCoordinate>305</RightCoordinate>
+      <TopCoordinate>1202</TopCoordinate>
+      <BottomCoordinate>1212</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>TreadRight</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>305</LeftCoordinate>
+      <RightCoordinate>320</RightCoordinate>
+      <TopCoordinate>1202</TopCoordinate>
+      <BottomCoordinate>1212</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>
