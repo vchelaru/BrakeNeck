@@ -642,7 +642,7 @@
           </Properties>
           <Name>BulletSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">1000</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">1500</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -653,7 +653,7 @@
           </Properties>
           <Name>MaxSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">300</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">550</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -675,7 +675,7 @@
           </Properties>
           <Name>TimeToSpeedUp</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">0.5</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">5</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -746,6 +746,11 @@
         </NamedObjectSave>
         <NamedObjectSave>
           <CustomProperty>
+            <Type>bool</Type>
+            <Member>Visible</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
             <Member>Points</Member>
             <ValueAsListOfVector2>
               <Vector2>
@@ -769,11 +774,6 @@
                 <Y>28</Y>
               </Vector2>
             </ValueAsListOfVector2>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>Visible</Member>
-            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1075,7 +1075,7 @@
           </Properties>
           <Name>MovingSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">55</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">200</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1086,7 +1086,7 @@
           </Properties>
           <Name>MaxDistanceBehindScreen</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">150</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">400</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -1109,14 +1109,14 @@
             <ValueAsFloat>64</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
-            <Type>Color</Type>
-            <Member>Color</Member>
-            <ValueAsString>Red</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
             <Type>bool</Type>
             <Member>Visible</Member>
             <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Color</Type>
+            <Member>Color</Member>
+            <ValueAsString>Red</ValueAsString>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1130,6 +1130,31 @@
         </NamedObjectSave>
         <NamedObjectSave>
           <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-400</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>2300</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Height</Member>
+            <ValueAsFloat>800</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Animate</Member>
+            <ValueAsBool>true</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
             <Type>AnimationChainList</Type>
             <Member>AnimationChains</Member>
             <ValueAsString>AnimationChainListFile</ValueAsString>
@@ -1140,34 +1165,9 @@
             <ValueAsString>SandstormMask</ValueAsString>
           </CustomProperty>
           <CustomProperty>
-            <Type>float</Type>
-            <Member>Width</Member>
-            <ValueAsFloat>2300</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>Animate</Member>
-            <ValueAsBool>true</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Height</Member>
-            <ValueAsFloat>800</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>-400</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
             <Type>bool</Type>
             <Member>UseAnimationRelativePosition</Member>
             <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1559,12 +1559,12 @@
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>RotationZ</Member>
+            <Member>Alpha</Member>
             <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>Alpha</Member>
+            <Member>RotationZ</Member>
             <ValueAsFloat>0.7</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
@@ -1577,6 +1577,11 @@
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
         <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>0.1</ValueAsFloat>
+          </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>TextureScale</Member>
@@ -1606,11 +1611,6 @@
             <Type>float</Type>
             <Member>Alpha</Member>
             <ValueAsFloat>0.9</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Z</Member>
-            <ValueAsFloat>0.1</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
