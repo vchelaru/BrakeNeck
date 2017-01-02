@@ -56,11 +56,11 @@ namespace BrakeNeck.Screens
         {
             var distanceFromSandstorm = PlayerBuggyInstance.Y - SandStormInstance.Y;
 
-            const float distanceForNoShake = 790;
-            const float distanceForMaxShake = 200;
+            //const float distanceForNoShake = 790;
+            //const float distanceForMaxShake = 200;
 
-            var distanceFromMaxShake = distanceFromSandstorm - distanceForMaxShake;
-            var range = distanceForNoShake - distanceForMaxShake;
+            var distanceFromMaxShake = distanceFromSandstorm - CameraControllerInstance.FullShakeDistance;
+            var range = CameraControllerInstance.NoShakeDistance - CameraControllerInstance.FullShakeDistance;
 
             var shakeRatio = 1 - distanceFromMaxShake / range;
             shakeRatio = Math.Min(1, shakeRatio);

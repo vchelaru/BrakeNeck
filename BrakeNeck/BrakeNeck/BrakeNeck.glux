@@ -127,8 +127,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>X</Name>
+          <Name>MaxShakeIntensity</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">24</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -137,8 +138,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Y</Name>
+          <Name>NoShakeDistance</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">790</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -147,8 +149,9 @@
               <ValueAsString>float</ValueAsString>
             </PropertySave>
           </Properties>
-          <Name>Z</Name>
+          <Name>FullShakeDistance</Name>
           <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">200</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -182,7 +185,7 @@
           </Properties>
           <Name>ShowPath</Name>
           <Type>bool</Type>
-          <DefaultValue xsi:type="xsd:boolean">true</DefaultValue>
+          <DefaultValue xsi:type="xsd:boolean">false</DefaultValue>
           <IsShared>true</IsShared>
         </CustomVariable>
       </CustomVariables>
@@ -766,6 +769,11 @@
                 <Y>28</Y>
               </Vector2>
             </ValueAsListOfVector2>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>Visible</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />

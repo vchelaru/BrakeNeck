@@ -54,9 +54,6 @@ namespace BrakeNeck.Entities
             // becomes too obvious
             var shakeCoefficient = 24;
 
-            var shakingIntensity = 24;
-
-
             var screen = ScreenManager.CurrentScreen;
             var time = (float)screen.PauseAdjustedCurrentTime;
             var angle = time * rotationCoefficient;
@@ -65,8 +62,8 @@ namespace BrakeNeck.Entities
             var offset = (float)Math.Sin(sineValue);
 
 
-            CameraInstance.RelativeX = (float)Math.Cos(angle) * offset * shakingIntensity * ProximityRatio;
-            CameraInstance.RelativeY = (float)Math.Sin(angle) * offset * shakingIntensity * ProximityRatio;
+            CameraInstance.RelativeX = (float)Math.Cos(angle) * offset * MaxShakeIntensity * ProximityRatio;
+            CameraInstance.RelativeY = (float)Math.Sin(angle) * offset * MaxShakeIntensity * ProximityRatio;
         }
 
 		private void CustomDestroy()
