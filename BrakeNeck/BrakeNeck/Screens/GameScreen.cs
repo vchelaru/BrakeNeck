@@ -49,7 +49,24 @@ namespace BrakeNeck.Screens
 
             ScrollingActivity();
 
+            CameraShakingActivity();
 		}
+
+        private void CameraShakingActivity()
+        {
+            var distanceFromSandstorm = PlayerBuggyInstance.Y - SandStormInstance.Y;
+
+            const float distanceForNoShake = 790;
+            const float distanceForMaxShake = 200;
+
+            var distanceFromMaxShake = distanceFromSandstorm - distanceForMaxShake;
+            var range = distanceForNoShake - distanceForMaxShake;
+
+            var shakeRatio = 1 - distanceFromMaxShake / range;
+            shakeRatio = Math.Min(1, shakeRatio);
+            shakeRatio = Math.Max(0, shakeRatio);
+            CameraControllerInstance.ProximityRatio = shakeRatio;
+        }
 
         private void SpawningActivity()
         {
@@ -135,7 +152,7 @@ namespace BrakeNeck.Screens
             {
                 var obstacle = ObstacleList[i];
 
-                if(obstacle.Y < -1000 + Camera.Main.Y)
+                if(obstacle.Y < -1000 + CameraControllerInstance.Y)
                 {
                     obstacle.Destroy();
                 }
@@ -144,7 +161,7 @@ namespace BrakeNeck.Screens
 
         void ScrollingActivity()
         {
-            float desiredTruckY = Camera.Main.Y - Camera.Main.OrthogonalHeight / 4;
+            float desiredTruckY = CameraControllerInstance.Y - Camera.Main.OrthogonalHeight / 4;
             float heightAbove = this.PlayerBuggyInstance.Y - desiredTruckY;
 
             float velocity = Math.Max(0, heightAbove);
@@ -153,7 +170,7 @@ namespace BrakeNeck.Screens
 
             ObstacleSpawnerInstance.MovementRatio = ratioOfMaxBuggyVelocity;
 
-            Camera.Main.Y += velocity * TimeManager.SecondDifference;
+            CameraControllerInstance.Y += velocity * TimeManager.SecondDifference;
         }
 
         private void BulletDestructionActivity()
