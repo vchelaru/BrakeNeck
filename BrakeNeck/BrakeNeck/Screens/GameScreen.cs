@@ -137,11 +137,8 @@ namespace BrakeNeck.Screens
 
                         bullet.Destroy();
 
-                        obstacle.Health--;
-                        if (obstacle.Health <= 0)
-                        {
-                            obstacle.Destroy();
-                        }
+                        obstacle.TakeHit();
+
                         break;
                     }
 

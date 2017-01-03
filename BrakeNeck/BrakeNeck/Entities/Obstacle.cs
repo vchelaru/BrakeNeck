@@ -64,5 +64,22 @@ namespace BrakeNeck.Entities
 
 
         }
+
+        public void TakeHit()
+        {
+            Health--;
+            if (Health <= 0)
+            {
+                Destroy();
+            }
+            else if(Health == 1)
+            {
+                this.SpriteInstance.CurrentChainName = "Damage2";
+            }
+            else if (Health == 2)
+            {
+                this.SpriteInstance.CurrentChainName = "Damage1";
+            }
+        }
 	}
 }

@@ -9,10 +9,34 @@
     <Frame>
       <TextureName>..\..\spritesheet.png</TextureName>
       <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>2</LeftCoordinate>
+      <RightCoordinate>127</RightCoordinate>
+      <TopCoordinate>898</TopCoordinate>
+      <BottomCoordinate>1025</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Damage1</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
       <LeftCoordinate>130</LeftCoordinate>
       <RightCoordinate>255</RightCoordinate>
-      <TopCoordinate>892</TopCoordinate>
-      <BottomCoordinate>1028</BottomCoordinate>
+      <TopCoordinate>897</TopCoordinate>
+      <BottomCoordinate>1024</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Damage2</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>258</LeftCoordinate>
+      <RightCoordinate>384</RightCoordinate>
+      <TopCoordinate>897</TopCoordinate>
+      <BottomCoordinate>1024</BottomCoordinate>
     </Frame>
   </AnimationChain>
 </AnimationChainArraySave>
