@@ -92,7 +92,7 @@ namespace BrakeNeck.Entities
             }
             else
             {
-                currentSpeedRatio -= TimeManager.SecondDifference / TimeToSpeedUp;
+                currentSpeedRatio -= TimeManager.SecondDifference / TimeToSlowDown;
             }
 
             currentSpeedRatio = Math.Min(1, currentSpeedRatio);
@@ -106,7 +106,11 @@ namespace BrakeNeck.Entities
             this.Velocity = currentSpeedRatio * this.RotationMatrix.Right * MaxSpeed;
             
             var radianVelocity = MathHelper.ToRadians(RotationSpeed);
-            this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * currentSpeedRatio;
+
+            // We want to allow this guy to turn even when standing still:
+            var speedRatioForTurning = Math.Max(.2f, currentSpeedRatio);
+
+            this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * speedRatioForTurning;
             this.TurnRatio = this.SteeringInput.Value;
         }
 
@@ -139,6 +143,14 @@ namespace BrakeNeck.Entities
             bullet.Velocity = BulletSpeed * bullet.RotationMatrix.Right;
             
             bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right; 
+        }
+
+        internal void UpdateForwardVelocity()
+        {
+            var forwardVector = this.RotationMatrix.Right;
+            var projected = Vector3.Dot(forwardVector, Velocity);
+
+            this.currentSpeedRatio = projected / MaxSpeed;
         }
 
         private void CustomDestroy()

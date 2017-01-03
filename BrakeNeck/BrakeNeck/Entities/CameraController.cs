@@ -29,6 +29,7 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 namespace BrakeNeck.Entities
 {
 	public partial class CameraController
+
 	{
         /// <summary>
         /// A value of 0 to 1, controlling whether the shaking is not happening at all (0) or full intensity (1)

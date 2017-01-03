@@ -110,7 +110,10 @@ namespace BrakeNeck.Screens
             {
                 var obstacle = ObstacleList[obstacleIndex];
 
-                this.PlayerBuggyInstance.CollideAgainstMove(obstacle, 0, 1);
+                if(this.PlayerBuggyInstance.CollideAgainstBounce(obstacle, 0, 1, 0))
+                {
+                    PlayerBuggyInstance.UpdateForwardVelocity();
+                }
             }
         }
 
@@ -162,9 +165,17 @@ namespace BrakeNeck.Screens
         void ScrollingActivity()
         {
             float desiredTruckY = CameraControllerInstance.Y - Camera.Main.OrthogonalHeight / 4;
-            float heightAbove = this.PlayerBuggyInstance.Y - desiredTruckY;
 
-            float velocity = Math.Max(0, heightAbove);
+            const float extraUnitPerYVelocity = 1.0f;
+            float heightFromVelocity = 0;
+            if(PlayerBuggyInstance.YVelocity > 0)
+            {
+                heightFromVelocity = extraUnitPerYVelocity * PlayerBuggyInstance.YVelocity;
+            }
+
+            float heightAbove = this.PlayerBuggyInstance.Y + heightFromVelocity - desiredTruckY;
+
+            float velocity = heightAbove; // Math.Max(0, heightAbove);
 
             var ratioOfMaxBuggyVelocity = velocity / PlayerBuggyInstance.MaxSpeed;
 

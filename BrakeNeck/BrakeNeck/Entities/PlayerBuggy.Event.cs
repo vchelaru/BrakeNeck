@@ -24,6 +24,6 @@ namespace BrakeNeck.Entities
             FrontLeftTire.RelativeRotationZ = -maxRotationRadians * TurnRatio;
             FrontRightTire.RelativeRotationZ = -maxRotationRadians * TurnRatio;
         }
-		
-	}
+
+    }
 }
