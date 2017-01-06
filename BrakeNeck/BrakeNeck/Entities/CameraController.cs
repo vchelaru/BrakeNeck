@@ -69,7 +69,7 @@ namespace BrakeNeck.Entities
 
 		private void CustomDestroy()
 		{
-
+            this.CameraInstance.Detach();
 
 		}
 
