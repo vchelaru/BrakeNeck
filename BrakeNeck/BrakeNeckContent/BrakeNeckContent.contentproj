@@ -77,6 +77,98 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationChainListFile</Name>
     </None>
+    <None Include="GumProject\FontCache\Font18Arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font18Arial</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font18Arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font18Arial_0</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font24Arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font24Arial</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font24Arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font24Arial_0</Name>
+    </None>
+    <None Include="GumProject\GumProject.gumx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GumProject</Name>
+    </None>
+    <None Include="GumProject\Screens\GameScreenGum.gusx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>GameScreenGum</Name>
+    </None>
+    <None Include="GumProject\Standards\Circle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Circle</Name>
+    </None>
+    <None Include="GumProject\Standards\ColoredRectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ColoredRectangle</Name>
+    </None>
+    <None Include="GumProject\Standards\Component.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Component</Name>
+    </None>
+    <None Include="GumProject\Standards\Container.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Container</Name>
+    </None>
+    <None Include="GumProject\Standards\NineSlice.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>NineSlice</Name>
+    </None>
+    <None Include="GumProject\Standards\Rectangle.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Rectangle</Name>
+    </None>
+    <None Include="GumProject\Standards\Sprite.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Sprite</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomCenter</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomLeft</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_bottomRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_bottomRight</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_center.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_center</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_left</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_right</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topCenter</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topLeft</Name>
+    </None>
+    <None Include="GumProject\Standards\StandardGraphics\Red_topRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Red_topRight</Name>
+    </None>
+    <None Include="GumProject\Standards\Text.gutx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Text</Name>
+    </None>
     <None Include="spriteSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>spriteSheet</Name>

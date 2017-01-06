@@ -50,7 +50,30 @@ namespace BrakeNeck.Screens
             ScrollingActivity();
 
             CameraShakingActivity();
-		}
+
+            HudActivity();
+
+#if DEBUG
+            DebugActivity();
+#endif
+        }
+
+        private void HudActivity()
+        {
+            var seconds = ((int)PauseAdjustedCurrentTime) % 60;
+            var minutes = ((int)PauseAdjustedCurrentTime) / 60;
+
+            this.TimeText.Text = $"{minutes.ToString("0")}:{seconds.ToString("00")}";
+
+            ScoreText.Text = PlayerBuggyInstance.Score.ToString();
+
+            MultiplierText.Text = "1x";
+        }
+
+        private void DebugActivity()
+        {
+            this.DebugText.Text = ObstacleSpawnerInstance.DebugText;
+        }
 
         private void CameraShakingActivity()
         {

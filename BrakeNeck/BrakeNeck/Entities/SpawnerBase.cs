@@ -15,6 +15,7 @@ using FlatRedBall.Math.Splines;
 using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
+using FlatRedBall.Math;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -31,12 +32,15 @@ namespace BrakeNeck.Entities
         // Start at 0 to give some time before the first spawn
         protected double lastSpawnY = 0;
 
+        protected float SpawnRateMultiple { get; set; } = 1;
+
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
         /// added to managers will not have this method called.
         /// </summary>
-		private void CustomInitialize()
+        private void CustomInitialize()
 		{
 
 
@@ -68,7 +72,7 @@ namespace BrakeNeck.Entities
                 throw new InvalidOperationException("ObstaclesPerSecond cannot be 0");
             }
 #endif
-            return this.Y > lastSpawnY + this.YDistanceBetweenSpawns;
+            return this.Y > lastSpawnY + this.YDistanceBetweenSpawns / SpawnRateMultiple;
         }
 
         protected void PositionNewObstacle(PositionedObject newObstacle)
