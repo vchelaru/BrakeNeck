@@ -67,7 +67,7 @@ namespace BrakeNeck.Screens
 
             ScoreText.Text = PlayerBuggyInstance.Score.ToString();
 
-            MultiplierText.Text = "1x";
+            MultiplierText.Text = $"{PlayerBuggyInstance.Multiplier}x";
         }
 
         private void DebugActivity()
@@ -122,9 +122,23 @@ namespace BrakeNeck.Screens
 
         private void CollisionActivity()
         {
-            PerformBulletVsBoxCollision();
+            if(!this.IsPaused)
+            {
+                PerformBulletVsBoxCollision();
 
-            PerformPlayerVsBoxCollision();
+                PerformPlayerVsBoxCollision();
+
+                PlayerVsStormCollision();
+            }
+        }
+
+        private void PlayerVsStormCollision()
+        {
+            if(PlayerBuggyInstance.CollideAgainst(SandStormInstance))
+            {
+                PauseThisScreen();
+                this.DeathComponentInstance.Visible = true;
+            }
         }
 
         private void PerformPlayerVsBoxCollision()
@@ -160,7 +174,19 @@ namespace BrakeNeck.Screens
 
                         bullet.Destroy();
 
-                        obstacle.TakeHit();
+                        bool wasDestroyed = obstacle.TakeHit();
+
+                        if(wasDestroyed)
+                        {
+                            if(obstacle.CurrentBonusCategoryState == Obstacle.BonusCategory.Bonus)
+                            {
+                                PlayerBuggyInstance.Multiplier++;
+                            }
+                            else
+                            {
+                                PlayerBuggyInstance.Score += PlayerBuggyInstance.Multiplier;
+                            }
+                        }
 
                         break;
                     }

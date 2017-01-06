@@ -28,6 +28,8 @@ namespace BrakeNeck.Entities
 {
 	public partial class Obstacle
 	{
+
+
         public float Width
         {
             get
@@ -65,12 +67,18 @@ namespace BrakeNeck.Entities
 
         }
 
-        public void TakeHit()
+        /// <summary>
+        /// Takes a hit and returns whether the box was destroyed.
+        /// </summary>
+        /// <returns>Whether the box was destroyed</returns>
+        public bool TakeHit()
         {
+            bool wasDestroyed = false;
             Health--;
             if (Health <= 0)
             {
                 Destroy();
+                wasDestroyed = true;
             }
             else if(Health == 1)
             {
@@ -80,6 +88,7 @@ namespace BrakeNeck.Entities
             {
                 this.SpriteInstance.CurrentChainName = "Damage1";
             }
+            return wasDestroyed;
         }
 	}
 }

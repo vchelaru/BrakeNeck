@@ -154,6 +154,15 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>DeathComponentInstance (BrakeNeck.GumRuntimes.DeathComponentRuntime)</SourceName>
+          <InstanceName>DeathComponentInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
       </NamedObjects>
     </ScreenSave>
   </Screens>
@@ -303,6 +312,34 @@
         <string>GLUE</string>
       </Tags>
       <Source>GLUE</Source>
+      <StateCategoryList>
+        <StateSaveCategory>
+          <States>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>String</Type>
+                  <Member>SpriteInstanceAnimationChains</Member>
+                  <ValueAsString>AnimationChainListFile</ValueAsString>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>Regular</Name>
+            </StateSave>
+            <StateSave>
+              <InstructionSaves>
+                <InstructionSave>
+                  <Type>String</Type>
+                  <Member>SpriteInstanceAnimationChains</Member>
+                  <ValueAsString>BonusAnimationChains</ValueAsString>
+                </InstructionSave>
+              </InstructionSaves>
+              <Name>Bonus</Name>
+            </StateSave>
+          </States>
+          <Name>BonusCategory</Name>
+          <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
+        </StateSaveCategory>
+      </StateCategoryList>
       <CustomVariables>
         <CustomVariable>
           <Properties>
@@ -344,6 +381,18 @@
           <Name>Health</Name>
           <Type>int</Type>
           <DefaultValue xsi:type="xsd:int">3</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>AnimationChainList</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpriteInstanceAnimationChains</Name>
+          <Type>AnimationChainList</Type>
+          <SourceObject>SpriteInstance</SourceObject>
+          <SourceObjectProperty>AnimationChains</SourceObjectProperty>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -409,6 +458,12 @@
       <ReferencedFiles>
         <ReferencedFileSave>
           <Name>Entities/Obstacle/AnimationChainListFile.achx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>Entities/Obstacle/BonusAnimationChains.achx</Name>
           <IsSharedStatic>true</IsSharedStatic>
           <RuntimeType>FlatRedBall.Graphics.Animation.AnimationChainList</RuntimeType>
           <ProjectsToExcludeFrom />
@@ -488,6 +543,17 @@
           <Name>SpawnRateMultipleVelocity</Name>
           <Type>float</Type>
           <DefaultValue xsi:type="xsd:float">0.1</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>RatioOfGold</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">0.04</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <BaseEntity>Entities\SpawnerBase</BaseEntity>
@@ -1097,6 +1163,12 @@
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
+      <Properties>
+        <PropertySave>
+          <Name>ImplementsICollidable</Name>
+          <ValueAsBool>true</ValueAsBool>
+        </PropertySave>
+      </Properties>
       <Tags>
         <string>GLUE</string>
       </Tags>
