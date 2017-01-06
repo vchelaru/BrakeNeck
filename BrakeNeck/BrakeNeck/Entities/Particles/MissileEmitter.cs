@@ -59,8 +59,9 @@ namespace BrakeNeck.Entities.Particles
         {
             var randomIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
             var animationChain = AnimationChainListFile[randomIndex];
-            var sprite = SpriteManager.AddSprite(animationChain);
-            if(LayerProvidedByContainer != null)
+            var sprite = SpriteManager.AddParticleSprite(null);
+            sprite.SetAnimationChain(animationChain);
+            if (LayerProvidedByContainer != null)
             {
                 SpriteManager.AddToLayer(sprite, this.LayerProvidedByContainer);
             }
