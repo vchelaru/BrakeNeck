@@ -54,7 +54,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Y</Member>
-            <ValueAsFloat>-500</ValueAsFloat>
+            <ValueAsFloat>-1000</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -708,7 +708,7 @@
           </Properties>
           <Name>MaxSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">550</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">475</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1152,7 +1152,7 @@
           </Properties>
           <Name>MaxDistanceBehindScreen</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">400</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">500</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
