@@ -57,6 +57,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationChainListFile</Name>
     </None>
+    <None Include="Entities\Obstacle\BonusAnimationChains.achx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>BonusAnimationChains</Name>
+    </None>
     <None Include="Entities\Particles\MissileDestructionParticles\AnimationChainListFile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationChainListFile</Name>
@@ -77,6 +81,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationChainListFile</Name>
     </None>
+    <None Include="GumProject\Components\DeathComponent.gucx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>DeathComponent</Name>
+    </None>
     <None Include="GumProject\FontCache\Font18Arial.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font18Arial</Name>
@@ -92,6 +100,14 @@
     <None Include="GumProject\FontCache\Font24Arial_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font24Arial_0</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font30Arial.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font30Arial</Name>
+    </None>
+    <None Include="GumProject\FontCache\Font30Arial_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>Font30Arial_0</Name>
     </None>
     <None Include="GumProject\GumProject.gumx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

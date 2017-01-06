@@ -44,6 +44,7 @@ namespace BrakeNeck.Entities
         public IPressableInput ShootingInput { get; set; }
 
         public int Score { get; set; }
+        public int Multiplier { get; set; } = 1;
 
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).

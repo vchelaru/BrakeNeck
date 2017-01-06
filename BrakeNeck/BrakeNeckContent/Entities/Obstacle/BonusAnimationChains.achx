@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AnimationChainArraySave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FileRelativeTextures>true</FileRelativeTextures>
+  <TimeMeasurementUnit>Undefined</TimeMeasurementUnit>
+  <CoordinateType>Pixel</CoordinateType>
+  <AnimationChain>
+    <Name>Main</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>386</LeftCoordinate>
+      <RightCoordinate>511</RightCoordinate>
+      <TopCoordinate>898</TopCoordinate>
+      <BottomCoordinate>1025</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Damage1</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>514</LeftCoordinate>
+      <RightCoordinate>639</RightCoordinate>
+      <TopCoordinate>897</TopCoordinate>
+      <BottomCoordinate>1024</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>Damage2</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>642</LeftCoordinate>
+      <RightCoordinate>768</RightCoordinate>
+      <TopCoordinate>897</TopCoordinate>
+      <BottomCoordinate>1024</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+</AnimationChainArraySave>

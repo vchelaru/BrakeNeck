@@ -121,6 +121,11 @@ namespace BrakeNeck.Entities
 #endif
             var newObstacle = ObstacleFactory.CreateNew();
 
+            if(FlatRedBallServices.Random.Between(0, 1) < RatioOfGold)
+            {
+                newObstacle.CurrentBonusCategoryState = Obstacle.BonusCategory.Bonus;
+            }
+
             int repositionsSoFar = 0;
             while(repositionsSoFar <= NumberOfTimesToRepositionCrates)
             {
