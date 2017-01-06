@@ -43,6 +43,8 @@ namespace BrakeNeck.Entities
         public I2DInput AimingInput { get; set; }
         public IPressableInput ShootingInput { get; set; }
 
+        public int Score { get; set; }
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not

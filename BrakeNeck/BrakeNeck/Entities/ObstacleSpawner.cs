@@ -17,6 +17,7 @@ using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using FlatRedBall.Screens;
 using BrakeNeck.Factories;
+using FlatRedBall.Math;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -40,14 +41,30 @@ namespace BrakeNeck.Entities
 
         float pathXVelocity;
 
+
+#if DEBUG
+        double[] LastTwoSpawnTimes = new double[2];
+        // to smooth it out:
+        RollingAverage SpawnRollingAverage = new RollingAverage(4);
+#endif
+
         public float MovementRatio { get; set; } = 1;
+        public string DebugText
+        {
+            get
+            {
+
+                return $"Spawn every {this.YDistanceBetweenSpawns / SpawnRateMultiple} units\n" +
+                    $"Spawn every {(SpawnRollingAverage.Average).ToString("0.000")} seconds";
+            }
+        }
 
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
         /// added to managers will not have this method called.
         /// </summary>
-		private void CustomInitialize()
+        private void CustomInitialize()
 		{
             this.PathXDisplay.Visible = DebuggingVariables.ShowPath;
 
@@ -73,7 +90,10 @@ namespace BrakeNeck.Entities
 
             PathXDisplay.RelativeX = pathX;
             PathXDisplay.RelativeY = Camera.Main.AbsoluteTopYEdgeAt(0) - this.Y;
-		}
+
+            SpawnRateMultiple += SpawnRateMultipleVelocity * TimeManager.SecondDifference;
+
+        }
 
         
         private void CustomDestroy()
@@ -91,6 +111,14 @@ namespace BrakeNeck.Entities
 
         public Obstacle PerformSpawn()
         {
+#if DEBUG
+            var screen = FlatRedBall.Screens.ScreenManager.CurrentScreen;
+            LastTwoSpawnTimes[0] = LastTwoSpawnTimes[1];
+            LastTwoSpawnTimes[1] = screen.PauseAdjustedCurrentTime;
+
+            SpawnRollingAverage.AddValue((float)(LastTwoSpawnTimes[1] - LastTwoSpawnTimes[0]));
+
+#endif
             var newObstacle = ObstacleFactory.CreateNew();
 
             int repositionsSoFar = 0;

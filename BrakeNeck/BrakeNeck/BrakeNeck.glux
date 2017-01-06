@@ -15,6 +15,14 @@
       </Tags>
       <Source>GLUE</Source>
       <Name>Screens\GameScreen</Name>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>GumProject/Screens/GameScreenGum.gusx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>FlatRedBall.Gum.GumIdb</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <NamedObjects>
         <NamedObjectSave>
           <SourceType>Entity</SourceType>
@@ -106,6 +114,42 @@
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\CameraController</SourceClassType>
           <InstanceName>CameraControllerInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>ScoreText (BrakeNeck.GumRuntimes.TextRuntime)</SourceName>
+          <InstanceName>ScoreText</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>MultiplierText (BrakeNeck.GumRuntimes.TextRuntime)</SourceName>
+          <InstanceName>MultiplierText</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>TimeText (BrakeNeck.GumRuntimes.TextRuntime)</SourceName>
+          <InstanceName>TimeText</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>GumProject/Screens/GameScreenGum.gusx</SourceFile>
+          <SourceName>DebugText (BrakeNeck.GumRuntimes.TextRuntime)</SourceName>
+          <InstanceName>DebugText</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -409,7 +453,7 @@
           </Properties>
           <Name>YDistanceBetweenSpawns</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">15</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">35</DefaultValue>
           <DefinedByBase>true</DefinedByBase>
         </CustomVariable>
         <CustomVariable>
@@ -433,6 +477,17 @@
           <Name>NumberOfTimesToRepositionCrates</Name>
           <Type>float</Type>
           <DefaultValue xsi:type="xsd:float">1</DefaultValue>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>SpawnRateMultipleVelocity</Name>
+          <Type>float</Type>
+          <DefaultValue xsi:type="xsd:float">0.02</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <BaseEntity>Entities\SpawnerBase</BaseEntity>
@@ -675,7 +730,7 @@
           </Properties>
           <Name>TimeToSpeedUp</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">5</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">3</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1920,6 +1975,12 @@
   <GlobalFiles>
     <ReferencedFileSave>
       <Name>spriteSheet.png</Name>
+      <IsSharedStatic>true</IsSharedStatic>
+      <HasPublicProperty>true</HasPublicProperty>
+      <ProjectsToExcludeFrom />
+    </ReferencedFileSave>
+    <ReferencedFileSave>
+      <Name>GumProject/GumProject.gumx</Name>
       <IsSharedStatic>true</IsSharedStatic>
       <HasPublicProperty>true</HasPublicProperty>
       <ProjectsToExcludeFrom />
