@@ -54,7 +54,7 @@
           <CustomProperty>
             <Type>float</Type>
             <Member>Y</Member>
-            <ValueAsFloat>-1000</ValueAsFloat>
+            <ValueAsFloat>-1500</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -453,7 +453,7 @@
           </Properties>
           <Name>YDistanceBetweenSpawns</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">35</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">100</DefaultValue>
           <DefinedByBase>true</DefinedByBase>
         </CustomVariable>
         <CustomVariable>
@@ -465,7 +465,7 @@
           </Properties>
           <Name>PathWidth</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">120</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">130</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -487,7 +487,7 @@
           </Properties>
           <Name>SpawnRateMultipleVelocity</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">0.02</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">0.1</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <BaseEntity>Entities\SpawnerBase</BaseEntity>
@@ -730,7 +730,7 @@
           </Properties>
           <Name>TimeToSpeedUp</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">3</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">1.5</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1141,7 +1141,7 @@
           </Properties>
           <Name>MovingSpeed</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">200</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">425</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1152,7 +1152,7 @@
           </Properties>
           <Name>MaxDistanceBehindScreen</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">500</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">1000</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
@@ -1924,7 +1924,7 @@
           </Properties>
           <Name>BulletsPerSecond</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">3</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">4</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
