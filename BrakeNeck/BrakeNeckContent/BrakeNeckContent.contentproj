@@ -45,6 +45,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="black_metal_96.fnt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>black_metal_96</Name>
+    </None>
+    <None Include="black_metal_96_0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>black_metal_96_0</Name>
+    </None>
     <None Include="Entities\GroundDecorationSpawner\AnimationChainListFile.achx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>AnimationChainListFile</Name>
