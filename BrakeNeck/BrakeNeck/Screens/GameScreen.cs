@@ -55,6 +55,11 @@ namespace BrakeNeck.Screens
 
 #if DEBUG
             DebugActivity();
+
+            if(InputManager.Keyboard.KeyPushed(Keys.R))
+            {
+                this.RestartScreen(true);
+            }
 #endif
         }
 
