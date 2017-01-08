@@ -70,6 +70,13 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>DebugText.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">..\black_metal_96.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>DebugText.FontSize</Name>
       <Value xsi:type="xsd:int">24</Value>
@@ -91,6 +98,12 @@
       <Type>string</Type>
       <Name>DebugText.Text</Name>
       <Value xsi:type="xsd:string">Debug like E=MC^2</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>DebugText.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -142,9 +155,22 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>MultiplierText.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">..\black_metal_96.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>MultiplierText.FontSize</Name>
       <Value xsi:type="xsd:int">24</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>MultiplierText.Height</Name>
+      <Value xsi:type="xsd:float">188</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -160,9 +186,21 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>MultiplierText.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>VerticalAlignment</Type>
       <Name>MultiplierText.VerticalAlignment</Name>
       <Value xsi:type="xsd:int">0</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>float</Type>
+      <Name>MultiplierText.Width</Name>
+      <Value xsi:type="xsd:float">206</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -202,6 +240,13 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>ScoreText.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">..\black_metal_96.fnt</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>int</Type>
       <Name>ScoreText.FontSize</Name>
       <Value xsi:type="xsd:int">24</Value>
@@ -214,6 +259,12 @@
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
+      <Type>bool</Type>
+      <Name>ScoreText.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
       <Type>float</Type>
       <Name>ScoreText.X</Name>
       <Value xsi:type="xsd:float">34</Value>
@@ -223,6 +274,13 @@
       <Type>float</Type>
       <Name>ScoreText.Y</Name>
       <Value xsi:type="xsd:float">30</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <IsFile>true</IsFile>
+      <Type>string</Type>
+      <Name>TimeText.CustomFontFile</Name>
+      <Value xsi:type="xsd:string">..\black_metal_96.fnt</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -241,6 +299,12 @@
       <Type>string</Type>
       <Name>TimeText.Text</Name>
       <Value xsi:type="xsd:string">Time like 3:33</Value>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>TimeText.UseCustomFont</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
