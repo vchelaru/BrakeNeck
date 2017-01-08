@@ -145,7 +145,8 @@ namespace BrakeNeck.Entities
             bullet.RotationZ = angle;
             bullet.Velocity = BulletSpeed * bullet.RotationMatrix.Right;
             
-            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right; 
+            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right;
+            bullet.Z += .1f;
         }
 
         internal void UpdateForwardVelocity()

@@ -42,27 +42,32 @@ namespace BrakeNeck.Entities.Particles
         {
             for (int i = 0; i < NumberOfSprites; i++)
             {
-                var sprite = SpriteManager.AddParticleSprite(null);
-                sprite.AnimationChains = AnimationChainListFile;
-                sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
-                sprite.TextureScale = 1;
-
-                float rotationRadians = MathHelper.ToRadians(MaxRotationPerSecondDegrees);
-                sprite.RotationZVelocity = rotationRadians - (float)FlatRedBallServices.Random.NextDouble() * 2 * rotationRadians;
-
-                float offsetAngle = (float)FlatRedBallServices.Random.NextDouble() * MathHelper.TwoPi;
-                var offset = new Vector3((float)Math.Cos(offsetAngle), (float)Math.Sin(offsetAngle), 0) * (float)(FlatRedBallServices.Random.NextDouble() * EmissionRadius);
-                sprite.Position = this.Position + offset;
-
-                float movementAngle = (float)FlatRedBallServices.Random.NextDouble() * MathHelper.TwoPi;
-                sprite.Velocity = new Vector3((float)Math.Cos(movementAngle), (float)Math.Sin(movementAngle), 0) * (float)(FlatRedBallServices.Random.NextDouble() * MaxSubtleMovementSpeed);
-
-
-                Sprites.Add(sprite);
+                EmitSprite();
             }
 
             this.Call(Destroy).After(TimeLasting);
 
+        }
+
+        private void EmitSprite()
+        {
+            var sprite = SpriteManager.AddParticleSprite(null);
+            sprite.AnimationChains = AnimationChainListFile;
+            sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
+            sprite.TextureScale = 1;
+
+            float rotationRadians = MathHelper.ToRadians(MaxRotationPerSecondDegrees);
+            sprite.RotationZVelocity = rotationRadians - (float)FlatRedBallServices.Random.NextDouble() * 2 * rotationRadians;
+
+            float offsetAngle = (float)FlatRedBallServices.Random.NextDouble() * MathHelper.TwoPi;
+            var offset = new Vector3((float)Math.Cos(offsetAngle), (float)Math.Sin(offsetAngle), 0) * (float)(FlatRedBallServices.Random.NextDouble() * EmissionRadius);
+            sprite.Position = this.Position + offset;
+
+            float movementAngle = (float)FlatRedBallServices.Random.NextDouble() * MathHelper.TwoPi;
+            sprite.Velocity = new Vector3((float)Math.Cos(movementAngle), (float)Math.Sin(movementAngle), 0) * (float)(FlatRedBallServices.Random.NextDouble() * MaxSubtleMovementSpeed);
+
+
+            Sprites.Add(sprite);
         }
 
         private void CustomActivity()

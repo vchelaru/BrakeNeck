@@ -134,6 +134,10 @@
     <Compile Include="Entities\ObstacleSpawner.Generated.cs">
       <DependentUpon>ObstacleSpawner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Particles\CrateDestructionParticles.cs" />
+    <Compile Include="Entities\Particles\CrateDestructionParticles.Generated.cs">
+      <DependentUpon>CrateDestructionParticles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Particles\MissileEmitter.cs" />
     <Compile Include="Entities\Particles\MissileEmitter.Generated.cs">
       <DependentUpon>MissileEmitter.cs</DependentUpon>

@@ -93,6 +93,13 @@ namespace BrakeNeck.Screens
             var shakeRatio = 1 - distanceFromMaxShake / range;
             shakeRatio = Math.Min(1, shakeRatio);
             shakeRatio = Math.Max(0, shakeRatio);
+
+#if DEBUG
+            if(DebuggingVariables.DisableCameraShake)
+            {
+                shakeRatio = 0;
+            }
+#endif
             CameraControllerInstance.ProximityRatio = shakeRatio;
         }
 
@@ -139,7 +146,16 @@ namespace BrakeNeck.Screens
 
         private void PlayerVsStormCollision()
         {
-            if(PlayerBuggyInstance.CollideAgainst(SandStormInstance))
+            bool shouldDie = PlayerBuggyInstance.CollideAgainst(SandStormInstance);
+
+#if DEBUG
+            if(DebuggingVariables.MakePlayerInvincible)
+            {
+                shouldDie = false;
+            }
+#endif
+
+            if (shouldDie)
             {
                 PauseThisScreen();
                 this.DeathComponentInstance.Visible = true;
@@ -191,6 +207,14 @@ namespace BrakeNeck.Screens
                             {
                                 PlayerBuggyInstance.Score += PlayerBuggyInstance.Multiplier;
                             }
+
+                            var crateParticles = new Entities.Particles.CrateDestructionParticles();
+                            crateParticles.Position = obstacle.Position;
+                            crateParticles.AreaWidth = obstacle.Width;
+                            crateParticles.AreaHeight = obstacle.Height;
+                            crateParticles.Emit();
+                            CrateDestructionParticlesList.Add(crateParticles);
+
                         }
 
                         break;
