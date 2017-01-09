@@ -40,6 +40,9 @@ namespace BrakeNeck.Screens
 
         void CustomActivity(bool firstTimeCalled)
 		{
+            // In case people want to do things like increase max fire rate
+            SpriteManager.MaxParticleCount = 6000;
+
             SpawningActivity();
 
             BulletDestructionActivity();

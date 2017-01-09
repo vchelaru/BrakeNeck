@@ -28,6 +28,14 @@ using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace BrakeNeck.Entities
 {
+    public enum ShotType
+    {
+        Straight,
+        Spread,
+        Thick
+    }
+
+
 	public partial class PlayerBuggy
 	{
         /// <summary>
@@ -43,6 +51,8 @@ namespace BrakeNeck.Entities
         public I1DInput SteeringInput { get; set; }
         public I2DInput AimingInput { get; set; }
         public IPressableInput ShootingInput { get; set; }
+
+        public ShotType ShotType { get; set; } = ShotType.Straight;
 
         public int Score { get; set; }
         public int Multiplier { get; set; } = 1;
@@ -182,11 +192,27 @@ namespace BrakeNeck.Entities
         private void ShootBullet(float angle)
         {
             var bullet = Factories.PlayerBulletFactory.CreateNew();
+            
+            var position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right; 
+
+            bullet.Z += .1f;
+
+            switch (this.ShotType)
+            {
+                case ShotType.Straight:
+                    // do nothing:
+                    break;
+                case ShotType.Spread:
+                    angle += FlatRedBallServices.Random.Between(-.2f, .2f);
+                    break;
+                case ShotType.Thick:
+                    position += FlatRedBallServices.Random.Between(-46, 46) * this.TurretInstance.RotationMatrix.Up;
+                    break;
+            }
+
+            bullet.Position = position;
             bullet.RotationZ = angle;
             bullet.Velocity = BulletSpeed * bullet.RotationMatrix.Right;
-            
-            bullet.Position = TurretInstance.Position + Turret.BulletOffset * TurretInstance.RotationMatrix.Right;
-            bullet.Z += .1f;
         }
 
         internal void UpdateForwardVelocity()
