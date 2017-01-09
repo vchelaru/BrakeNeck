@@ -16,6 +16,7 @@ using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using Microsoft.Xna.Framework;
+using BrakeNeck.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -74,6 +75,7 @@ namespace BrakeNeck.Entities
         public void PerformSpawn()
         {
             var sprite = SpriteManager.AddParticleSprite(null);
+            GameScreen.ResetParticle(sprite);
             sprite.AnimationChains = AnimationChainListFile;
             sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
             sprite.TextureScale = 1;

@@ -33,12 +33,16 @@ namespace BrakeNeck.Screens
         void CustomInitialize()
 		{
             Camera.Main.BackgroundColor = Color.SandyBrown;
+
 		}
 
         #endregion
 
         void CustomActivity(bool firstTimeCalled)
 		{
+            // In case people want to do things like increase max fire rate
+            SpriteManager.MaxParticleCount = 6000;
+
             SpawningActivity();
 
             BulletDestructionActivity();
@@ -155,7 +159,15 @@ namespace BrakeNeck.Screens
                 PerformPlayerVsBoxCollision();
 
                 PlayerVsStormCollision();
+
+                PlayerVsBoundaryCollision();
             }
+        }
+
+        private void PlayerVsBoundaryCollision()
+        {
+            PlayerBuggyInstance.CollideAgainstMove(LeftBoundary, 0, 1);
+            PlayerBuggyInstance.CollideAgainstMove(RightBoundary, 0, 1);
         }
 
         private void PlayerVsStormCollision()
@@ -302,6 +314,16 @@ namespace BrakeNeck.Screens
         {
 
 
+        }
+
+        public static void ResetParticle(Sprite sprite)
+        {
+            sprite.Alpha = 1;
+            sprite.Velocity = Vector3.Zero;
+            sprite.Acceleration = Vector3.Zero;
+            sprite.Drag = 0;
+            sprite.ColorOperation = FlatRedBall.Graphics.ColorOperation.Texture;
+            sprite.RotationZVelocity = 0;
         }
 
 	}
