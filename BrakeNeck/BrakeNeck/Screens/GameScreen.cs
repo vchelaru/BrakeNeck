@@ -156,7 +156,15 @@ namespace BrakeNeck.Screens
                 PerformPlayerVsBoxCollision();
 
                 PlayerVsStormCollision();
+
+                PlayerVsBoundaryCollision();
             }
+        }
+
+        private void PlayerVsBoundaryCollision()
+        {
+            PlayerBuggyInstance.CollideAgainstMove(LeftBoundary, 0, 1);
+            PlayerBuggyInstance.CollideAgainstMove(RightBoundary, 0, 1);
         }
 
         private void PlayerVsStormCollision()

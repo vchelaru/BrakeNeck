@@ -30,6 +30,11 @@
             <Member>Z</Member>
             <ValueAsFloat>1</ValueAsFloat>
           </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>RotationZ</Member>
+            <ValueAsFloat>1.57</ValueAsFloat>
+          </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\PlayerBuggy</SourceClassType>
           <InstanceName>PlayerBuggyInstance</InstanceName>
@@ -173,6 +178,58 @@
           <SourceClassType>PositionedObjectList&lt;T&gt;</SourceClassType>
           <SourceClassGenericType>Entities\Particles\CrateDestructionParticles</SourceClassGenericType>
           <InstanceName>CrateDestructionParticlesList</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>50</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Height</Member>
+            <ValueAsFloat>2000</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-1010</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>AxisAlignedRectangle</SourceClassType>
+          <InstanceName>LeftBoundary</InstanceName>
+          <HasPublicProperty>true</HasPublicProperty>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>50</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Height</Member>
+            <ValueAsFloat>2000</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>1010</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>AxisAlignedRectangle</SourceClassType>
+          <InstanceName>RightBoundary</InstanceName>
+          <HasPublicProperty>true</HasPublicProperty>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -1011,7 +1068,7 @@
           </Properties>
           <Name>RotationZ</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">1.57</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">0</DefaultValue>
         </CustomVariable>
         <CustomVariable>
           <Properties>
@@ -1080,11 +1137,11 @@
             <ValueAsListOfVector2>
               <Vector2>
                 <X>48</X>
-                <Y>28</Y>
+                <Y>16</Y>
               </Vector2>
               <Vector2>
                 <X>48</X>
-                <Y>-28</Y>
+                <Y>-16</Y>
               </Vector2>
               <Vector2>
                 <X>-48</X>
@@ -1096,7 +1153,7 @@
               </Vector2>
               <Vector2>
                 <X>48</X>
-                <Y>28</Y>
+                <Y>16</Y>
               </Vector2>
             </ValueAsListOfVector2>
           </CustomProperty>
