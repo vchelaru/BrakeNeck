@@ -16,6 +16,7 @@ using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
 using Microsoft.Xna.Framework;
+using BrakeNeck.Screens;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -113,6 +114,8 @@ namespace BrakeNeck.Entities.Particles
         private void EmitSprite()
         {
             var sprite = SpriteManager.AddParticleSprite(null);
+            GameScreen.ResetParticle(sprite);
+
             sprite.Drag = 0;
             sprite.AnimationChains = AnimationChainListFile;
             sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
@@ -133,6 +136,8 @@ namespace BrakeNeck.Entities.Particles
 
             // Shadow Sprite will be the dominant sprite - the other sprite will be positioned using the shadow:
             var shadowSprite = SpriteManager.AddParticleSprite(null);
+            GameScreen.ResetParticle(shadowSprite);
+
             shadowSprite.Drag = 0;
             shadowSprite.AnimationChains = AnimationChainListFile;
             shadowSprite.CurrentChainIndex = sprite.CurrentChainIndex;

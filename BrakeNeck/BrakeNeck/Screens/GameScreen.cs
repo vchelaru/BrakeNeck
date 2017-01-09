@@ -33,6 +33,7 @@ namespace BrakeNeck.Screens
         void CustomInitialize()
 		{
             Camera.Main.BackgroundColor = Color.SandyBrown;
+
 		}
 
         #endregion
@@ -302,6 +303,16 @@ namespace BrakeNeck.Screens
         {
 
 
+        }
+
+        public static void ResetParticle(Sprite sprite)
+        {
+            sprite.Alpha = 1;
+            sprite.Velocity = Vector3.Zero;
+            sprite.Acceleration = Vector3.Zero;
+            sprite.Drag = 0;
+            sprite.ColorOperation = FlatRedBall.Graphics.ColorOperation.Texture;
+            sprite.RotationZVelocity = 0;
         }
 
 	}
