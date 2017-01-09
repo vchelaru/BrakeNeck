@@ -15,6 +15,7 @@ using FlatRedBall.Math.Splines;
 using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
+using Microsoft.Xna.Framework;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
@@ -77,7 +78,9 @@ namespace BrakeNeck.Entities
             sprite.CurrentChainIndex = FlatRedBallServices.Random.Next(AnimationChainListFile.Count);
             sprite.TextureScale = 1;
 
+            int numberOfRotations = FlatRedBallServices.Random.Next(4);
             this.PositionNewObstacle(sprite);
+            sprite.RotationZ = MathHelper.ToRadians(numberOfRotations * 90);
 
             SpawnedDecorations.Add(sprite);
 

@@ -53,8 +53,8 @@ namespace BrakeNeck.Entities.Particles
 
         private void ParticleActivity()
         {
-            const float yOffsetPerZ = 4.4f;
-            const float xOffsetPerZ = 14f;
+            const float yOffsetPerZ = -12f;
+            const float xOffsetPerZ = -12f;
 
             for(int i = 0; i < ShadowSprites.Count; i++)
             {
