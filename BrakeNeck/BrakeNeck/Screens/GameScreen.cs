@@ -81,7 +81,22 @@ namespace BrakeNeck.Screens
 
         private void DebugActivity()
         {
-            this.DebugText.Text = ObstacleSpawnerInstance.DebugText;
+#if DEBUG
+
+            if(DebuggingVariables.ShowSpawningInfo)
+            {
+                this.DebugText.Text = ObstacleSpawnerInstance.DebugText;
+                this.DebugText.Visible = true;
+            }
+            else
+            {
+                this.DebugText.Visible = false;
+            }
+
+#else
+                this.DebugText.Visible = false;
+
+#endif
         }
 
         private void CameraShakingActivity()
