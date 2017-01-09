@@ -121,9 +121,23 @@ namespace BrakeNeck.Screens
                         newObstacle.CollideAgainstMove(existingObstacle, 0, 1);
                     }
                 }
+
+                bool shouldDespawn = false;
+                foreach (var existingObstacle in ObstacleList)
+                {
+                    if (existingObstacle != newObstacle && newObstacle.CollideAgainst(existingObstacle))
+                    {
+                        shouldDespawn = true;
+                    }
+                }
+
+                if(shouldDespawn)
+                {
+                    newObstacle.Destroy();
+                }
             }
 
-            if(GroundDecorationSpawnerInstance.GetIfShouldSpawn())
+            if (GroundDecorationSpawnerInstance.GetIfShouldSpawn())
             {
                 // this spawner keeps track of its own objects, we don't have to 
                 // do anything here.

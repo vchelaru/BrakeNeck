@@ -39,6 +39,7 @@ namespace BrakeNeck.Entities
         double lastBulletShot = -100;
 
         public IPressableInput GasInput { get; set; }
+        public IPressableInput ReverseInput { get; set; }
         public I1DInput SteeringInput { get; set; }
         public I2DInput AimingInput { get; set; }
         public IPressableInput ShootingInput { get; set; }
@@ -65,6 +66,7 @@ namespace BrakeNeck.Entities
 
             GasInput = controller.GetButton(Xbox360GamePad.Button.LeftTrigger);
             ShootingInput = controller.GetButton(Xbox360GamePad.Button.RightTrigger);
+            ReverseInput = controller.GetButton(Xbox360GamePad.Button.DPadDown);
 
             AimingInput = controller.RightStick;
             SteeringInput = controller.LeftStick.Horizontal;
@@ -73,6 +75,7 @@ namespace BrakeNeck.Entities
         private void CreateKeyboardInput()
         {
             GasInput = InputManager.Keyboard.GetKey(Keys.W);
+            ReverseInput = InputManager.Keyboard.GetKey(Keys.S);
             SteeringInput = InputManager.Keyboard.Get1DInput(Keys.A, Keys.D);
 
             AimingInput = InputManager.Keyboard.Get2DInput(Keys.J, Keys.L, Keys.I, Keys.K);
@@ -89,17 +92,50 @@ namespace BrakeNeck.Entities
 
         private void PerformMovementInput()
         {
-            if(GasInput.IsDown)
+            if(currentSpeedRatio > 0)
             {
-                currentSpeedRatio += TimeManager.SecondDifference / TimeToSpeedUp;
+                if(GasInput.IsDown)
+                {
+                    currentSpeedRatio += TimeManager.SecondDifference / TimeToSpeedUp;
+                }
+                else
+                {
+                    currentSpeedRatio -= TimeManager.SecondDifference / TimeToSlowDown;
+                    if(currentSpeedRatio < 0)
+                    {
+                        currentSpeedRatio = 0;
+                    }
+                }
+            }
+            else if(currentSpeedRatio < 0)
+            {
+                if (ReverseInput.IsDown)
+                {
+                    currentSpeedRatio -= TimeManager.SecondDifference / TimeToSpeedUp;
+                }
+                else
+                {
+                    currentSpeedRatio += TimeManager.SecondDifference / TimeToSlowDown;
+                    if(currentSpeedRatio > 0)
+                    {
+                        currentSpeedRatio = 0;
+                    }
+                }
             }
             else
             {
-                currentSpeedRatio -= TimeManager.SecondDifference / TimeToSlowDown;
+                if (GasInput.IsDown)
+                {
+                    currentSpeedRatio += TimeManager.SecondDifference / TimeToSpeedUp;
+                }
+                if (ReverseInput.IsDown)
+                {
+                    currentSpeedRatio -= TimeManager.SecondDifference / TimeToSpeedUp;
+                }
             }
 
             currentSpeedRatio = Math.Min(1, currentSpeedRatio);
-            currentSpeedRatio = Math.Max(0, currentSpeedRatio);
+            currentSpeedRatio = Math.Max(-1, currentSpeedRatio);
 
             this.BackLeftTire.AnimationSpeed = currentSpeedRatio;
             this.BackRightTire.AnimationSpeed = currentSpeedRatio;
@@ -111,7 +147,11 @@ namespace BrakeNeck.Entities
             var radianVelocity = MathHelper.ToRadians(RotationSpeed);
 
             // We want to allow this guy to turn even when standing still:
-            var speedRatioForTurning = Math.Max(.2f, currentSpeedRatio);
+            var speedRatioForTurning = Math.Max(.2f, Math.Abs(currentSpeedRatio));
+            if(currentSpeedRatio < 0)
+            {
+                speedRatioForTurning *= -1;
+            }
 
             this.RotationZVelocity = -this.SteeringInput.Value * radianVelocity * speedRatioForTurning;
             this.TurnRatio = this.SteeringInput.Value;
