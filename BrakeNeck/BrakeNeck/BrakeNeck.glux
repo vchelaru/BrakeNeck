@@ -2253,7 +2253,7 @@
           </Properties>
           <Name>BulletsPerSecond</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">7</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
