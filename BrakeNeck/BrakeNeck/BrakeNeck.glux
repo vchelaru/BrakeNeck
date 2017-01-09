@@ -27,13 +27,13 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
-            <Member>Z</Member>
-            <ValueAsFloat>1</ValueAsFloat>
+            <Member>RotationZ</Member>
+            <ValueAsFloat>1.57</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>RotationZ</Member>
-            <ValueAsFloat>1.57</ValueAsFloat>
+            <Member>Z</Member>
+            <ValueAsFloat>1</ValueAsFloat>
           </CustomProperty>
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\PlayerBuggy</SourceClassType>
@@ -185,6 +185,11 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-1010</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
             <Member>Width</Member>
             <ValueAsFloat>50</ValueAsFloat>
           </CustomProperty>
@@ -192,11 +197,6 @@
             <Type>float</Type>
             <Member>Height</Member>
             <ValueAsFloat>2000</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-1010</ValueAsFloat>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -205,10 +205,16 @@
           <InstanceName>LeftBoundary</InstanceName>
           <HasPublicProperty>true</HasPublicProperty>
           <AttachToContainer>true</AttachToContainer>
+          <AttachToCamera>true</AttachToCamera>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
         <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>1010</ValueAsFloat>
+          </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
             <Member>Width</Member>
@@ -219,11 +225,6 @@
             <Member>Height</Member>
             <ValueAsFloat>2000</ValueAsFloat>
           </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>1010</ValueAsFloat>
-          </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
           <SourceName />
@@ -231,6 +232,7 @@
           <InstanceName>RightBoundary</InstanceName>
           <HasPublicProperty>true</HasPublicProperty>
           <AttachToContainer>true</AttachToContainer>
+          <AttachToCamera>true</AttachToCamera>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
         </NamedObjectSave>
@@ -2251,7 +2253,7 @@
           </Properties>
           <Name>BulletsPerSecond</Name>
           <Type>float</Type>
-          <DefaultValue xsi:type="xsd:float">6</DefaultValue>
+          <DefaultValue xsi:type="xsd:float">10</DefaultValue>
         </CustomVariable>
       </CustomVariables>
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
