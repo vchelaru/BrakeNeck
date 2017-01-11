@@ -32,7 +32,7 @@ namespace BrakeNeck.Screens
 
         void CustomInitialize()
 		{
-            Camera.Main.BackgroundColor = Color.SandyBrown;
+            Camera.Main.BackgroundColor = new Color(182, 131, 98);
 
 		}
 
