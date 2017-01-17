@@ -34,7 +34,26 @@ namespace BrakeNeck.Screens
 		{
             Camera.Main.BackgroundColor = new Color(182, 131, 98);
 
+            AddAdditionalPlayers();
 		}
+
+        private void AddAdditionalPlayers()
+        {
+            bool shouldAddAnother = MainMenu.SelectedNumberOfPlayers == 2;
+            if(shouldAddAnother)
+            {
+                const float playerOffset = 200;
+                PlayerBuggyInstance.X -= playerOffset;
+
+                var player2Buggy = new PlayerBuggy();
+                player2Buggy.X += playerOffset;
+                player2Buggy.Z = PlayerBuggyInstance.Z;
+                player2Buggy.RotationZ = PlayerBuggyInstance.RotationZ;
+                player2Buggy.CreateXboxControllerInput(1);
+
+                PlayerBuggyList.Add(player2Buggy);
+            }
+        }
 
         #endregion
 
@@ -101,7 +120,8 @@ namespace BrakeNeck.Screens
 
         private void CameraShakingActivity()
         {
-            var distanceFromSandstorm = PlayerBuggyInstance.Y - SandStormInstance.Y;
+            // so that the camera isn't always shaking:
+            var distanceFromSandstorm = PlayerBuggyList.Max(buggy =>  buggy.Y - SandStormInstance.Y);
 
             //const float distanceForNoShake = 790;
             //const float distanceForMaxShake = 200;
@@ -181,13 +201,16 @@ namespace BrakeNeck.Screens
 
         private void PlayerVsBoundaryCollision()
         {
-            PlayerBuggyInstance.CollideAgainstMove(LeftBoundary, 0, 1);
-            PlayerBuggyInstance.CollideAgainstMove(RightBoundary, 0, 1);
+            foreach(var buggy in PlayerBuggyList)
+            {
+                buggy.CollideAgainstMove(LeftBoundary, 0, 1);
+                buggy.CollideAgainstMove(RightBoundary, 0, 1);
+            }
         }
 
         private void PlayerVsStormCollision()
         {
-            bool shouldDie = PlayerBuggyInstance.CollideAgainst(SandStormInstance);
+            bool shouldDie = PlayerBuggyList.Any(buggy => buggy.CollideAgainst(SandStormInstance));
 
 #if DEBUG
             if(DebuggingVariables.MakePlayerInvincible)
@@ -205,13 +228,16 @@ namespace BrakeNeck.Screens
 
         private void PerformPlayerVsBoxCollision()
         {
-            for (int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
+            foreach(var buggy in PlayerBuggyList)
             {
-                var obstacle = ObstacleList[obstacleIndex];
-
-                if(this.PlayerBuggyInstance.CollideAgainstBounce(obstacle, 0, 1, 0))
+                for (int obstacleIndex = ObstacleList.Count - 1; obstacleIndex > -1; obstacleIndex--)
                 {
-                    PlayerBuggyInstance.UpdateForwardVelocity();
+                    var obstacle = ObstacleList[obstacleIndex];
+
+                    if(buggy.CollideAgainstBounce(obstacle, 0, 1, 0))
+                    {
+                        buggy.UpdateForwardVelocity();
+                    }
                 }
             }
         }
@@ -240,6 +266,7 @@ namespace BrakeNeck.Screens
 
                         if(wasDestroyed)
                         {
+                            // for simplicity, score and multilier will be stored by player 1
                             if(obstacle.CurrentBonusCategoryState == Obstacle.BonusCategory.Bonus)
                             {
                                 PlayerBuggyInstance.Multiplier++;
@@ -284,12 +311,17 @@ namespace BrakeNeck.Screens
 
             const float extraUnitPerYVelocity = 1.0f;
             float heightFromVelocity = 0;
-            if(PlayerBuggyInstance.YVelocity > 0)
+
+            var yVelocity = PlayerBuggyList.Max(buggy => buggy.YVelocity);
+
+            if(yVelocity > 0)
             {
-                heightFromVelocity = extraUnitPerYVelocity * PlayerBuggyInstance.YVelocity;
+                heightFromVelocity = extraUnitPerYVelocity * yVelocity;
             }
 
-            float heightAbove = this.PlayerBuggyInstance.Y + heightFromVelocity - desiredTruckY;
+            var y = PlayerBuggyList.Sum(buggy => buggy.Y) / PlayerBuggyList.Count;
+
+            float heightAbove = y + heightFromVelocity - desiredTruckY;
 
             float velocity = heightAbove; // Math.Max(0, heightAbove);
 

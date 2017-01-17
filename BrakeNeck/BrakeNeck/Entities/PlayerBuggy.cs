@@ -64,15 +64,21 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
-            CreateKeyboardInput();
+            if(Screens.MainMenu.SelectedInputDevice == Screens.InputDevice.Controller)
+            {
+                CreateXboxControllerInput(0);
+            }
+            else
+            {
+                CreateKeyboardInput();
+            }
 
-            //CreateOnePlayerXboxControllerInput();
 
         }
 
-        private void CreateOnePlayerXboxControllerInput()
+        public void CreateXboxControllerInput(int index)
         {
-            var controller = InputManager.Xbox360GamePads[0];
+            var controller = InputManager.Xbox360GamePads[index];
 
             GasInput = controller.GetButton(Xbox360GamePad.Button.LeftTrigger);
             ShootingInput = controller.GetButton(Xbox360GamePad.Button.RightTrigger);
