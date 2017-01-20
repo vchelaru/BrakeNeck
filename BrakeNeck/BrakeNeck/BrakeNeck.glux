@@ -282,7 +282,7 @@
         <NamedObjectSave>
           <SourceType>File</SourceType>
           <SourceFile>GumProject/Screens/MainMenuGum.gusx</SourceFile>
-          <SourceName>PlayerSelectionContainer (BrakeNeck.GumRuntimes.ContainerRuntime)</SourceName>
+          <SourceName>PlayerSelectionContainer (BrakeNeck.GumRuntimes.ColoredRectangleRuntime)</SourceName>
           <InstanceName>PlayerSelectionContainer</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
