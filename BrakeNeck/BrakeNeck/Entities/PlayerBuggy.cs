@@ -86,6 +86,13 @@ namespace BrakeNeck.Entities
 
             AimingInput = controller.RightStick;
             SteeringInput = controller.LeftStick.Horizontal;
+
+            // If we wanted to support multiplayer or selecting colors, we would
+            // have more sophisticated code, but for now, just tie it to controller index
+            if(index == 1)
+            {
+                this.SpriteInstance.CurrentChainName = "TruckAnimation2";
+            }
         }
 
         private void CreateKeyboardInput()

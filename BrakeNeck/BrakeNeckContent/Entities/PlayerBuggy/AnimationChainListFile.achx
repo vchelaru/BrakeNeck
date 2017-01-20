@@ -23,7 +23,7 @@
       <FrameLength>0.1</FrameLength>
       <LeftCoordinate>142</LeftCoordinate>
       <RightCoordinate>206</RightCoordinate>
-      <TopCoordinate>1232</TopCoordinate>
+      <TopCoordinate>1228</TopCoordinate>
       <BottomCoordinate>1270</BottomCoordinate>
     </Frame>
   </AnimationChain>
@@ -77,6 +77,18 @@
       <RightCoordinate>320</RightCoordinate>
       <TopCoordinate>1202</TopCoordinate>
       <BottomCoordinate>1212</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>TruckAnimation2</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>67</LeftCoordinate>
+      <RightCoordinate>191</RightCoordinate>
+      <TopCoordinate>1047</TopCoordinate>
+      <BottomCoordinate>1129</BottomCoordinate>
     </Frame>
   </AnimationChain>
 </AnimationChainArraySave>
