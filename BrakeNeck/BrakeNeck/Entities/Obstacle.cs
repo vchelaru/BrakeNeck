@@ -53,9 +53,14 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
+            // randomly rotate it
+            var rotationAmount = FlatRedBallServices.Random.Next(4) * 90;
+
+            this.SpriteInstance.RelativeRotationZ =
+                Microsoft.Xna.Framework.MathHelper.ToRadians(rotationAmount);
 
 
-		}
+        }
 
 		private void CustomActivity()
 		{
