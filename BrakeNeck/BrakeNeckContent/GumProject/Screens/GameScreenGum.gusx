@@ -521,10 +521,6 @@
     </VariableList>
   </State>
   <Instance>
-    <Name>SpriteInstance</Name>
-    <BaseType>Sprite</BaseType>
-  </Instance>
-  <Instance>
     <Name>ScoreText</Name>
     <BaseType>Text</BaseType>
   </Instance>
@@ -543,5 +539,9 @@
   <Instance>
     <Name>DeathComponentInstance</Name>
     <BaseType>DeathComponent</BaseType>
+  </Instance>
+  <Instance>
+    <Name>SpriteInstance</Name>
+    <BaseType>Sprite</BaseType>
   </Instance>
 </ScreenSave>
