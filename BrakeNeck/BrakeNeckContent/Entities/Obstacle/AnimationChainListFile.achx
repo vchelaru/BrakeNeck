@@ -39,4 +39,16 @@
       <BottomCoordinate>1024</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>Shadow</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>830</LeftCoordinate>
+      <RightCoordinate>964</RightCoordinate>
+      <TopCoordinate>1148</TopCoordinate>
+      <BottomCoordinate>1280</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>

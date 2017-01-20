@@ -91,4 +91,28 @@
       <BottomCoordinate>1129</BottomCoordinate>
     </Frame>
   </AnimationChain>
+  <AnimationChain>
+    <Name>TruckShadow</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>576</LeftCoordinate>
+      <RightCoordinate>704</RightCoordinate>
+      <TopCoordinate>1173</TopCoordinate>
+      <BottomCoordinate>1263</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
+  <AnimationChain>
+    <Name>TurretShadow</Name>
+    <ColorKey>0</ColorKey>
+    <Frame>
+      <TextureName>..\..\spritesheet.png</TextureName>
+      <FrameLength>0.1</FrameLength>
+      <LeftCoordinate>717</LeftCoordinate>
+      <RightCoordinate>788</RightCoordinate>
+      <TopCoordinate>1226</TopCoordinate>
+      <BottomCoordinate>1272</BottomCoordinate>
+    </Frame>
+  </AnimationChain>
 </AnimationChainArraySave>
