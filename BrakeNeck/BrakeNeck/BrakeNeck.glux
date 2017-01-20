@@ -690,6 +690,11 @@
             <Member>ColorOperation</Member>
             <ValueAsInt>4</ValueAsInt>
           </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>0.1</ValueAsFloat>
+          </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
           <SourceName />
@@ -721,6 +726,51 @@
           <SourceClassType>AxisAlignedRectangle</SourceClassType>
           <InstanceName>AxisAlignedRectangleInstance</InstanceName>
           <HasPublicProperty>true</HasPublicProperty>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>string</Type>
+            <Member>CurrentChainName</Member>
+            <ValueAsString>Shadow</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-12</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-12</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Alpha</Member>
+            <ValueAsFloat>0.4</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>ShadowSprite</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -1368,6 +1418,56 @@
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\Tire</SourceClassType>
           <InstanceName>BackRightTire</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>string</Type>
+            <Member>CurrentChainName</Member>
+            <ValueAsString>TruckShadow</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-12</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-12</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>ParentRotationChangesPosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Alpha</Member>
+            <ValueAsFloat>0.4</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>ShadowSprite</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -2383,11 +2483,71 @@
             <Member>RotationZ</Member>
             <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>0.1</ValueAsFloat>
+          </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
           <SourceName />
           <SourceClassType>Sprite</SourceClassType>
           <InstanceName>SpriteInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>AnimationChainList</Type>
+            <Member>AnimationChains</Member>
+            <ValueAsString>AnimationChainListFile</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>string</Type>
+            <Member>CurrentChainName</Member>
+            <ValueAsString>TurretShadow</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>ParentRotationChangesPosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>-8</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>-8</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Alpha</Member>
+            <ValueAsFloat>0.8</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Z</Member>
+            <ValueAsFloat>-0.1</ValueAsFloat>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>TurretShadowSprite</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>

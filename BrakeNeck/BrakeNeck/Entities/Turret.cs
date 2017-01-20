@@ -35,7 +35,8 @@ namespace BrakeNeck.Entities
         /// </summary>
 		private void CustomInitialize()
 		{
-
+            // so it rotates properly:
+            TurretShadowSprite.AttachTo(SpriteInstance, false);
 
 		}
 

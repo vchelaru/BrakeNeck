@@ -3,4 +3,6 @@
   <OffsetMultiplier>1</OffsetMultiplier>
   <ExpandedNode>TurretAnimation</ExpandedNode>
   <ExpandedNode>TruckAnimation2</ExpandedNode>
+  <ExpandedNode>TruckShadow</ExpandedNode>
+  <ExpandedNode>TurretShadow</ExpandedNode>
 </AESettingsSave>
