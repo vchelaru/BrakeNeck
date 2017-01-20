@@ -262,6 +262,12 @@
           <RuntimeType>FlatRedBall.Gum.GumIdb</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Name>titleScreen.png</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
       </ReferencedFiles>
       <NamedObjects>
         <NamedObjectSave>
@@ -287,6 +293,26 @@
           <SourceFile>GumProject/Screens/MainMenuGum.gusx</SourceFile>
           <SourceName>SelectionMarker (BrakeNeck.GumRuntimes.ColoredRectangleRuntime)</SourceName>
           <InstanceName>SelectionMarker</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>true</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Texture2D</Type>
+            <Member>Texture</Member>
+            <ValueAsString>titleScreen</ValueAsString>
+          </CustomProperty>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile />
+          <SourceName />
+          <SourceClassType>Sprite</SourceClassType>
+          <InstanceName>TitleScreenSprite</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>true</IndependentOfCamera>
@@ -1713,11 +1739,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>true</ValueAsBool>
           </CustomProperty>
@@ -1730,6 +1751,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormMask</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -1956,11 +1982,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
@@ -1973,6 +1994,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormLayer</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -2001,11 +2027,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
@@ -2018,6 +2039,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormCloud</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -2051,11 +2077,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
@@ -2068,6 +2089,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormLayer</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -2101,11 +2127,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
@@ -2118,6 +2139,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormCloud</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -2151,11 +2177,6 @@
           </CustomProperty>
           <CustomProperty>
             <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
             <Member>Animate</Member>
             <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
@@ -2168,6 +2189,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>SandstormCloud</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -2438,11 +2464,6 @@
             <ValueAsFloat>1</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
-            <Type>bool</Type>
-            <Member>UseAnimationRelativePosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
             <Type>AnimationChainList</Type>
             <Member>AnimationChains</Member>
             <ValueAsString>AnimationChainListFile</ValueAsString>
@@ -2451,6 +2472,11 @@
             <Type>string</Type>
             <Member>CurrentChainName</Member>
             <ValueAsString>TurretAnimation</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
