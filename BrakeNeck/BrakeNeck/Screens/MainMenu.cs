@@ -75,6 +75,7 @@ namespace BrakeNeck.Screens
                 }
                 else
                 {
+                    bool proceededByGamePad = false;
                     foreach (var gamePad in InputManager.Xbox360GamePads)
                     {
                         if (gamePad.IsConnected && gamePad.AnyButtonPushed())
@@ -83,8 +84,18 @@ namespace BrakeNeck.Screens
                             this.MainMenuGumRuntime.CurrentVariableState = 
                                 GumRuntimes.MainMenuGumRuntime.VariableState.PlayerSelection;
                             didProceed = true;
+                            proceededByGamePad = true;
                         }
 
+                    }
+
+                    if(proceededByGamePad)
+                    {
+                        bool shouldAskForMultiPlayer = InputManager.NumberOfConnectedGamePads > 1;
+                        if(shouldAskForMultiPlayer == false)
+                        {
+                            MoveToScreen(typeof(GameScreen));
+                        }
                     }
                 }
             }

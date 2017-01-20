@@ -2440,6 +2440,8 @@
   <ApplyToFixedResolutionPlatforms>false</ApplyToFixedResolutionPlatforms>
   <ExternallyBuiltFileDirectory>../../</ExternallyBuiltFileDirectory>
   <PluginData>
-    <RequiredPlugins />
+    <RequiredPlugins>
+      <string>Gum Plugin</string>
+    </RequiredPlugins>
   </PluginData>
 </GlueProjectSave>

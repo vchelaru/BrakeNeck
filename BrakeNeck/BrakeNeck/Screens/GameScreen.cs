@@ -28,6 +28,9 @@ namespace BrakeNeck.Screens
 {
 	public partial class GameScreen
 	{
+
+        bool isPlayerDead = false;
+
         #region Initialize
 
         void CustomInitialize()
@@ -76,6 +79,8 @@ namespace BrakeNeck.Screens
 
             HudActivity();
 
+            RestartingActivity();
+
 #if DEBUG
             DebugActivity();
 
@@ -84,6 +89,20 @@ namespace BrakeNeck.Screens
                 this.RestartScreen(true);
             }
 #endif
+        }
+
+        private void RestartingActivity()
+        {
+            if(isPlayerDead)
+            {
+                bool shouldRestart = InputManager.Keyboard.KeyPushed(Keys.Space) ||
+                    InputManager.Xbox360GamePads.Any(item => item.ButtonPushed(Xbox360GamePad.Button.A));
+
+                if(shouldRestart)
+                {
+                    RestartScreen(reloadContent: false);
+                }
+            }
         }
 
         private void HudActivity()
@@ -223,6 +242,7 @@ namespace BrakeNeck.Screens
             {
                 PauseThisScreen();
                 this.DeathComponentInstance.Visible = true;
+                isPlayerDead = true;
             }
         }
 
