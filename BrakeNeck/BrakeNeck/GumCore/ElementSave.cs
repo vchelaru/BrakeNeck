@@ -32,7 +32,7 @@ namespace Gum.DataTypes
             set;
         }
 
-        IEnumerable<StateSave> IStateContainer.UncategorizedStates => States;
+        IList<StateSave> IStateContainer.UncategorizedStates => States;
         [XmlElement("State")]
         public List<StateSave> States
         {
@@ -140,6 +140,7 @@ namespace Gum.DataTypes
             FileManager.XmlSerialize(this.GetType(), this, fileName);
 #endif
         }
+
 
         public override string ToString()
         {

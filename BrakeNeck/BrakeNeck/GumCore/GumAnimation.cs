@@ -9,11 +9,16 @@ namespace FlatRedBall.Gum.Animation
 {
     public class GumAnimation
     {
+        #region Internal Classes
+
         class NamedEvent
         {
             public string Name { get; set; }
             public float Time { get; set; }
         }
+
+        #endregion
+
 
         public List<GumAnimation> SubAnimations
         {
@@ -36,7 +41,7 @@ namespace FlatRedBall.Gum.Animation
 
         public event Action EndReached;
 
-        Func<IEnumerable<Instruction>> getInstructionsFunc;
+        Func<object, IEnumerable<Instruction>> getInstructionsFunc;
 
         public object WhatStartedPlayingThis
         {
@@ -50,7 +55,7 @@ namespace FlatRedBall.Gum.Animation
             private set;
         }
 
-        public GumAnimation(float length, Func<IEnumerable<Instruction>> getInstructionsFunc)
+        public GumAnimation(float length, Func<object, IEnumerable<Instruction>> getInstructionsFunc)
         {
             this.getInstructionsFunc = getInstructionsFunc;
             this.Length = length;
@@ -109,9 +114,8 @@ namespace FlatRedBall.Gum.Animation
                 }
             }
 
-            foreach (var instruction in getInstructionsFunc())
+            foreach (var instruction in getInstructionsFunc(this))
             {
-                instruction.Target = this;
                 InstructionManager.Instructions.Add(instruction);
             }
 
@@ -124,7 +128,10 @@ namespace FlatRedBall.Gum.Animation
             }
         }
 
-
+        public bool IsPlaying()
+        {
+            return InstructionManager.Instructions.Any(item => item.Target == this);
+        }
 
         public void PlayAfter(float delay, object whatStartedPlayigThis = null)
         {

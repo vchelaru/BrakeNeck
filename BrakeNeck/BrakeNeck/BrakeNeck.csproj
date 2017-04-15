@@ -226,6 +226,7 @@
     <Compile Include="GumCore\InstanceSaveExtensionMethods.GumRuntime.cs">
       <DependentUpon>InstanceSaveExtensionMethods.cs</DependentUpon>
     </Compile>
+    <Compile Include="GumCore\InvisibleRenderable.cs" />
     <Compile Include="GumCore\IPositionedSizedObject.cs" />
     <Compile Include="GumCore\IRenderable.cs" />
     <Compile Include="GumCore\IRenderableIpso.cs" />
@@ -334,6 +335,7 @@
     <Compile Include="TileGraphics\TiledMapSave.Conversion.cs" />
     <Compile Include="TileGraphics\TiledMapSave.Serialization.cs" />
     <Compile Include="TileGraphics\TiledMapToShapeCollectionConverter.cs" />
+    <Compile Include="TileGraphics\TileNodeNetworkCreator.cs" />
     <Compile Include="TileGraphics\Tileset.cs" />
     <Compile Include="TileGraphics\TilesetExtensionMethods.cs" />
   </ItemGroup>
