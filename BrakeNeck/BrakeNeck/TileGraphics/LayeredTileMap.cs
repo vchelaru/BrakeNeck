@@ -17,28 +17,29 @@ namespace FlatRedBall.TileGraphics
 {
 
 
-    public class LayeredTileMap : PositionedObject, IVisible
+    public partial class LayeredTileMap : PositionedObject, IVisible
     {
         #region Fields
-
-
         FlatRedBall.Math.PositionedObjectList<MapDrawableBatch> mMapLists = new FlatRedBall.Math.PositionedObjectList<MapDrawableBatch>();
 
         float mRenderingScale = 1;
 
         float mZSplit = 1;
+		#endregion
 
-        float? mNumberTilesWide;
-        float? mNumberTilesTall;
+		#region Properties
+		public float? NumberTilesWide { get; private set; }
+		public float? NumberTilesTall { get; private set; }
+		public float? WidthPerTile { get; private set; }
+		public float? HeightPerTile { get; private set; }
+		public Dictionary<string, List<NamedValue>> TileProperties
+        {
+            get;
+            private set;
+        } = new Dictionary<string, List<NamedValue>>();
 
-        public float? WidthPerTile { get; private set; }
-        public float? HeightPerTile { get; private set; }
 
-        #endregion
-
-        #region Properties
-
-        public Dictionary<string, List<NamedValue>> Properties
+        public Dictionary<string, List<NamedValue>> ShapeProperties
         {
             get;
             private set;
@@ -112,9 +113,9 @@ namespace FlatRedBall.TileGraphics
         {
             get
             {
-                if (mNumberTilesWide.HasValue && WidthPerTile.HasValue)
+                if (NumberTilesWide.HasValue && WidthPerTile.HasValue)
                 {
-                    return mNumberTilesWide.Value * WidthPerTile.Value;
+                    return NumberTilesWide.Value * WidthPerTile.Value;
                 }
                 else
                 {
@@ -130,9 +131,9 @@ namespace FlatRedBall.TileGraphics
         {
             get
             {
-                if (mNumberTilesTall.HasValue && HeightPerTile.HasValue)
+                if (NumberTilesTall.HasValue && HeightPerTile.HasValue)
                 {
-                    return mNumberTilesTall.Value * HeightPerTile.Value;
+                    return NumberTilesTall.Value * HeightPerTile.Value;
                 }
                 else
                 {
@@ -190,7 +191,7 @@ namespace FlatRedBall.TileGraphics
 
         public IEnumerable<string> TileNamesWith(string propertyName)
         {
-            foreach (var item in Properties.Values)
+            foreach (var item in TileProperties.Values)
             {
                 if (item.Any(item2 => item2.Name == propertyName))
                 {
@@ -298,12 +299,12 @@ namespace FlatRedBall.TileGraphics
 
             if (rtmi.NumberCellsWide != 0)
             {
-                toReturn.mNumberTilesWide = rtmi.NumberCellsWide;
+                toReturn.NumberTilesWide = rtmi.NumberCellsWide;
             }
 
             if (rtmi.NumberCellsTall != 0)
             {
-                toReturn.mNumberTilesTall = rtmi.NumberCellsTall;
+                toReturn.NumberTilesTall = rtmi.NumberCellsTall;
             }
 
             toReturn.WidthPerTile = rtmi.QuadWidth;
@@ -332,6 +333,7 @@ namespace FlatRedBall.TileGraphics
             // Ultimately properties are tied to tiles by the tile name.
             // If a tile has no name but it has properties, those properties
             // will be lost in the conversion. Therefore, we have to add name properties.
+            tms.MoveTypeToProperties();
             tms.NameUnnamedTilesetTiles();
             tms.NameUnnamedObjects();
 
@@ -346,9 +348,14 @@ namespace FlatRedBall.TileGraphics
 
             foreach (var mapObjectgroup in tms.objectgroup)
             {
+                int indexInAllLayers = tms.MapLayers.IndexOf(mapObjectgroup);
+
                 var shapeCollection = tms.ToShapeCollection(mapObjectgroup.Name);
                 if (shapeCollection != null && shapeCollection.IsEmpty == false)
                 {
+                    // This makes all shapes have the same Z as the index layer, which is useful if instantiating objects, so they're layered properly
+                    shapeCollection.Shift(new Microsoft.Xna.Framework.Vector3(0, 0, indexInAllLayers));
+
                     shapeCollection.Name = mapObjectgroup.Name;
                     toReturn.ShapeCollections.Add(shapeCollection);
                 }
@@ -388,7 +395,7 @@ namespace FlatRedBall.TileGraphics
                     {
                         // this needs a name:
                         string name = tile.properties.FirstOrDefault(item => item.StrippedName.ToLowerInvariant() == "name")?.value;
-                        AddPropertiesToMap(tms, toReturn, tile.properties, name);
+                        AddPropertiesToMap(tms, toReturn.TileProperties, tile.properties, name);
                     }
                 }
             }
@@ -402,16 +409,52 @@ namespace FlatRedBall.TileGraphics
                         if (objectInstance.properties.Count != 0)
                         {
                             string name = objectInstance.Name;
+                            // if name is null, check the properties:
+                            if (string.IsNullOrEmpty(name))
+                            {
+                                name = objectInstance.properties.FirstOrDefault(item => item.StrippedNameLower == "name")?.value;
+                            }
                             var properties = objectInstance.properties;
 
-                            AddPropertiesToMap(tms, toReturn, properties, name);
+                            var objectInstanceIsTile = objectInstance.gid != null;
 
+                            if (objectInstanceIsTile)
+                            {
+                                AddPropertiesToMap(tms, toReturn.TileProperties, properties, name);
+                            }
+                            else
+                            {
+                                AddPropertiesToMap(tms, toReturn.ShapeProperties, properties, name);
+                            }
                         }
                     }
                 }
             }
 
             var tmxDirectory = FileManager.GetDirectory(fileName);
+
+            // add image layers
+            foreach (var imageLayer in tms.ImageLayers)
+            {
+                var imageLayerFile = tmxDirectory + imageLayer.ImageObject.Source;
+                var texture = FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(imageLayerFile);
+
+                var newSprite = new Sprite
+                {
+                    Texture = texture,
+                    Width = imageLayer.ImageObject.Width,
+                    Height = imageLayer.ImageObject.Height,
+                    X = imageLayer.ImageObject.Width / 2 + imageLayer.OffsetX,
+                    Y = -imageLayer.ImageObject.Height / 2 + imageLayer.OffsetY
+                };
+
+                var mdb = new MapDrawableBatch(1, texture);
+                mdb.AttachTo(toReturn, false);
+                mdb.Paste(newSprite);
+                mdb.Visible = imageLayer.Visible;
+
+                toReturn.mMapLists.Add(mdb);
+            }
 
             var animationDictionary = new Dictionary<string, AnimationChain>();
 
@@ -485,7 +528,7 @@ namespace FlatRedBall.TileGraphics
             return toReturn;
         }
 
-        private static void AddPropertiesToMap(TiledMapSave tms, LayeredTileMap toReturn, List<property> properties, string name)
+        private static void AddPropertiesToMap(TiledMapSave tms, Dictionary<string, List<NamedValue>> dictionaryToAddTo, List<property> properties, string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -498,7 +541,7 @@ namespace FlatRedBall.TileGraphics
 
 
 #if DEBUG
-                if (toReturn.Properties.Any(item => item.Key == name))
+                if (dictionaryToAddTo.Any(item => item.Key == name))
                 {
                     // Assume it was a duplicate tile name, but it may not be
                     string message = $"The tileset contains more than one tile with the name {name}. Names must be unique in a tileset.";
@@ -511,7 +554,7 @@ namespace FlatRedBall.TileGraphics
                 }
 #endif
 
-                toReturn.Properties.Add(name, namedValues);
+                dictionaryToAddTo.Add(name, namedValues);
 
             }
         }

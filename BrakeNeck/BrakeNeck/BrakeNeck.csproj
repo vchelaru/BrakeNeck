@@ -187,10 +187,12 @@
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Factories\ObstacleFactory.Generated.cs" />
     <Compile Include="Factories\PlayerBulletFactory.Generated.cs" />
+    <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="GumCore\AnimationFrame.cs" />
     <Compile Include="GumCore\Atlas.cs" />
     <Compile Include="GumCore\AtlasedTexture.cs" />
+    <Compile Include="GumCore\BehaviorInstanceSave.cs" />
     <Compile Include="GumCore\BehaviorReference.cs" />
     <Compile Include="GumCore\BehaviorSave.cs" />
     <Compile Include="GumCore\BitmapCharacterInfo.cs" />
@@ -306,6 +308,7 @@
     <Compile Include="StateInterpolation\Cubic.cs" />
     <Compile Include="StateInterpolation\Elastic.cs" />
     <Compile Include="StateInterpolation\Exponential.cs" />
+    <Compile Include="StateInterpolation\Instant.cs" />
     <Compile Include="StateInterpolation\Linear.cs" />
     <Compile Include="StateInterpolation\Quadratic.cs" />
     <Compile Include="StateInterpolation\Quartic.cs" />

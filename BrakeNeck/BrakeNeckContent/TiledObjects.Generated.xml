@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<objecttypes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <objecttype name="Obstacle">
+    <property name="Health" type="int" default="3" />
+    <property name="SpriteInstanceAnimationChains" type="AnimationChainList" />
+  </objecttype>
+  <objecttype name="PlayerBullet" />
+</objecttypes>

@@ -93,14 +93,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>DeathComponent</Name>
     </None>
-    <None Include="GumProject\FontCache\Font18Arial.fnt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font18Arial</Name>
-    </None>
-    <None Include="GumProject\FontCache\Font18Arial_0.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font18Arial_0</Name>
-    </None>
     <None Include="GumProject\FontCache\Font24Arial.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font24Arial</Name>
@@ -108,14 +100,6 @@
     <None Include="GumProject\FontCache\Font24Arial_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font24Arial_0</Name>
-    </None>
-    <None Include="GumProject\FontCache\Font30Arial.fnt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font30Arial</Name>
-    </None>
-    <None Include="GumProject\FontCache\Font30Arial_0.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font30Arial_0</Name>
     </None>
     <None Include="GumProject\GumProject.gumx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

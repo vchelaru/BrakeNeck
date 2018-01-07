@@ -11,7 +11,7 @@ using BrakeNeck.Entities.Particles;
 using BrakeNeck.Screens;
 namespace BrakeNeck.Entities
 {
-	public partial class PlayerBuggy
-	{
-	}
+    public partial class PlayerBuggy
+    {
+    }
 }
