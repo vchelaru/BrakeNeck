@@ -374,10 +374,25 @@ namespace Gum.Wireframe
                 {
                     if (!handledByChild)
                     {
-                        handledByThis = true;
+                        // Feb. 21, 2018
+                        // If not handled by
+                        // children, then this
+                        // can only handle if this
+                        // exposes events. Otherwise,
+                        // it shouldn't handle anything
+                        // and the parent should be given
+                        // the opportunity.
+                        // I'm not sure why this was outside
+                        // of the if(this.HasEvents)...seems intentional
+                        // but it causes problems when the rootmost object
+                        // exposes children events but doesn't handle its own
+                        // events...
+                        //handledByThis = true;
 
                         if (this.HasEvents)
                         {
+                            // moved from above, see comments there...
+                            handledByThis = true;
                             cursor.WindowOver = this;
 
                             if (cursor.PrimaryPush && Enabled)
@@ -537,9 +552,18 @@ namespace Gum.Wireframe
                 }
             }
 
-            if(!toReturn && RaiseChildrenEventsOutsideOfBounds)
+            if (!toReturn && RaiseChildrenEventsOutsideOfBounds)
             {
-                toReturn = this.Children.Any(item => item is GraphicalUiElement &&  ((GraphicalUiElement)item).HasCursorOver(cursor));
+                for (int i = 0; i < Children.Count; i++)
+                {
+                    var child = Children[i] as GraphicalUiElement;
+
+                    if (child != null && child.HasCursorOver(cursor))
+                    {
+                        toReturn = true;
+                        break;
+                    }
+                }
             }
 
             return toReturn;

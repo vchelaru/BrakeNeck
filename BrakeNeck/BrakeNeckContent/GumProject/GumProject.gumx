@@ -6,6 +6,7 @@
   <DefaultCanvasHeight>900</DefaultCanvasHeight>
   <ShowOutlines>true</ShowOutlines>
   <RestrictToUnitValues>true</RestrictToUnitValues>
+  <RestrictFileNamesForAndroid>false</RestrictFileNamesForAndroid>
   <Guides />
   <ScreenReference>
     <Name>GameScreenGum</Name>

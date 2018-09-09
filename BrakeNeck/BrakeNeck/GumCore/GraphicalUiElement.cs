@@ -17,11 +17,25 @@ using GumRuntime;
 namespace Gum.Wireframe
 {
 
-
     public partial class GraphicalUiElement : IRenderableIpso, IVisible
     {
+        enum ChildrenUpdateType
+        {
+            AbsoluteOnly,
+            RelativeOnly,
+            Both
+        }
+
+        class DirtyState
+        {
+            public bool UpdateParent;
+            public int ChildrenUpdateDepth;
+            public XOrY? XOrY;
+        }
+
         #region Fields
 
+        private DirtyState currentDirtyState;
 
         public static int UpdateLayoutCallCount;
         public static int ChildrenUpdatingParentLayoutCalls;
@@ -64,8 +78,8 @@ namespace Gum.Wireframe
 
         float mX;
         float mY;
-        float mWidth;
-        float mHeight;
+        protected float mWidth;
+        protected float mHeight;
         float mRotation;
 
         static float mCanvasWidth = 800;
@@ -87,6 +101,14 @@ namespace Gum.Wireframe
 
         Dictionary<string, Gum.DataTypes.Variables.StateSaveCategory> mCategories =
             new Dictionary<string, Gum.DataTypes.Variables.StateSaveCategory>();
+
+        // the row or column index when anobject is sorted.
+        // This is used by the stacking logic to properly sort objects
+        public int StackedRowOrColumnIndex { get; set; } = -1;
+
+        // null by default, non-null if an object uses
+        // stacked layout for its children.
+        public List<float> StackedRowOrColumnDimensions { get; private set; }
 
         #endregion
 
@@ -251,7 +273,16 @@ namespace Gum.Wireframe
             }
         }
 
+        /// <summary>
+        /// Returns the absolute width of the GraphicalUiElement in pixels (as opposed to using its WidthUnits)
+        /// </summary>
+        /// <returns>The absolute width in pixels.</returns>
         public float GetAbsoluteWidth() => ((IPositionedSizedObject)this).Width;
+
+        /// <summary>
+        /// Returns the absolute height of the GraphicalUiElement in pixels (as opposed to using its HeightUnits)
+        /// </summary>
+        /// <returns>The absolute height in pixels.</returns>
         public float GetAbsoluteHeight() => ((IPositionedSizedObject)this).Height;
 
         void IRenderableIpso.SetParentDirect(IRenderableIpso parent)
@@ -287,7 +318,16 @@ namespace Gum.Wireframe
 
         Microsoft.Xna.Framework.Graphics.BlendState IRenderable.BlendState
         {
-            get { return mContainedObjectAsIpso.BlendState; }
+            get
+            {
+#if DEBUG
+                if(mContainedObjectAsIpso == null)
+                {
+                    throw new NullReferenceException("This GraphicalUiElemente has not had its visual set, so it does not have a blend operation. This can happen if a GraphicalUiElement was added as a child without its contained renderable having been set.");
+                }
+#endif
+                return mContainedObjectAsIpso.BlendState;
+            }
         }
 
         bool IRenderable.Wrap
@@ -415,7 +455,7 @@ namespace Gum.Wireframe
             }
             set
             {
-                if (mX != value)
+                if (mX != value && mContainedObjectAsIpso != null)
                 {
 #if DEBUG
                     if (float.IsNaN(value))
@@ -426,7 +466,7 @@ namespace Gum.Wireframe
                     mX = value;
 
                     // special case:
-                    if (Parent as GraphicalUiElement == null && XUnits == GeneralUnitType.PixelsFromSmall)
+                    if (Parent as GraphicalUiElement == null && XUnits == GeneralUnitType.PixelsFromSmall && XOrigin == HorizontalAlignment.Left)
                     {
                         this.mContainedObjectAsIpso.X = mX;
                     }
@@ -446,7 +486,7 @@ namespace Gum.Wireframe
             }
             set
             {
-                if (mY != value)
+                if (mY != value && mContainedObjectAsIpso != null)
                 {
 #if DEBUG
                     if (float.IsNaN(value))
@@ -457,7 +497,7 @@ namespace Gum.Wireframe
                     mY = value;
 
 
-                    if (Parent as GraphicalUiElement == null && YUnits == GeneralUnitType.PixelsFromSmall)
+                    if (Parent as GraphicalUiElement == null && YUnits == GeneralUnitType.PixelsFromSmall && YOrigin == VerticalAlignment.Top)
                     {
                         this.mContainedObjectAsIpso.Y = mY;
                     }
@@ -690,6 +730,10 @@ namespace Gum.Wireframe
 
         public IPositionedSizedObject Component { get { return mContainedObjectAsIpso; } }
 
+        /// <summary>
+        /// Returns the absolute X of the origin of the GraphicalUiElement. Note that
+        /// this considers the XOrigin, and will apply rotation
+        /// </summary>
         public float AbsoluteX
         {
             get
@@ -726,6 +770,10 @@ namespace Gum.Wireframe
         }
 
 
+        /// <summary>
+        /// Returns the absolute Y of the origin of the GraphicalUiElement. Note that
+        /// this considers the YOrigin, and will apply rotation
+        /// </summary>
         public float AbsoluteY
         {
             get
@@ -782,7 +830,10 @@ namespace Gum.Wireframe
                 if (mTextureTop != value)
                 {
                     mTextureTop = value;
-                    UpdateLayout();
+                    // changing the texture top won't update the dimensions, just
+                    // the contained graphical object. 
+                    UpdateLayout(updateParent: false, updateChildren: false);
+
                 }
             }
         }
@@ -802,7 +853,7 @@ namespace Gum.Wireframe
                 if (mTextureLeft != value)
                 {
                     mTextureLeft = value;
-                    UpdateLayout();
+                    UpdateLayout(updateParent:false, updateChildren:false);
                 }
             }
         }
@@ -1208,8 +1259,16 @@ namespace Gum.Wireframe
 
         public void UpdateLayout(bool updateParent, int childrenUpdateDepth, XOrY? xOrY = null)
         {
-            if (!mIsLayoutSuspended && !IsAllLayoutSuspended)
+            var isSuspended = mIsLayoutSuspended || IsAllLayoutSuspended;
+
+            if(isSuspended)
             {
+                MakeDirty(updateParent, childrenUpdateDepth, xOrY);
+            }
+            else
+            {
+                currentDirtyState = null;
+
                 UpdateLayoutCallCount++;
 
                 // May 15, 2014
@@ -1229,10 +1288,10 @@ namespace Gum.Wireframe
                     //mContainedObjectAsIpso.Parent = mParent;
                     mContainedObjectAsIpso.SetParentDirect(mParent);
                 }
-                float widthBefore = 0;
-                float heightBefore = 0;
-                float xBefore = 0;
-                float yBefore = 0;
+                float widthBeforeLayout = 0;
+                float heightBeforeLayout = 0;
+                float xBeforeLayout = 0;
+                float yBeforeLayout = 0;
 
                 // Not sure why we use the ParentGue and not the Parent itself...
                 // We want to do it on the actual Parent so that objects attached to components
@@ -1286,11 +1345,11 @@ namespace Gum.Wireframe
 
                         if (this.mContainedObjectAsIpso != null)
                         {
-                            widthBefore = mContainedObjectAsIpso.Width;
-                            heightBefore = mContainedObjectAsIpso.Height;
+                            widthBeforeLayout = mContainedObjectAsIpso.Width;
+                            heightBeforeLayout = mContainedObjectAsIpso.Height;
 
-                            xBefore = mContainedObjectAsIpso.X;
-                            yBefore = mContainedObjectAsIpso.Y;
+                            xBeforeLayout = mContainedObjectAsIpso.X;
+                            yBeforeLayout = mContainedObjectAsIpso.Y;
                         }
 
                         // The texture dimensions may need to be set before
@@ -1303,7 +1362,8 @@ namespace Gum.Wireframe
                             UpdateTextureCoordinatesNotDimensionBased();
                         }
 
-                        if (this.WidthUnits.GetDependencyType() == HierarchyDependencyType.DependsOnChildren || this.HeightUnits.GetDependencyType() == HierarchyDependencyType.DependsOnChildren)
+                        if (this.WidthUnits.GetDependencyType() == HierarchyDependencyType.DependsOnChildren || 
+                            this.HeightUnits.GetDependencyType() == HierarchyDependencyType.DependsOnChildren)
                         {
                             UpdateChildren(childrenUpdateDepth, onlyAbsoluteLayoutChildren: true);
                         }
@@ -1320,7 +1380,8 @@ namespace Gum.Wireframe
                         if (mContainedObjectAsIpso is Text && childrenUpdateDepth > 0)
                         {
                             // Only if the width or height have changed:
-                            if (mContainedObjectAsIpso.Width != widthBefore || mContainedObjectAsIpso.Height != heightBefore)
+                            if (mContainedObjectAsIpso.Width != widthBeforeLayout || 
+                                mContainedObjectAsIpso.Height != heightBeforeLayout)
                             {
                                 // I think this should only happen when actually rendering:
                                 //((Text)mContainedObjectAsIpso).UpdateTextureToRender();
@@ -1341,6 +1402,11 @@ namespace Gum.Wireframe
 
                         UpdatePosition(parentWidth, parentHeight, xOrY);
 
+                        if(GetIfParentStacks() )
+                        {
+                            RefreshParentRowColumnDimensionForThis();
+                        }
+
                         mContainedObjectAsIpso.Rotation = this.GetAbsoluteRotation();
 
                     }
@@ -1360,14 +1426,14 @@ namespace Gum.Wireframe
                     }
                     if (this.mContainedObjectAsIpso != null)
                     {
-                        if(widthBefore != mContainedObjectAsIpso.Width ||
-                            heightBefore != mContainedObjectAsIpso.Height)
+                        if(widthBeforeLayout != mContainedObjectAsIpso.Width ||
+                            heightBeforeLayout != mContainedObjectAsIpso.Height)
                         {
                             SizeChanged?.Invoke(this, null);
                         }
 
-                        if(xBefore != mContainedObjectAsIpso.X || 
-                                yBefore != mContainedObjectAsIpso.Y)
+                        if(xBeforeLayout != mContainedObjectAsIpso.X || 
+                                yBeforeLayout != mContainedObjectAsIpso.Y)
                         {
                             PositionChanged?.Invoke(this, null);
                         }
@@ -1377,6 +1443,84 @@ namespace Gum.Wireframe
                 }
             }
 
+        }
+
+        // Records the type of update needed when layout resumes
+        private void MakeDirty(bool updateParent, int childrenUpdateDepth, XOrY? xOrY)
+        {
+            if(currentDirtyState == null)
+            {
+                currentDirtyState = new DirtyState();
+
+                currentDirtyState.XOrY = xOrY;
+            }
+
+            currentDirtyState.UpdateParent = currentDirtyState.UpdateParent || updateParent;
+            currentDirtyState.ChildrenUpdateDepth = Math.Max(
+                currentDirtyState.ChildrenUpdateDepth, childrenUpdateDepth);
+
+            // If the update is supposed to update all associations, make it null...
+            if(xOrY == null)
+            {
+                currentDirtyState.XOrY = null;
+            }
+            // If neither are null and they differ, then that means update both, so set it to null
+            else if(currentDirtyState.XOrY != null && currentDirtyState.XOrY != xOrY)
+            {
+                currentDirtyState.XOrY = null;
+            }
+            // It's not possible to set either X or Y here. That can only happen on initialization
+            // of the currentDirtyState
+        }
+
+        private void RefreshParentRowColumnDimensionForThis()
+        {
+            // If it stacks, then update this row/column's dimensions given the index of this
+            var indexToUpdate = this.StackedRowOrColumnIndex;
+            var parentGue = EffectiveParentGue;
+
+            if (parentGue.StackedRowOrColumnDimensions == null)
+            {
+                parentGue.StackedRowOrColumnDimensions = new List<float>();
+            }
+
+            if (parentGue.StackedRowOrColumnDimensions.Count <= indexToUpdate)
+            {
+                parentGue.StackedRowOrColumnDimensions.Add(0);
+            }
+            else
+            {
+                parentGue.StackedRowOrColumnDimensions[indexToUpdate] = 0;
+            }
+
+            foreach (GraphicalUiElement child in parentGue.Children)
+            {
+                var asIpso = child as IPositionedSizedObject;
+
+                if (child.StackedRowOrColumnIndex == indexToUpdate)
+                {
+                    if (parentGue.ChildrenLayout == ChildrenLayout.LeftToRightStack)
+                    {
+                        parentGue.StackedRowOrColumnDimensions[indexToUpdate] =
+                            System.Math.Max(parentGue.StackedRowOrColumnDimensions[indexToUpdate],
+                            child.Y + child.GetAbsoluteHeight());
+                    }
+                    else
+                    {
+                        parentGue.StackedRowOrColumnDimensions[indexToUpdate] =
+                            System.Math.Max(parentGue.StackedRowOrColumnDimensions[indexToUpdate],
+                            child.X + child.GetAbsoluteWidth());
+                    }
+
+                    // We don't need to worry about the children after this, because the siblings will get updated in order:
+                    // This can (on average) make this run 2x as fast
+                    if(this == child)
+                    {
+                        break;
+                    }
+                }
+
+            }
         }
 
         private void UpdateChildren(int childrenUpdateDepth, bool onlyAbsoluteLayoutChildren = false)
@@ -1394,24 +1538,24 @@ namespace Gum.Wireframe
                     {
                         if (child.IsAllLayoutAbsolute() || onlyAbsoluteLayoutChildren == false)
                         {
-                            child.UpdateLayout(false, childrenUpdateDepth - 1);
-                        }
-                        else
-                        { 
-                            // only update absolute layout, and the child has some relative values, but let's see if 
-                            // we can do only one axis:
-                            if (child.IsAllLayoutAbsolute(XOrY.X))
-                            {
-                                child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.X);
+                                child.UpdateLayout(false, childrenUpdateDepth - 1);
                             }
-                            else if (child.IsAllLayoutAbsolute(XOrY.Y))
-                            {
-                                child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.Y);
+                            else
+                            { 
+                                // only update absolute layout, and the child has some relative values, but let's see if 
+                                // we can do only one axis:
+                                if (child.IsAllLayoutAbsolute(XOrY.X))
+                                {
+                                    child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.X);
+                                }
+                                else if (child.IsAllLayoutAbsolute(XOrY.Y))
+                                {
+                                    child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.Y);
+                                }
                             }
                         }
                     }
                 }
-            }
             else
             {
                 for (int i = 0; i < this.Children.Count; i++)
@@ -1424,25 +1568,25 @@ namespace Gum.Wireframe
                         var child = ipsoChild as GraphicalUiElement;
                         if (child.IsAllLayoutAbsolute() || onlyAbsoluteLayoutChildren == false)
                         {
-                            child.UpdateLayout(false, childrenUpdateDepth - 1);
-                        }
-                        else
-                        {
-                            // only update absolute layout, and the child has some relative values, but let's see if 
-                            // we can do only one axis:
-                            if (child.IsAllLayoutAbsolute(XOrY.X))
-                            {
-                                child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.X);
+                                child.UpdateLayout(false, childrenUpdateDepth - 1);
                             }
-                            else if (child.IsAllLayoutAbsolute(XOrY.Y))
+                            else
                             {
-                                child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.Y);
+                                // only update absolute layout, and the child has some relative values, but let's see if 
+                                // we can do only one axis:
+                                if (child.IsAllLayoutAbsolute(XOrY.X))
+                                {
+                                    child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.X);
+                                }
+                                else if (child.IsAllLayoutAbsolute(XOrY.Y))
+                                {
+                                    child.UpdateLayout(false, childrenUpdateDepth - 1, XOrY.Y);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
         private void UpdateLayerScissor()
         {
@@ -1603,11 +1747,23 @@ namespace Gum.Wireframe
 
         private void UpdatePosition(float parentWidth, float parentHeight, XOrY? xOrY)
         {
+            // First get the position of the object without considering if this object should be wrapped.
+            // This call may result in the object being placed outside of its parent's bounds. In which case
+            // it will be wrapped....later
             UpdatePosition(parentWidth, parentHeight, wrap: false, xOrY: xOrY);
 
             var effectiveParent = EffectiveParentGue;
 
-            bool shouldWrap = GetIfParentStacks() && this.EffectiveParentGue.WrapsChildren &&
+            // Wrap the object if:
+            bool shouldWrap =
+                effectiveParent != null &&
+            // * The parent stacks
+                effectiveParent.ChildrenLayout != Gum.Managers.ChildrenLayout.Regular &&
+
+                // * And the parent wraps
+                effectiveParent.WrapsChildren &&
+                
+            // * And the object is outside of parent's bounds
                 ((effectiveParent.ChildrenLayout == Gum.Managers.ChildrenLayout.LeftToRightStack && this.GetAbsoluteRight() > effectiveParent.GetAbsoluteRight()) ||
                 (effectiveParent.ChildrenLayout == Gum.Managers.ChildrenLayout.TopToBottomStack && this.GetAbsoluteBottom() > effectiveParent.GetAbsoluteBottom()));
 
@@ -1695,13 +1851,25 @@ namespace Gum.Wireframe
             bool throwaway2;
 
             bool wrap = false;
-            if (EffectiveParentGue != null)
+            bool shouldWrap = false;
+            var effectiveParent = EffectiveParentGue;
+            if (effectiveParent != null)
             {
-                wrap = (EffectiveParentGue as GraphicalUiElement).Wrap;
+                wrap = (effectiveParent as GraphicalUiElement).Wrap;
+
             }
+
+
+            // indicating false to wrap will reset the index on this. We don't want this method
+            // to modify anything so store it off and resume:
+            var oldIndex = StackedRowOrColumnIndex;
+
 
             GetParentOffsets(wrap, false, parentWidth, parentHeight, out parentOriginOffsetX, out parentOriginOffsetY,
                 out throwaway1, out throwaway2);
+
+            StackedRowOrColumnIndex = oldIndex;
+
         }
 
         private void GetParentOffsets(bool canWrap, bool shouldWrap, float parentWidth, float parentHeight, out float parentOriginOffsetX, out float parentOriginOffsetY,
@@ -1804,80 +1972,83 @@ namespace Gum.Wireframe
             IPositionedSizedObject whatToStackAfter = null;
             whatToStackAfterX = 0;
             whatToStackAfterY = 0;
+
+            if(parentGue.StackedRowOrColumnDimensions == null)
+            {
+                parentGue.StackedRowOrColumnDimensions = new List<float>();
+            }
+
+            int thisRowOrColumnIndex = 0;
+
             if (thisIndex > 0)
             {
+                whatToStackAfter = siblings[thisIndex - 1] as IPositionedSizedObject;
+
                 if (shouldWrap)
                 {
-                    int currentIndex = thisIndex - 1;
-                    IRenderableIpso minimumItem = siblings[currentIndex] as IRenderableIpso;
+                    // This is going to be on a new row/column. That means the following are true:
+                    // * It will have a previous sibling.
+                    // * It will be positioned at the start/end of its row/column
+                    this.StackedRowOrColumnIndex = (whatToStackAfter as GraphicalUiElement).StackedRowOrColumnIndex + 1;
 
-                    Func<IRenderableIpso, float> getAbsoluteValueFunc = null;
 
-                    if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.LeftToRightStack)
-                    {
-                        getAbsoluteValueFunc = item => item.GetAbsoluteX();
-                    }
-                    else if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.TopToBottomStack)
-                    {
-                        getAbsoluteValueFunc = item => item.GetAbsoluteY();
-                    }
-
-                    float minValue = getAbsoluteValueFunc(minimumItem);
-                    currentIndex--;
-
-                    while (currentIndex > -1)
-                    {
-                        var candidate = siblings[currentIndex] as IRenderableIpso;
-
-                        if (getAbsoluteValueFunc(candidate) < minValue)
-                        {
-                            minValue = getAbsoluteValueFunc(candidate);
-                            minimumItem = candidate;
-                        }
-                        else
-                        {
-                            break;
-                        }
-
-                    }
-                    whatToStackAfter = minimumItem;
-
+                    thisRowOrColumnIndex = (whatToStackAfter as GraphicalUiElement).StackedRowOrColumnIndex + 1;
+                    var previousRowOrColumnIndex = thisRowOrColumnIndex - 1;
                     if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.LeftToRightStack)
                     {
                         whatToStackAfterX = 0;
-                        whatToStackAfterY = whatToStackAfter.Y + whatToStackAfter.Height;
 
+                        whatToStackAfterY = 0;
+                        for(int i = 0; i < thisRowOrColumnIndex; i++)
+                        {
+                            whatToStackAfterY += parentGue.StackedRowOrColumnDimensions[i];
+                        }
                     }
-                    else if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.TopToBottomStack)
+                    else // top to bottom stack
                     {
                         whatToStackAfterY = 0;
-                        whatToStackAfterX = whatToStackAfter.X + whatToStackAfter.Width;
+                        whatToStackAfterX = 0;
+                        for (int i = 0; i < thisRowOrColumnIndex; i++)
+                        {
+                            whatToStackAfterX += parentGue.StackedRowOrColumnDimensions[i];
+                        }
                     }
+                    
                 }
                 else
                 {
-                    whatToStackAfter = siblings[thisIndex - 1] as IPositionedSizedObject;
+
                     if (whatToStackAfter != null)
                     {
-                        if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.LeftToRightStack || shouldWrap)
+                        thisRowOrColumnIndex = (whatToStackAfter as GraphicalUiElement).StackedRowOrColumnIndex;
+                        this.StackedRowOrColumnIndex = (whatToStackAfter as GraphicalUiElement).StackedRowOrColumnIndex;
+                        if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.LeftToRightStack)
                         {
                             whatToStackAfterX = whatToStackAfter.X + whatToStackAfter.Width;
+
+                            whatToStackAfterY = 0;
+                            for (int i = 0; i < thisRowOrColumnIndex; i++)
+                            {
+                                whatToStackAfterY += parentGue.StackedRowOrColumnDimensions[i];
+                            }
                         }
                         else
-                        {
-                            whatToStackAfterX = whatToStackAfter.X;
-                        }
-
-                        if (parentGue.ChildrenLayout == Gum.Managers.ChildrenLayout.TopToBottomStack || shouldWrap)
                         {
                             whatToStackAfterY = whatToStackAfter.Y + whatToStackAfter.Height;
+                            whatToStackAfterX = 0;
+                            for (int i = 0; i < thisRowOrColumnIndex; i++)
+                            {
+                                whatToStackAfterX += parentGue.StackedRowOrColumnDimensions[i];
+                            }
                         }
-                        else
-                        {
-                            whatToStackAfterY = whatToStackAfter.Y;
-                        }
+
+                        // This is on the same row/column as its previous sibling
                     }
                 }
+            }
+            else
+            {
+                StackedRowOrColumnIndex = 0;
             }
 
             return whatToStackAfter;
@@ -2116,7 +2287,7 @@ namespace Gum.Wireframe
 
                     foreach (var element in this.mWhatThisContains)
                     {
-                        if (element.IsAllLayoutAbsolute(XOrY.X))
+                        if (element.IsAllLayoutAbsolute(XOrY.Y))
                         {
                             var elementHeight = element.GetRequiredParentHeight();
                             if(this.ChildrenLayout == ChildrenLayout.TopToBottomStack)
@@ -2199,7 +2370,7 @@ namespace Gum.Wireframe
                 {
                     foreach (GraphicalUiElement element in this.Children)
                     {
-                        if (element.IsAllLayoutAbsolute())
+                        if (element.IsAllLayoutAbsolute(XOrY.X))
                         {
                             var elementWidth = element.GetRequiredParentWidth();
 
@@ -2218,7 +2389,7 @@ namespace Gum.Wireframe
                 {
                     foreach (var element in this.mWhatThisContains)
                     {
-                        if (element.IsAllLayoutAbsolute())
+                        if (element.IsAllLayoutAbsolute(XOrY.X))
                         {
                             var elementWidth = element.GetRequiredParentWidth();
 
@@ -2654,20 +2825,34 @@ namespace Gum.Wireframe
 
             if (recursive)
             {
-                ResumeLayoutNoUpdateRecursive();
+                ResumeLayoutUpdateIfDirtyRecursive();
             }
-
-            UpdateLayout();
+            else
+            {
+                if(currentDirtyState != null)
+                {
+                    UpdateLayout(currentDirtyState.UpdateParent, 
+                        currentDirtyState.ChildrenUpdateDepth, 
+                        currentDirtyState.XOrY);
+                }
+            }
         }
 
-        private void ResumeLayoutNoUpdateRecursive()
+        private void ResumeLayoutUpdateIfDirtyRecursive()
         {
 
             mIsLayoutSuspended = false;
 
+            if (currentDirtyState != null)
+            {
+                UpdateLayout(currentDirtyState.UpdateParent,
+                currentDirtyState.ChildrenUpdateDepth,
+                currentDirtyState.XOrY);
+            }
+
             foreach (var item in this.mWhatThisContains)
             {
-                item.ResumeLayoutNoUpdateRecursive();
+                item.ResumeLayoutUpdateIfDirtyRecursive();
             }
         }
 
@@ -3005,43 +3190,50 @@ namespace Gum.Wireframe
                 {
                     string valueAsString = value as string;
 
-                    if (ToolsUtilities.FileManager.IsRelative(valueAsString))
+                    if(string.IsNullOrEmpty(valueAsString))
                     {
-                        valueAsString = ToolsUtilities.FileManager.RelativeDirectory + valueAsString;
-                        valueAsString = ToolsUtilities.FileManager.RemoveDotDotSlash(valueAsString);
-                    }
-
-                    //check if part of atlas
-                    //Note: assumes that if this filename is in an atlas that all 9 are in an atlas
-                    var atlasedTexture = global::RenderingLibrary.Content.LoaderManager.Self.TryLoadContent<AtlasedTexture>(valueAsString);
-                    if (atlasedTexture != null)
-                    {
-                        nineSlice.LoadAtlasedTexture(valueAsString, atlasedTexture);
+                        nineSlice.SetSingleTexture(null);
                     }
                     else
                     {
-                        if (NineSlice.GetIfShouldUsePattern(valueAsString))
+                        if (ToolsUtilities.FileManager.IsRelative(valueAsString))
                         {
-                            nineSlice.SetTexturesUsingPattern(valueAsString, SystemManagers.Default, false);
+                            valueAsString = ToolsUtilities.FileManager.RelativeDirectory + valueAsString;
+                            valueAsString = ToolsUtilities.FileManager.RemoveDotDotSlash(valueAsString);
+                        }
+
+                        //check if part of atlas
+                        //Note: assumes that if this filename is in an atlas that all 9 are in an atlas
+                        var atlasedTexture = global::RenderingLibrary.Content.LoaderManager.Self.TryLoadContent<AtlasedTexture>(valueAsString);
+                        if (atlasedTexture != null)
+                        {
+                            nineSlice.LoadAtlasedTexture(valueAsString, atlasedTexture);
                         }
                         else
                         {
-                            var loaderManager = global::RenderingLibrary.Content.LoaderManager.Self;
-
-                            Microsoft.Xna.Framework.Graphics.Texture2D texture =
-                                global::RenderingLibrary.Content.LoaderManager.Self.InvalidTexture;
-
-                            try
+                            if (NineSlice.GetIfShouldUsePattern(valueAsString))
                             {
-                                texture =
-                                    loaderManager.LoadContent<Microsoft.Xna.Framework.Graphics.Texture2D>(valueAsString);
+                                nineSlice.SetTexturesUsingPattern(valueAsString, SystemManagers.Default, false);
                             }
-                            catch (Exception e)
+                            else
                             {
-                                // do nothing?
-                            }
-                            nineSlice.SetSingleTexture(texture);
+                                var loaderManager = global::RenderingLibrary.Content.LoaderManager.Self;
 
+                                Microsoft.Xna.Framework.Graphics.Texture2D texture =
+                                    global::RenderingLibrary.Content.LoaderManager.Self.InvalidTexture;
+
+                                try
+                                {
+                                    texture =
+                                        loaderManager.LoadContent<Microsoft.Xna.Framework.Graphics.Texture2D>(valueAsString);
+                                }
+                                catch (Exception e)
+                                {
+                                    // do nothing?
+                                }
+                                nineSlice.SetSingleTexture(texture);
+
+                            }
                         }
                     }
                     handled = true;
@@ -3241,11 +3433,21 @@ namespace Gum.Wireframe
             if (propertyName == "Text")
             {
                 ((Text)mContainedObjectAsIpso).RawText = value as string;
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if(this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
             else if (propertyName == "Font Scale")
             {
                 ((Text)mContainedObjectAsIpso).FontScale = (float)value;
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
 
             }
@@ -3254,12 +3456,22 @@ namespace Gum.Wireframe
                 this.Font = value as string;
 
                 UpdateToFontValues();
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
             else if (propertyName == "UseCustomFont")
             {
                 this.UseCustomFont = (bool)value;
                 UpdateToFontValues();
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
 
@@ -3267,18 +3479,43 @@ namespace Gum.Wireframe
             {
                 CustomFontFile = (string)value;
                 UpdateToFontValues();
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
             else if (propertyName == "FontSize")
             {
                 FontSize = (int)value;
                 UpdateToFontValues();
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
             else if (propertyName == "OutlineThickness")
             {
                 OutlineThickness = (int)value;
                 UpdateToFontValues();
+                // we want to update if the text's size is based on its "children" (the letters it contains)
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
+                handled = true;
+            }
+            else if(propertyName == "UseFontSmoothing")
+            {
+                useFontSmoothing = (bool)value;
+                UpdateToFontValues();
+                if (this.WidthUnits == DimensionUnitType.RelativeToChildren)
+                {
+                    UpdateLayout();
+                }
                 handled = true;
             }
             else if (propertyName == "Blend")
@@ -3359,6 +3596,14 @@ namespace Gum.Wireframe
             set { fontSize = value; UpdateToFontValues(); }
         }
 
+        // Not sure if we need to make this a public value, but we do need to store it
+        // Update - yes we do need this to be public so it can be assigned in codegen:
+        bool useFontSmoothing = true;
+        public bool UseFontSmoothing
+        {
+            get { return useFontSmoothing; }
+            set { useFontSmoothing = value; UpdateToFontValues(); }
+        }
 
         int outlineThickness;
         public int OutlineThickness
@@ -3369,71 +3614,75 @@ namespace Gum.Wireframe
 
         void UpdateToFontValues()
         {
-
-            BitmapFont font = null;
-
-
-            var loaderManager = global::RenderingLibrary.Content.LoaderManager.Self;
-            var contentLoader = loaderManager.ContentLoader;
-
-            if (UseCustomFont)
+            // todo: This could make things faster, but it will require
+            // extra calls in generated code, or an "UpdateAll" method
+            //if (!mIsLayoutSuspended && !IsAllLayoutSuspended)
             {
+                BitmapFont font = null;
 
-                if (!string.IsNullOrEmpty(CustomFontFile))
+                var loaderManager = global::RenderingLibrary.Content.LoaderManager.Self;
+                var contentLoader = loaderManager.ContentLoader;
+
+                if (UseCustomFont)
                 {
-                    font = contentLoader.TryGetCachedDisposable<BitmapFont>(CustomFontFile);
-                    if (font == null)
+
+                    if (!string.IsNullOrEmpty(CustomFontFile))
                     {
-                        // so normally we would just let the content loader check if the file exists but since we're not going to
-                        // use the content loader for BitmapFont, we're going to protect this with a file.exists.
-                        if (ToolsUtilities.FileManager.FileExists(CustomFontFile))
+                        font = contentLoader.TryGetCachedDisposable<BitmapFont>(CustomFontFile);
+                        if (font == null)
                         {
-                            font = new BitmapFont(CustomFontFile, SystemManagers.Default);
-                            contentLoader.AddDisposable(CustomFontFile, font);
-                        }
-                    }
-                }
-
-
-            }
-            else
-            {
-                if (FontSize > 0 && !string.IsNullOrEmpty(Font))
-                {
-                    string fontName = global::RenderingLibrary.Graphics.Fonts.BmfcSave.GetFontCacheFileNameFor(FontSize, Font, OutlineThickness);
-
-                    string fullFileName = ToolsUtilities.FileManager.Standardize(fontName, false, true);
-
-#if ANDROID || IOS
-                    fullFileName = fullFileName.ToLowerInvariant();
-#endif
-
-
-                    font = contentLoader.TryGetCachedDisposable<BitmapFont>(fullFileName);
-                    if (font == null)
-                    {
-                        // so normally we would just let the content loader check if the file exists but since we're not going to
-                        // use the content loader for BitmapFont, we're going to protect this with a file.exists.
-                        if(ToolsUtilities.FileManager.FileExists(fullFileName))
-                        {
-                            font = new BitmapFont(fullFileName, SystemManagers.Default);
-
-                            contentLoader.AddDisposable(fullFileName, font);
+                            // so normally we would just let the content loader check if the file exists but since we're not going to
+                            // use the content loader for BitmapFont, we're going to protect this with a file.exists.
+                            if (ToolsUtilities.FileManager.FileExists(CustomFontFile))
+                            {
+                                font = new BitmapFont(CustomFontFile, SystemManagers.Default);
+                                contentLoader.AddDisposable(CustomFontFile, font);
+                            }
                         }
                     }
 
-#if DEBUG
-                    if (font?.Textures.Any(item => item?.IsDisposed == true) == true)
-                    {
-                        throw new InvalidOperationException("The returned font has a disposed texture");
-                    }
-#endif
+
                 }
+                else
+                {
+                    if (FontSize > 0 && !string.IsNullOrEmpty(Font))
+                    {
+
+                        string fontName = global::RenderingLibrary.Graphics.Fonts.BmfcSave.GetFontCacheFileNameFor(FontSize, Font, OutlineThickness, useFontSmoothing);
+
+                        string fullFileName = ToolsUtilities.FileManager.Standardize(fontName, false, true);
+
+    #if ANDROID || IOS
+                        fullFileName = fullFileName.ToLowerInvariant();
+    #endif
+
+
+                        font = contentLoader.TryGetCachedDisposable<BitmapFont>(fullFileName);
+                        if (font == null)
+                        {
+                            // so normally we would just let the content loader check if the file exists but since we're not going to
+                            // use the content loader for BitmapFont, we're going to protect this with a file.exists.
+                            if(ToolsUtilities.FileManager.FileExists(fullFileName))
+                            {
+                                font = new BitmapFont(fullFileName, SystemManagers.Default);
+
+                                contentLoader.AddDisposable(fullFileName, font);
+                            }
+                        }
+
+    #if DEBUG
+                        if (font?.Textures.Any(item => item?.IsDisposed == true) == true)
+                        {
+                            throw new InvalidOperationException("The returned font has a disposed texture");
+                        }
+    #endif
+                    }
+                }
+
+                var text = this.mContainedObjectAsIpso as Text;
+
+                text.BitmapFont = font;
             }
-
-            var text = this.mContainedObjectAsIpso as Text;
-
-            text.BitmapFont = font;
 
         }
 
@@ -3510,7 +3759,8 @@ namespace Gum.Wireframe
                     // We can set the variable if it's not setting a state (to prevent recursive setting).                   
                     item.IsState(state.ParentContainer) == false ||
                         // If it is setting a state we'll allow it if it's on a child.
-                    !string.IsNullOrEmpty(item.SourceObject));
+                    !string.IsNullOrEmpty(item.SourceObject))
+                .ToArray();
 
             foreach (var variable in variablesToConsider)
             {
@@ -3591,26 +3841,36 @@ namespace Gum.Wireframe
             }
         }
 
-        static List<List<Gum.DataTypes.Variables.VariableSaveValues>> listOfLists = new List<List<Gum.DataTypes.Variables.VariableSaveValues>>();
-        int index = 0;
+        // When interpolating between two states,
+        // the code is goign to merge the values from
+        // the two states to create a 3rd set of (merged)
+        // values. Interpolation can happen in complex animations
+        // resulting in lots of merged lists being created. This allocates
+        // tons of memory. Therefore we create a static set of variable lists
+        // to store the merged values. We don't know how deep the stack will go
+        // (animations within animations) so we need to support a dynamically growing
+        // list. The numberOfUsedInterpolationLists stores how many times this is being
+        // called so it knows if it needs to add more lists.
+        static List<List<Gum.DataTypes.Variables.VariableSaveValues>> listOfListsForReducingAllocInInterpolation = new List<List<Gum.DataTypes.Variables.VariableSaveValues>>();
+        int numberOfUsedInterpolationLists = 0;
 
         public void InterpolateBetween(Gum.DataTypes.Variables.StateSave first, Gum.DataTypes.Variables.StateSave second, float interpolationValue)
         {
-            if (index >= listOfLists.Count)
+            if (numberOfUsedInterpolationLists >= listOfListsForReducingAllocInInterpolation.Count)
             {
                 const int capacity = 20;
                 var newList = new List<DataTypes.Variables.VariableSaveValues>(capacity);
-                listOfLists.Add(newList);
+                listOfListsForReducingAllocInInterpolation.Add(newList);
             }
 
-            List<Gum.DataTypes.Variables.VariableSaveValues> values = listOfLists[index];
+            List<Gum.DataTypes.Variables.VariableSaveValues> values = listOfListsForReducingAllocInInterpolation[numberOfUsedInterpolationLists];
             values.Clear();
-            index++;
+            numberOfUsedInterpolationLists++;
 
             Gum.DataTypes.Variables.StateSaveExtensionMethods.Merge(first, second, interpolationValue, values);
 
             this.ApplyState(values);
-            index--;
+            numberOfUsedInterpolationLists--;
         }
         #endregion
     }

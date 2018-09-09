@@ -93,11 +93,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>DeathComponent</Name>
     </None>
-    <None Include="GumProject\FontCache\Font24Arial.fnt">
+    <None Include="gumproject\fontcache\font24arial.fnt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>Font24Arial</Name>
+      <Name>font24arial</Name>
     </None>
-    <None Include="GumProject\FontCache\Font24Arial_0.png">
+    <None Include="gumproject\fontcache\Font24Arial_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>Font24Arial_0</Name>
     </None>

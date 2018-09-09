@@ -21,8 +21,15 @@
       <IsFile>true</IsFile>
       <Type>string</Type>
       <Name>CustomFontFile</Name>
-      <Value xsi:type="xsd:string" />
+      <Value xsi:type="xsd:string"></Value>
       <Category>Font</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>ExposeChildrenEvents</Name>
+      <Value xsi:type="xsd:boolean">false</Value>
+      <Category>Behavior</Category>
       <SetsValue>true</SetsValue>
     </Variable>
     <Variable>
@@ -131,6 +138,13 @@
       <Type>bool</Type>
       <Name>UseCustomFont</Name>
       <Value xsi:type="xsd:boolean">false</Value>
+      <Category>Font</Category>
+      <SetsValue>true</SetsValue>
+    </Variable>
+    <Variable>
+      <Type>bool</Type>
+      <Name>UseFontSmoothing</Name>
+      <Value xsi:type="xsd:boolean">true</Value>
       <Category>Font</Category>
       <SetsValue>true</SetsValue>
     </Variable>

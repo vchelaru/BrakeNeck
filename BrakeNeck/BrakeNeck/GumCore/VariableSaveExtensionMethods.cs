@@ -217,6 +217,12 @@ namespace Gum.DataTypes
 
                     if (element != null)
                     {
+                        var defaultState = element.DefaultState;
+                        if(defaultState == null)
+                        {
+                            throw new NullReferenceException(
+                                $"Could not find a default state for {element} - this happens if the element wasn't initialized, or if its file was not loaded properly.");
+                        }
                         // let's try going recursively:
                         var subVariable = element.DefaultState.Variables.FirstOrDefault(item => item.ExposedAsName == variableSave.GetRootName());
 
@@ -296,8 +302,19 @@ namespace Gum.DataTypes
             {
                 Array array = Enum.GetValues(variableSave.GetRuntimeType());
 
-                variableSave.Value = array.GetValue((int)variableSave.Value);
-                return true;
+                // GetValue returns the value at an index, which is bad if there are
+                // gaps in the index
+                // variableSave.Value = array.GetValue((int)variableSave.Value);
+                for(int i = 0; i < array.Length; i++)
+                {
+                    if((int)array.GetValue(i) == (int)variableSave.Value)
+                    {
+                        variableSave.Value = array.GetValue(i);
+                        return true;
+                    }
+                }
+
+                return false;
             }
             return false;
 #else

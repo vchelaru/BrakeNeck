@@ -7,12 +7,34 @@ using BrakeNeck.Performance;
 using FlatRedBall.Graphics;
 using System.Reflection;
 using TMXGlueLib.DataTypes;
-
+using System.Collections;
+using FlatRedBall.Math.Geometry;
 
 namespace FlatRedBall.TileEntities
 {
     public static class TileEntityInstantiator
     {
+        /// <summary>
+        /// A dictionary that stores all available values for a given type.
+        /// </summary>
+        /// <remarks>
+        /// The structure of this class is a dictionary, where each entry in the dictionary is a list of dictionaries. This mgiht
+        /// seem confusing so let's look at an example.
+        /// This was originally created to cache values from CSVs. Let's say there's a type called PlatformerValues.
+        /// The class PlatformerValues would be the key in the dictionary.
+        /// Of course, platformer values can be defined in multiple entities (if multiple entities are platformers).
+        /// Each CSV in each entity becomes 1 dictionary, but since there can be multiple CSVs, there is a list. Therefore, the struture
+        /// might look like this:
+        /// * PlatformerValues
+        ///   * List from Entity 1
+        ///     * OnGround
+        ///     * InAir
+        ///   * List from Entity 2
+        ///     * OnGround
+        ///     * In Air
+        ///   // and so on...
+        /// </remarks>
+        static Dictionary<string, List<IDictionary>> allDictionaries = new Dictionary<string, List<IDictionary>>();
 
         /// <summary>
         /// Creates entities from a single layer for any tile with the EntityToCreate property.
@@ -48,34 +70,111 @@ namespace FlatRedBall.TileEntities
             }
             foreach (var shapeCollection in layeredTileMap.ShapeCollections)
             {
-                var polygons = shapeCollection.Polygons;
-                for (int i = polygons.Count - 1; i > -1; i--)
+                CreateEntitiesFromCircles(layeredTileMap, shapeCollection);
+
+                CreateEntitiesFromRectangles(layeredTileMap, shapeCollection);
+
+                CreateEntitiesFromPolygons(layeredTileMap, shapeCollection);
+            }
+        }
+
+        private static void CreateEntitiesFromCircles(LayeredTileMap layeredTileMap, ShapeCollection shapeCollection)
+        {
+            var circles = shapeCollection.Circles;
+            for (int i = circles.Count - 1; i > -1; i--)
+            {
+                var circle = circles[i];
+                if (!string.IsNullOrEmpty(circle.Name) && layeredTileMap.ShapeProperties.ContainsKey(circle.Name))
                 {
-                    var polygon = polygons[i];
-                    if (!string.IsNullOrEmpty(polygon.Name) && layeredTileMap.ShapeProperties.ContainsKey(polygon.Name))
+                    var properties = layeredTileMap.ShapeProperties[circle.Name];
+                    var entityAddingProperty = properties.FirstOrDefault(item => item.Name == "EntityToCreate" || item.Name == "Type");
+
+                    var entityType = entityAddingProperty.Value as string;
+
+                    if (!string.IsNullOrEmpty(entityType))
                     {
-                        var properties = layeredTileMap.ShapeProperties[polygon.Name];
-                        var entityAddingProperty = properties.FirstOrDefault(item => item.Name == "EntityToCreate");
+                        IEntityFactory factory = GetFactory(entityType);
 
-                        var entityType = entityAddingProperty.Value as string;
-                        if (!string.IsNullOrEmpty(entityType))
+                        var entity = factory.CreateNew(null) as PositionedObject;
+
+                        entity.Name = circle.Name;
+                        ApplyPropertiesTo(entity, properties, circle.Position);
+                        shapeCollection.Circles.Remove(circle);
+
+                        if (entity is Math.Geometry.ICollidable)
                         {
-                            IEntityFactory factory = GetFactory(entityType);
-
-                            var entity = factory.CreateNew(null) as PositionedObject;
-
-                            entity.Name = polygon.Name;
-                            ApplyPropertiesTo(entity, properties, polygon.Position);
-                            shapeCollection.Polygons.Remove(polygon);
-
-                            if (entity is Math.Geometry.ICollidable)
-                            {
-                                var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
-                                entityCollision.Polygons.Add(polygon);
-                                polygon.AttachTo(entity, false);
-                            }
-
+                            var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
+                            entityCollision.Circles.Add(circle);
+                            circle.AttachTo(entity, false);
                         }
+                    }
+                }
+            }
+        }
+
+        private static void CreateEntitiesFromRectangles(LayeredTileMap layeredTileMap, ShapeCollection shapeCollection)
+        {
+            var rectangles = shapeCollection.AxisAlignedRectangles;
+            for (int i = rectangles.Count - 1; i > -1; i--)
+            {
+                var rectangle = rectangles[i];
+                if (!string.IsNullOrEmpty(rectangle.Name) && layeredTileMap.ShapeProperties.ContainsKey(rectangle.Name))
+                {
+                    var properties = layeredTileMap.ShapeProperties[rectangle.Name];
+                    var entityAddingProperty = properties.FirstOrDefault(item => item.Name == "EntityToCreate" || item.Name == "Type");
+
+                    var entityType = entityAddingProperty.Value as string;
+                    if (!string.IsNullOrEmpty(entityType))
+                    {
+                        IEntityFactory factory = GetFactory(entityType);
+
+                        var entity = factory.CreateNew(null) as PositionedObject;
+
+                        entity.Name = rectangle.Name;
+                        ApplyPropertiesTo(entity, properties, rectangle.Position);
+                        shapeCollection.AxisAlignedRectangles.Remove(rectangle);
+
+                        if (entity is Math.Geometry.ICollidable)
+                        {
+                            var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
+                            entityCollision.AxisAlignedRectangles.Add(rectangle);
+                            rectangle.AttachTo(entity, false);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private static void CreateEntitiesFromPolygons(LayeredTileMap layeredTileMap, Math.Geometry.ShapeCollection shapeCollection)
+        {
+            var polygons = shapeCollection.Polygons;
+            for (int i = polygons.Count - 1; i > -1; i--)
+            {
+                var polygon = polygons[i];
+                if (!string.IsNullOrEmpty(polygon.Name) && layeredTileMap.ShapeProperties.ContainsKey(polygon.Name))
+                {
+                    var properties = layeredTileMap.ShapeProperties[polygon.Name];
+                    var entityAddingProperty = properties.FirstOrDefault(item => item.Name == "EntityToCreate" || item.Name == "Type");
+
+                    var entityType = entityAddingProperty.Value as string;
+                    if (!string.IsNullOrEmpty(entityType))
+                    {
+                        IEntityFactory factory = GetFactory(entityType);
+
+                        var entity = factory.CreateNew(null) as PositionedObject;
+
+                        entity.Name = polygon.Name;
+                        ApplyPropertiesTo(entity, properties, polygon.Position);
+                        shapeCollection.Polygons.Remove(polygon);
+
+                        if (entity is Math.Geometry.ICollidable)
+                        {
+                            var entityCollision = (entity as Math.Geometry.ICollidable).Collision;
+                            entityCollision.Polygons.Add(polygon);
+                            polygon.AttachTo(entity, false);
+                        }
+
                     }
                 }
             }
@@ -184,13 +283,21 @@ namespace FlatRedBall.TileEntities
 
                 if (shouldSet)
                 {
-                    if(propertyName == "name")
+                    if (propertyName == "name")
                     {
                         propertyName = "Name";
                     }
 
                     var valueToSet = property.Value;
-                    valueToSet = SetValueAccordingToType(valueToSet, propertyName, property.Type, entityType);
+
+                    var propertyType = property.Type;
+
+                    if (string.IsNullOrEmpty(propertyType))
+                    {
+                        propertyType = TryGetPropertyType(entityType, propertyName);
+                    }
+
+                    valueToSet = SetValueAccordingToType(valueToSet, propertyName, propertyType, entityType);
                     try
                     {
                         lateBinder.SetValue(entity, propertyName, valueToSet);
@@ -223,8 +330,43 @@ namespace FlatRedBall.TileEntities
             }
         }
 
+        private static string TryGetPropertyType(Type entityType, string propertyName)
+        {
+            // todo - cache for perf
+            var property = entityType.GetProperty(propertyName);
 
+            if (property != null)
+            {
+                return property?.PropertyType.FullName;
+            }
+            else
+            {
+                var field = entityType.GetField(propertyName);
+                return field?.FieldType.FullName;
+            }
+        }
 
+        public static void RegisterDictionary<T>(Dictionary<string, T> data)
+        {
+#if DEBUG
+            if(data == null)
+            {
+                throw new ArgumentNullException("The argument data is null - do you need to call LoadStaticContent on the type containing this dictionary?");
+            }
+#endif
+
+            var type = typeof(T).FullName;
+
+            if (allDictionaries.ContainsKey(type) == false)
+            {
+                allDictionaries.Add(type, new List<IDictionary>());
+            }
+
+            if (allDictionaries[type].Contains(data) == false)
+            {
+                allDictionaries[type].Add(data);
+            }
+        }
 
         private static string GetFriendlyNameForType(string type)
         {
@@ -253,7 +395,7 @@ namespace FlatRedBall.TileEntities
             {
                 float floatValue;
 
-                if (float.TryParse((string)valueToSet, out floatValue))
+                if (float.TryParse((string)valueToSet, System.Globalization.NumberStyles.Float, System.Globalization.NumberFormatInfo.InvariantInfo, out floatValue))
                 {
                     valueToSet = floatValue;
                 }
@@ -274,6 +416,50 @@ namespace FlatRedBall.TileEntities
                 var enumType = typesInThisAssembly.FirstOrDefault(item => item.FullName == enumTypeName);
 
                 valueToSet = Enum.Parse(enumType, (string)valueToSet);
+            }
+            else if (valueType != null && allDictionaries.ContainsKey(valueType))
+            {
+                var list = allDictionaries[valueType];
+
+                foreach (var dictionary in list)
+                {
+                    if (dictionary.Contains(valueToSet))
+                    {
+                        valueToSet = dictionary[valueToSet];
+                        break;
+                    }
+                }
+            }
+            // If this has a + in it, then that might mean it's a state. We should try to get the type, and if we find it, stuff
+            // it in allDictionaries to make future calls faster
+            else if (valueType != null && valueType.Contains("+"))
+            {
+                var stateType = typesInThisAssembly.FirstOrDefault(item => item.FullName == valueType);
+
+                if (stateType != null)
+                {
+                    Dictionary<string, object> allValues = new Dictionary<string, object>();
+
+                    var fields = stateType.GetFields(BindingFlags.Static | BindingFlags.Public);
+
+                    foreach (var field in fields)
+                    {
+                        allValues[field.Name] = field.GetValue(null);
+                    }
+
+                    // The list has all the dictioanries that contain values. But for states there is only one set of values, so 
+                    // we create a list
+                    List<IDictionary> list = new List<IDictionary>();
+                    list.Add(allValues);
+
+                    allDictionaries[valueType] = list;
+
+                    if (allValues.ContainsKey((string)valueToSet))
+                    {
+                        valueToSet = allValues[(string)valueToSet];
+                    }
+                }
+
             }
             return valueToSet;
         }

@@ -248,6 +248,7 @@
     <Compile Include="GumCore\NineSlice.cs" />
     <Compile Include="GumCore\ObjectFinder.cs" />
     <Compile Include="GumCore\PlatformCompatability.cs" />
+    <Compile Include="GumCore\PositionedObjectGueWrapper.cs" />
     <Compile Include="GumCore\RecursiveVariableFinder.cs" />
     <Compile Include="GumCore\ReflectionManager.cs" />
     <Compile Include="GumCore\Renderer.cs" />
@@ -317,6 +318,9 @@
     <Compile Include="StateInterpolation\Sinusoidal.cs" />
     <Compile Include="StateInterpolation\Tweener.cs" />
     <Compile Include="StateInterpolation\TweenerManager.cs" />
+    <Compile Include="TileCollisions\CollidableListVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollidableVsTileShapeCollectionRelationship.cs" />
+    <Compile Include="TileCollisions\CollisionManagerTileShapeCollectionExtensions.cs" />
     <Compile Include="TileCollisions\TileShapeCollection.cs" />
     <Compile Include="TileEntities\TileEntityInstantiator.cs" />
     <Compile Include="TileGraphics\AbstractMapLayer.cs" />

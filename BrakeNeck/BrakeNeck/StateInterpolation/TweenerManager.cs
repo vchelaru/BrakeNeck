@@ -10,9 +10,10 @@ using System.Text;
 
 namespace StateInterpolationPlugin
 {
-    public class TweenerManager : IManager
+    public partial class TweenerManager : IManager
     {
         List<Tweener> mTweeners;
+        List<Tweener> pausedTweeners = new List<Tweener>();
 
         static TweenerManager mSelf;
 
@@ -41,7 +42,14 @@ namespace StateInterpolationPlugin
             mTweeners.Add(tweener);
             // We could use a function in the
             // tweener to prevent allocating a function.
-            tweener.Ended += () => mTweeners.Remove(tweener);
+            // Update January 1, 2018
+            // I don't know if we need
+            // to add this event anymore
+            // because once it's ended the
+            // tweener manager will automatically
+            // remove it. This causes allocations so 
+            // there's probably no need for it.
+            //tweener.Ended += () => mTweeners.Remove(tweener);
         }
 
         public void StopAllTweenersOwnedBy(object owner)
@@ -54,6 +62,18 @@ namespace StateInterpolationPlugin
                     mTweeners.RemoveAt(i);
                 }
             }
+        }
+
+        public void Pause()
+        {
+            pausedTweeners.AddRange(mTweeners);
+            mTweeners.Clear();
+        }
+
+        public void Unpause()
+        {
+            mTweeners.AddRange(pausedTweeners);
+            pausedTweeners.Clear();
         }
 
         public void Update()
@@ -102,6 +122,7 @@ namespace StateInterpolationPlugin
 
     public static class PositionedObjectTweenerExtensionMethods
     {
+        [Obsolete("Use the Tween method which takes all parameters at once - the fluent interface will eventually be removed.")]
         public static TweenerHolder Tween(this PositionedObject positionedObject, string memberToSet)
         {
             TweenerHolder toReturn = new TweenerHolder();
@@ -110,13 +131,60 @@ namespace StateInterpolationPlugin
             return toReturn;
         }
 
-        public static TweenerHolder Tween(this PositionedObject positionedObject, string property, float to,
+        public static Tweener Tween(this PositionedObject positionedObject, string property, float to,
             float during, InterpolationType interpolation, Easing easing)
         {
-            TweenerHolder toReturn = new TweenerHolder();
-            toReturn.Caller = positionedObject;
-            toReturn.Tween(property, to, during, interpolation, easing);
-            return toReturn;
+            // let's to handle the most common properties without making a TweenerHolder and without using reflection:
+            if (property == nameof(PositionedObject.X))
+            {
+                // We use closures to reference the PO which does cause allocation, but it's not as bad
+                // as the every-frame allocation that occurs when setting a property through reflection. Maybe
+                // one day we can get rid of this, but this should make some improvements:
+                return positionedObject.Tween((value) => positionedObject.X = value, positionedObject.X, to, during, interpolation, easing);
+            }
+            else if (property == nameof(PositionedObject.Y))
+            {
+                return positionedObject.Tween((value) => positionedObject.Y = value, positionedObject.Y, to, during, interpolation, easing);
+            }
+            else if (property == nameof(PositionedObject.Z))
+            {
+                return positionedObject.Tween((value) => positionedObject.Z = value, positionedObject.Z, to, during, interpolation, easing);
+            }
+            if (property == nameof(PositionedObject.RelativeX))
+            {
+                return positionedObject.Tween((value) => positionedObject.RelativeX = value, positionedObject.RelativeX, to, during, interpolation, easing);
+            }
+            else if (property == nameof(PositionedObject.RelativeY))
+            {
+                return positionedObject.Tween((value) => positionedObject.RelativeY = value, positionedObject.RelativeY, to, during, interpolation, easing);
+            }
+            else if (property == nameof(PositionedObject.RelativeZ))
+            {
+                return positionedObject.Tween((value) => positionedObject.RelativeZ = value, positionedObject.RelativeZ, to, during, interpolation, easing);
+            }
+            else
+            {
+                // If the most common properties aren't handled, then we'll fall back to the old method. The user can still mimic the code above 
+                // to avoid using a TweenerHolder for better performance.
+                TweenerHolder toReturn = new TweenerHolder();
+                toReturn.Caller = positionedObject;
+                return toReturn.Tween(property, to, during, interpolation, easing);
+            }
+        }
+
+        public static Tweener Tween(this PositionedObject positionedObject, Tweener.PositionChangedHandler assignmentAction, float from, float to,
+            float during, InterpolationType interpolation, Easing easing)
+        {
+
+            Tweener tweener = new Tweener(from, to, during, interpolation, easing);
+
+            tweener.PositionChanged = assignmentAction;
+
+            tweener.Owner = positionedObject;
+
+            TweenerManager.Self.Add(tweener);
+            tweener.Start();
+            return tweener;
         }
     }
 

@@ -9,3 +9,4 @@ BrakeNeck/BrakeNeck/bin/
 *.FileListAbsolute.txt
 BrakeNeck/BrakeNeckContent/obj/
 *.aeproperties
+.vs/

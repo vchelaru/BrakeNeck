@@ -195,10 +195,13 @@ namespace RenderingLibrary.Graphics
             }
             set
             {
-                mWidth = value;
-                UpdateWrappedText();
-                UpdateLinePrimitive();
-                UpdatePreRenderDimensions();
+                if(mWidth != value)
+                {
+                    mWidth = value;
+                    UpdateWrappedText();
+                    UpdateLinePrimitive();
+                    UpdatePreRenderDimensions();
+                }
 
             }
         }
@@ -211,8 +214,11 @@ namespace RenderingLibrary.Graphics
             }
             set
             {
-                mHeight = value;
-                UpdateLinePrimitive();
+                if(mHeight != value)
+                {
+                    mHeight = value;
+                    UpdateLinePrimitive();
+                }
             }
         }
 
@@ -232,7 +238,7 @@ namespace RenderingLibrary.Graphics
                 // priority to the prerendered values as they may be more up-to-date.
                 else if (mPreRenderWidth.HasValue)
                 {
-                    return mPreRenderWidth.Value;
+                    return mPreRenderWidth.Value * mFontScale;
                 }
                 else if (mTextureToRender != null)
                 {
@@ -266,7 +272,7 @@ namespace RenderingLibrary.Graphics
                 // See EffectiveWidth for an explanation of why the prerendered values need to come first
                 else if (mPreRenderHeight.HasValue)
                 {
-                    return mPreRenderHeight.Value;
+                    return mPreRenderHeight.Value * mFontScale;
                 }
                 else if (mTextureToRender != null)
                 {
@@ -572,10 +578,16 @@ namespace RenderingLibrary.Graphics
                     wordArray.Insert(0, wordUnmodified.Substring(indexOfNewline + 1, wordUnmodified.Length - (indexOfNewline + 1)));
                 }
             }
-            while (line.EndsWith(" "))
-            {
-                line = line.Substring(0, line.Length - 1);
-            }
+            // June 30, 2018
+            // We no longer want
+            // to trim the end of the
+            // lines, because those can
+            // be used to make an auto-sized
+            // font larger.
+            //while (line.EndsWith(" "))
+            //{
+            //    line = line.Substring(0, line.Length - 1);
+            //}
             mWrappedText.Add(line);
 
 
@@ -728,6 +740,8 @@ namespace RenderingLibrary.Graphics
             }
         }
 
+        // todo: reduce allocs by using a static here (static is prob okay since it can't be multithreaded)
+        static List<int> widths = new List<int>();
         private void RenderCharacterByCharacter(SpriteRenderer spriteRenderer)
         {
             BitmapFont fontToUse = mBitmapFont;
@@ -739,8 +753,7 @@ namespace RenderingLibrary.Graphics
 
             if (fontToUse != null)
             {
-                // todo: reduce allocs by using a static here (static is prob okay since it can't be multithreaded)
-                List<int> widths = new List<int>();
+                widths.Clear();
                 int requiredWidth;
                 int requiredHeight;
                 fontToUse.GetRequiredWidthAndHeight(WrappedText, out requiredWidth, out requiredHeight, widths);
@@ -748,7 +761,10 @@ namespace RenderingLibrary.Graphics
                 UpdateIpsoForRendering();
 
                 fontToUse.DrawTextLines(WrappedText, HorizontalAlignment, this,
-                    requiredWidth, widths, spriteRenderer, Color, mTempForRendering.GetAbsoluteLeft(), mTempForRendering.GetAbsoluteTop(), Rotation, FontScale, FontScale);
+                    requiredWidth, widths, spriteRenderer, Color, 
+                    mTempForRendering.GetAbsoluteLeft(), 
+                    mTempForRendering.GetAbsoluteTop(), 
+                    this.GetAbsoluteRotation(), FontScale, FontScale);
             }
         }
 

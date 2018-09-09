@@ -424,14 +424,14 @@ namespace RenderingLibrary.Graphics
 
         public Texture2D RenderToTexture2D(string whatToRender, SystemManagers managers, object objectRequestingRender)
         {
-            string[] lines = whatToRender.Split('\n');
+            var lines = whatToRender.Split('\n').ToList();
 
             return RenderToTexture2D(lines, HorizontalAlignment.Left, managers, null, objectRequestingRender);
         }
 
         public Texture2D RenderToTexture2D(string whatToRender, HorizontalAlignment horizontalAlignment, SystemManagers managers, object objectRequestingRender)
         {
-            string[] lines = whatToRender.Split('\n');
+            var lines = whatToRender.Split('\n').ToList();
 
             return RenderToTexture2D(lines, horizontalAlignment, managers, null, objectRequestingRender);
         }
@@ -449,7 +449,7 @@ namespace RenderingLibrary.Graphics
         /// <param name="objectRequestingRender"></param>
         /// <param name="charLocations">Used to store char locations for drawing directly to screen.</param>
         /// <returns></returns>
-        public Texture2D RenderToTexture2D(IEnumerable<string> lines, HorizontalAlignment horizontalAlignment, SystemManagers managers, Texture2D toReplace, object objectRequestingRender)
+        public Texture2D RenderToTexture2D(List<string> lines, HorizontalAlignment horizontalAlignment, SystemManagers managers, Texture2D toReplace, object objectRequestingRender)
         {
             if (managers == null)
             {
@@ -523,11 +523,11 @@ namespace RenderingLibrary.Graphics
             return renderTarget;
         }
 
-        public void DrawTextLines(IEnumerable<string> lines, HorizontalAlignment horizontalAlignment, object objectRequestingChange, int requiredWidth, List<int> widths, SpriteRenderer spriteRenderer, 
+        public void DrawTextLines(List<string> lines, HorizontalAlignment horizontalAlignment, object objectRequestingChange, int requiredWidth, List<int> widths, SpriteRenderer spriteRenderer, 
             Color color,
             float xOffset = 0, float yOffset = 0, float rotation = 0, float scaleX = 1, float scaleY = 1)
         {
-            Point point = new Point();
+            var point = new Vector2();
 
             int lineNumber = 0;
 
@@ -544,6 +544,20 @@ namespace RenderingLibrary.Graphics
                 color.B = (byte)(color.B * multiple);
             }
 
+            var rotationRadians = MathHelper.ToRadians(rotation);
+
+            Vector2 xAxis = Vector2.UnitX;
+            Vector2 yAxis = Vector2.UnitY;
+
+            if(rotation != 0)
+            {
+                xAxis.X = (float)System.Math.Cos(-rotationRadians);
+                xAxis.Y = (float)System.Math.Sin(-rotationRadians);
+
+                yAxis.X = (float)System.Math.Cos(-rotationRadians + MathHelper.PiOver2);
+                yAxis.Y = (float)System.Math.Sin(-rotationRadians + MathHelper.PiOver2);
+            }
+
             foreach (string line in lines)
             {
                 // scoot over to leave room for the outline
@@ -558,25 +572,36 @@ namespace RenderingLibrary.Graphics
                     point.X = (requiredWidth - widths[lineNumber]) / 2;
                 }
 
+
                 foreach (char c in line)
                 {
-                    Rectangle destRect;
+                    FloatRectangle destRect;
                     int pageIndex;
                     var sourceRect = GetCharacterRect(c, lineNumber, ref point, out destRect, out pageIndex, scaleX);
 
+                    var finalPosition = destRect.X * xAxis + destRect.Y * yAxis;
 
+                    finalPosition.X += xOffset;
+                    finalPosition.Y += yOffset;
 
-                    // todo: rotation, because that will impact destination rectangle too
-                    if(Text.TextRenderingPositionMode == TextRenderingPositionMode.FreeFloating)
+                    if(Text.TextRenderingPositionMode == TextRenderingPositionMode.FreeFloating ||
+                        // If rotated, need free floating positions since sprite positions will likely not line up with pixels
+                        rotation != 0 || 
+                        // If scaled up/down, don't use free floating
+                        scaleX != 1)
                     {
-                        spriteRenderer.Draw(mTextures[pageIndex], new Vector2(destRect.X + xOffset, destRect.Y + yOffset),  sourceRect, color, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, this);
+                        var scale = new Vector2(scaleX, scaleY);
+                        spriteRenderer.Draw(mTextures[pageIndex], finalPosition,  sourceRect, color, -rotationRadians, Vector2.Zero, scale, SpriteEffects.None, 0, this);
                     }
                     else
                     {
                         // position:
                         destRect.X += xOffsetAsInt;
                         destRect.Y += yOffsetAsInt;
-                        spriteRenderer.Draw(mTextures[pageIndex], destRect, sourceRect, color, this);
+
+                        var position = new Vector2(destRect.X, destRect.Y);
+
+                        spriteRenderer.Draw(mTextures[pageIndex], position, sourceRect, color, 0, Vector2.Zero, new Vector2(scaleX, scaleY), SpriteEffects.None, 0, this);
                     }
                 }
                 point.X = 0;
@@ -592,7 +617,7 @@ namespace RenderingLibrary.Graphics
             object objectRequestingChange)
         {
             var textObject = (Text)objectRequestingChange;
-            var point = new Point();
+            var point = new Vector2();
             int requiredWidth;
             int requiredHeight;
             List<int> widths = new List<int>();
@@ -628,14 +653,14 @@ namespace RenderingLibrary.Graphics
 
                 foreach (char c in line)
                 {
-                    Rectangle destRect;
+                    FloatRectangle destRect;
                     int pageIndex;
                     var sourceRect = GetCharacterRect(c, lineNumber, ref point, out destRect, out pageIndex, textObject.FontScale);
 
                     var origin = new Point((int)textObject.X, (int)(textObject.Y + yoffset));
                     var rotate = (float)-(textObject.Rotation * System.Math.PI / 180f);
 
-                    var rotatingPoint = new Point(origin.X + destRect.X, origin.Y + destRect.Y);
+                    var rotatingPoint = new Point(origin.X + (int)destRect.X, origin.Y + (int)destRect.Y);
                     MathFunctions.RotatePointAroundPoint(new Point(origin.X, origin.Y), ref rotatingPoint, rotate);
 
                     mCharRect.X = rotatingPoint.X;
@@ -657,7 +682,7 @@ namespace RenderingLibrary.Graphics
             }
         }
 
-        public Rectangle GetCharacterRect(char c, int lineNumber, ref Point point, out Rectangle destinationRectangle,
+        public Rectangle GetCharacterRect(char c, int lineNumber, ref Vector2 point, out FloatRectangle destinationRectangle,
             out int pageIndex, float fontScale = 1)
         {
             BitmapCharacterInfo characterInfo = GetCharacterInfo(c);
@@ -671,29 +696,31 @@ namespace RenderingLibrary.Graphics
 
             // There could be some offset for this character
             int xOffset = characterInfo.GetPixelXOffset(LineHeightInPixels);
-            point.X += (int)(xOffset * fontScale);
+            point.X += xOffset * fontScale;
 
-            point.Y = (int)((lineNumber * LineHeightInPixels + distanceFromTop) * fontScale);
+            point.Y = (lineNumber * LineHeightInPixels + distanceFromTop) * fontScale;
 
             var sourceRectangle = new Microsoft.Xna.Framework.Rectangle(
                 sourceLeft, sourceTop, sourceWidth, sourceHeight);
 
             pageIndex = characterInfo.PageNumber;
 
-            destinationRectangle = new Rectangle(point.X, point.Y, (int)(sourceWidth * fontScale), (int)(sourceHeight * fontScale));
+            destinationRectangle = new FloatRectangle(point.X, point.Y, sourceWidth * fontScale, sourceHeight * fontScale);
 
-            point.X -= (int)(xOffset * fontScale);
-            point.X += (int)(characterInfo.GetXAdvanceInPixels(LineHeightInPixels) * fontScale);
+            point.X -= xOffset * fontScale;
+            point.X += characterInfo.GetXAdvanceInPixels(LineHeightInPixels) * fontScale;
 
             return sourceRectangle;
         }
 
-        public void GetRequiredWidthAndHeight(IEnumerable lines, out int requiredWidth, out int requiredHeight)
+        public void GetRequiredWidthAndHeight(IEnumerable<string> lines, out int requiredWidth, out int requiredHeight)
         {
             GetRequiredWidthAndHeight(lines, out requiredWidth, out requiredHeight, null);
         }
 
-        public void GetRequiredWidthAndHeight(IEnumerable lines, out int requiredWidth, out int requiredHeight, List<int> widths)
+        // This sucks, but if we pass an IEnumerable, it allocates memory like crazy. Duplicate code to handle List to reduce alloc
+        //public void GetRequiredWidthAndHeight(IEnumerable<string> lines, out int requiredWidth, out int requiredHeight, List<int> widths)
+        public void GetRequiredWidthAndHeight(List<string> lines, out int requiredWidth, out int requiredHeight, List<int> widths)
         {
 
             requiredWidth = 0;
@@ -716,6 +743,34 @@ namespace RenderingLibrary.Graphics
             requiredWidth = System.Math.Min(requiredWidth, MaxWidthAndHeight);
             requiredHeight = System.Math.Min(requiredHeight, MaxWidthAndHeight);
             if(requiredWidth != 0 && mOutlineThickness != 0)
+            {
+                requiredWidth += mOutlineThickness * 2;
+            }
+        }
+
+        public void GetRequiredWidthAndHeight(IEnumerable<string> lines, out int requiredWidth, out int requiredHeight, List<int> widths)
+        {
+
+            requiredWidth = 0;
+            requiredHeight = 0;
+
+            foreach (string line in lines)
+            {
+                requiredHeight += LineHeightInPixels;
+                int lineWidth = 0;
+
+                lineWidth = MeasureString(line);
+                if (widths != null)
+                {
+                    widths.Add(lineWidth);
+                }
+                requiredWidth = System.Math.Max(lineWidth, requiredWidth);
+            }
+
+            const int MaxWidthAndHeight = 4096; // change this later?
+            requiredWidth = System.Math.Min(requiredWidth, MaxWidthAndHeight);
+            requiredHeight = System.Math.Min(requiredHeight, MaxWidthAndHeight);
+            if (requiredWidth != 0 && mOutlineThickness != 0)
             {
                 requiredWidth += mOutlineThickness * 2;
             }

@@ -257,7 +257,7 @@ namespace RenderingLibrary.Graphics
 
                 var oldSampler = GraphicsDevice.SamplerStates[0];
 
-                mRenderStateVariables.BlendState = BlendState.NonPremultiplied;
+                mRenderStateVariables.BlendState = Renderer.NormalBlendState;
                 mRenderStateVariables.Wrap = false;
 
                 RenderLayer(managers, layer);
@@ -277,7 +277,7 @@ namespace RenderingLibrary.Graphics
                 mCamera.UpdateClient();
 
 
-                mRenderStateVariables.BlendState = BlendState.NonPremultiplied;
+                mRenderStateVariables.BlendState = Renderer.NormalBlendState;
                 mRenderStateVariables.Wrap = false;
 
                 foreach (Layer layer in layers)
@@ -306,6 +306,8 @@ namespace RenderingLibrary.Graphics
                 PreRender(layer.Renderables);
             }
 
+            SpriteBatchStack.PerformStartOfLayerRenderingLogic();
+
             spriteRenderer.BeginSpriteBatch(mRenderStateVariables, layer, BeginType.Push, mCamera);
 
             layer.SortRenderables();
@@ -329,7 +331,13 @@ namespace RenderingLibrary.Graphics
             {
                 var renderable = renderables[i];
                 renderable.PreRender();
-                PreRender(renderable.Children);
+
+                // Some Gum objects, like GraphicalUiElements, may not have children if the object hasn't
+                // yet been assigned a visual. Just skip over it...
+                if(renderable.Children != null)
+                {
+                    PreRender(renderable.Children);
+                }
             }
         }
 

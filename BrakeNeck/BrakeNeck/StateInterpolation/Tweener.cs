@@ -22,6 +22,7 @@ namespace FlatRedBall.Glue.StateInterpolation
         Cubic,
         Elastic,
         Exponential,
+        Instant,
         Linear,
         Quadratic,
         Quartic,
@@ -208,6 +209,18 @@ namespace FlatRedBall.Glue.StateInterpolation
                         default:
                             throw new Exception();
                     }
+                case InterpolationType.Instant:
+                    switch (easing)
+                    {
+                        case Easing.In:
+                            return Instant.EaseIn;
+                        case Easing.Out:
+                            return Instant.EaseOut;
+                        case Easing.InOut:
+                            return Instant.EaseInOut;
+                        default:
+                            throw new Exception();
+                    }
                 case InterpolationType.Linear:
                     switch (easing)
                     {
@@ -308,7 +321,7 @@ namespace FlatRedBall.Glue.StateInterpolation
         #region Methods
         public void Update(float timePassed)
         {
-            if (!Running || (elapsed == Duration))
+            if (!Running || (elapsed >= Duration))
             {
                 Running = false;
                 return;
