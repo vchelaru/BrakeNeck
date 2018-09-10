@@ -10,3 +10,4 @@ BrakeNeck/BrakeNeck/bin/
 BrakeNeck/BrakeNeckContent/obj/
 *.aeproperties
 .vs/
+BrakeNeck/BrakeNeck/GlueSettings/glueview.embeddedplugins.cameracontrolsplugin.mainplugin.settings.json

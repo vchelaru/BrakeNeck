@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <GlueProjectSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <In2D>true</In2D>
   <RunFullscreen>false</RunFullscreen>
@@ -587,6 +587,7 @@
               <Name>Bonus</Name>
             </StateSave>
           </States>
+          <ExcludedVariables />
           <Name>BonusCategory</Name>
           <SharesVariablesWithOtherCategories>false</SharesVariablesWithOtherCategories>
         </StateSaveCategory>
@@ -673,7 +674,7 @@
           <CustomProperty>
             <Type>ColorOperation</Type>
             <Member>ColorOperation</Member>
-            <ValueAsInt>4</ValueAsInt>
+            <ValueAsInt>2</ValueAsInt>
           </CustomProperty>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile />
@@ -2617,7 +2618,11 @@
   <ExternallyBuiltFileDirectory>../../</ExternallyBuiltFileDirectory>
   <PluginData>
     <RequiredPlugins>
-      <string>Gum Plugin</string>
+      <PluginRequirement>
+        <Name>Gum Plugin</Name>
+        <Version>1.4.2.0</Version>
+        <VersionRequirement>EqualToOrNewerThan</VersionRequirement>
+      </PluginRequirement>
     </RequiredPlugins>
   </PluginData>
   <DisplaySettings>
@@ -2634,5 +2639,6 @@
     <AllowWindowResizing>true</AllowWindowResizing>
     <Scale>60</Scale>
     <ResizeBehavior>StretchVisibleArea</ResizeBehavior>
+    <DominantInternalCoordinates>Height</DominantInternalCoordinates>
   </DisplaySettings>
 </GlueProjectSave>

@@ -1260,6 +1260,15 @@
             If the AreaEmission is set to Rectangle or Cube, then the ScaleX, ScaleY, and ScaleZ values are used.
             </remarks>
         </member>
+        <member name="P:FlatRedBall.Graphics.Particle.Emitter.TimedEmission">
+            <summary>
+            Controls whether emission occurs on a timer when calling TimedEmit.
+            </summary>
+            <remarks>
+            This variable is only useful when calling TimedEmit. It enables code to call TimedEmit
+            in one area and to control the emission variable in another.
+            </remarks>
+        </member>
         <member name="P:FlatRedBall.Graphics.Particle.Emitter.SecondsLasting">
             <summary>
             Specifies the number of seconds that particles will remain on the screen and in memory.  This is only considered
@@ -1452,6 +1461,21 @@
             Needs to be implemented by the IEffectLight child
             </summary>
         </member>
+        <member name="E:FlatRedBall.Graphics.GraphicsOptions.SizeOrOrientationChanged">
+            <summary>
+            Event raised when the resolution or orientation changes.
+            </summary>
+        </member>
+        <member name="F:FlatRedBall.Graphics.GraphicsOptions.TextureLoadingColorKey">
+            <summary>
+            The texture loading color key
+            </summary>
+        </member>
+        <member name="F:FlatRedBall.Graphics.GraphicsOptions.IsLoading">
+            <summary>
+            Set to true to suspend device reset while loading from file
+            </summary>
+        </member>
         <member name="P:FlatRedBall.Graphics.GraphicsOptions.TextureFilter">
             <summary>
             Gets or sets the current texture filter
@@ -1467,21 +1491,6 @@
             <summary>
             Sets the height of the backbuffer and resets the device
             Use SetResolution() to set both width and height simultaneously
-            </summary>
-        </member>
-        <member name="E:FlatRedBall.Graphics.GraphicsOptions.SizeOrOrientationChanged">
-            <summary>
-            Event raised when the resolution or orientation changes.
-            </summary>
-        </member>
-        <member name="F:FlatRedBall.Graphics.GraphicsOptions.TextureLoadingColorKey">
-            <summary>
-            The texture loading color key
-            </summary>
-        </member>
-        <member name="F:FlatRedBall.Graphics.GraphicsOptions.IsLoading">
-            <summary>
-            Set to true to suspend device reset while loading from file
             </summary>
         </member>
         <member name="P:FlatRedBall.Graphics.GraphicsOptions.BackgroundColor">
@@ -1778,6 +1787,22 @@
             - It is the first Layer on a camera
             - It uses a different RenderTarget than the previous Layer.
             </remarks>
+        </member>
+        <member name="M:FlatRedBall.Graphics.Layer.AddManualSpriteOneWay(FlatRedBall.Sprite)">
+            <summary>
+            Directly adds a sprite to the sprite list for this layer.
+            This is faster than using the SpriteManager.AddToLayer method
+            but does no automatic updating and performs a one way add.
+            </summary>
+            <param name="spriteToAdd">The sprite to be added.</param>
+        </member>
+        <member name="M:FlatRedBall.Graphics.Layer.Remove(FlatRedBall.Sprite)">
+            <summary>
+            Removes the argument Sprite from being drawn on this Layer. Note that this does not
+            remove the sprite from the SpriteManager. This method can be used to move a Sprite from
+            one layer to another.
+            </summary>
+            <param name="spriteToRemove">The Sprite to remove from this layer.</param>
         </member>
         <member name="M:FlatRedBall.Graphics.Layer.UsePixelCoordinates">
             <summary>
@@ -2159,6 +2184,13 @@
             <seealso cref="T:FlatRedBall.Gui.IInputReceiver"/>
             </remarks>
         </member>
+        <member name="M:FlatRedBall.Input.Keyboard.KeyPushed(Microsoft.Xna.Framework.Input.Keys)">
+            <summary>
+            Returns true if the argument key was not down last frame, but is down this frame.
+            </summary>
+            <param name="key">The key to check</param>
+            <returns>Whether the key was just pushed.</returns>
+        </member>
         <member name="M:FlatRedBall.Input.Keyboard.KeyTyped(Microsoft.Xna.Framework.Input.Keys)">
             <summary>
             Returns whether a key was "typed".  A type happens either when the user initially pushes a key down, or when
@@ -2407,6 +2439,14 @@
             multipleInputs.Inputs.Add(keyboard2DInput);
             multipleInputs.Inputs.Add(gamepad2DInput);
             </example>
+        </member>
+        <member name="M:FlatRedBall.Input.I2DInputExtensions.GetAngle(FlatRedBall.Input.I2DInput)">
+            <summary>
+            Returns the angle in radians of the input object, where 0 is to the right, rotating counterclockwise.
+            Returns null if the X and Y values are 0 (meaning the input device is centered)
+            </summary>
+            <param name="instance">The I2DInput instance</param>
+            <returns>The angle, or null if X and Y are 0</returns>
         </member>
         <member name="T:FlatRedBall.Input.DirectionalKeyGroup">
             <summary>
@@ -4102,115 +4142,6 @@
             <param name="ignoreCase"></param>
             <returns></returns>
         </member>
-        <member name="T:FlatRedBall.Utilities.StringEnum">
-            <summary>
-            Helper class for working with 'extended' enums using <see cref="T:FlatRedBall.Utilities.StringValueAttribute"/> attributes.
-            </summary>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.#ctor(System.Type)">
-            <summary>
-            Creates a new <see cref="T:FlatRedBall.Utilities.StringEnum"/> instance.
-            </summary>
-            <param name="enumType">Enum type.</param>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.GetStringValue(System.String)">
-            <summary>
-            Gets the string value associated with the given enum value.
-            </summary>
-            <param name="valueName">Name of the enum value.</param>
-            <returns>String Value</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.GetStringValues">
-            <summary>
-            Gets the string values associated with the enum.
-            </summary>
-            <returns>String value array</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.GetListValues">
-            <summary>
-            Gets the values as a 'bindable' list datasource.
-            </summary>
-            <returns>IList for data binding</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.IsStringDefined(System.String)">
-            <summary>
-            Return the existence of the given string value within the enum.
-            </summary>
-            <param name="stringValue">String value.</param>
-            <returns>Existence of the string value</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.IsStringDefined(System.String,System.Boolean)">
-            <summary>
-            Return the existence of the given string value within the enum.
-            </summary>
-            <param name="stringValue">String value.</param>
-            <param name="ignoreCase">Denotes whether to conduct a case-insensitive match on the supplied string value</param>
-            <returns>Existence of the string value</returns>
-        </member>
-        <member name="P:FlatRedBall.Utilities.StringEnum.EnumType">
-            <summary>
-            Gets the underlying enum type for this instance.
-            </summary>
-            <value></value>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.GetStringValue(System.Enum)">
-            <summary>
-            Gets a string value for a particular enum value.
-            </summary>
-            <param name="value">Value.</param>
-            <returns>String Value associated via a <see cref="T:FlatRedBall.Utilities.StringValueAttribute"/> attribute, or null if not found.</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.Parse(System.Type,System.String)">
-            <summary>
-            Parses the supplied enum and string value to find an associated enum value (case sensitive).
-            </summary>
-            <param name="type">Type.</param>
-            <param name="stringValue">String value.</param>
-            <returns>Enum value associated with the string value, or null if not found.</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.Parse(System.Type,System.String,System.Boolean)">
-            <summary>
-            Parses the supplied enum and string value to find an associated enum value.
-            </summary>
-            <param name="type">Type.</param>
-            <param name="stringValue">String value.</param>
-            <param name="ignoreCase">Denotes whether to conduct a case-insensitive match on the supplied string value</param>
-            <returns>Enum value associated with the string value, or null if not found.</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.IsStringDefined(System.Type,System.String)">
-            <summary>
-            Return the existence of the given string value within the enum.
-            </summary>
-            <param name="stringValue">String value.</param>
-            <param name="enumType">Type of enum</param>
-            <returns>Existence of the string value</returns>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringEnum.IsStringDefined(System.Type,System.String,System.Boolean)">
-            <summary>
-            Return the existence of the given string value within the enum.
-            </summary>
-            <param name="stringValue">String value.</param>
-            <param name="enumType">Type of enum</param>
-            <param name="ignoreCase">Denotes whether to conduct a case-insensitive match on the supplied string value</param>
-            <returns>Existence of the string value</returns>
-        </member>
-        <member name="T:FlatRedBall.Utilities.StringValueAttribute">
-            <summary>
-            Simple attribute class for storing String Values
-            </summary>
-        </member>
-        <member name="M:FlatRedBall.Utilities.StringValueAttribute.#ctor(System.String)">
-            <summary>
-            Creates a new <see cref="T:FlatRedBall.Utilities.StringValueAttribute"/> instance.
-            </summary>
-            <param name="value">Value.</param>
-        </member>
-        <member name="P:FlatRedBall.Utilities.StringValueAttribute.Value">
-            <summary>
-            Gets the value.
-            </summary>
-            <value></value>
-        </member>
         <member name="T:FlatRedBall.Utilities.StringFunctions">
             <summary>
             A class containing common string maniuplation methods.
@@ -4888,9 +4819,12 @@
             <summary>
             Creates a new, empty TileNodeNetwork matching the arguments.
             </summary>
-            <param name="xOrigin">The X position of the left-most nodes. This, along with the ySeed, define the bottom-left of the node network.</param>
-            <param name="yOrigin">The y position of the bottom-most nodes. This, along with xSeed, define the bottom-left of the node network.</param>
-            <param name="gridSpacing">The X and Y distance between each node.</param>
+            <param name="xOrigin">The X position of the left-most nodes. This, along with the ySeed, define the bottom-left of the node network. 
+            For tile maps this should be the center X of the first tile column (typically TileWidth / 2).</param>
+            <param name="yOrigin">The y position of the bottom-most nodes. This, along with xSeed, define the bottom-left of the node network. 
+            For tile maps this should be the center Y of the bottom tile row. 
+            If the top-left of the map is at 0,0, then this value would be (-EntireMapHeight + TileHeight/2)</param>
+            <param name="gridSpacing">The X and Y distance between each node. That is, the X distance between two adjacent nodes (assumed to be equal to the Y distance). For a tile map this will equal the width of a tile.</param>
             <param name="numberOfXTiles">The number of nodes vertically.</param>
             <param name="numberOfYTiles">The number of nodes horizontally.</param>
             <param name="directionalType">Whether to create a Four-way or Eight-way node network. Eight creates diagonal links, enabling diagonal movement when following the node network.</param>
@@ -4995,7 +4929,8 @@
         </member>
         <member name="P:FlatRedBall.Camera.DrawsWorld">
             <summary>
-            Whether the Camera draws world objects (objects not on the Camera's Layer)
+            Whether the Camera draws world objects (objects not on the Camera's Layer). This is true by default.
+            This is usually set to false for cameras used in render targets which only draw layers.
             </summary>
         </member>
         <member name="P:FlatRedBall.Camera.DrawsShapes">
@@ -5082,6 +5017,14 @@
             so the bottom left is at the origin.</param>
             <param name="desiredWidth">The desired unit width of the view.</param>
             <param name="desiredHeight">The desired unit height of the view.</param>
+        </member>
+        <member name="M:FlatRedBall.Camera.UsePixelCoordinates3D(System.Single)">
+            <summary>
+            Adjusts the camera's Z value so that 1 unit equals 1 pixel at the argument absolute Z value.
+            Note that objects closer to the camera will appear bigger and objects further will appear smaller.
+            This function assumes that Orthogonal is set to false.
+            </summary>
+            <param name="zToMakePixelPerfect">The absolute Z value to make pixel perfect.</param>
         </member>
         <member name="F:FlatRedBall.Camera.mLightingEnabled">
             <summary>
@@ -5202,12 +5145,14 @@
             </remarks>
             <param name="cameraToSetTo">The camera to clone.</param>
         </member>
-        <member name="M:FlatRedBall.Camera.SetSplitScreenViewport(FlatRedBall.Camera.SplitScreenViewport)">
+        <member name="M:FlatRedBall.Camera.UsePixelCoordinates">
             <summary>
-            Sets the viewport for this camera to a standard split-screen viewport
+            Sets the camera to be 2D (far-away things do not get smaller) by
+            setting Orthogonal to true and adjusts the OrthogonalWidth and OrthogonalHeight
+            to match the pixel resolution. In other words, this makes 1 unit in game match 1 pixel on screen.
             </summary>
-            <param name="viewport">The viewport to use for this camera</param>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:FlatRedBall.Camera.SetSplitScreenViewport(System.Nullable{FlatRedBall.Camera.SplitScreenViewport})" -->
         <member name="M:FlatRedBall.Camera.CalculateMaxAndMins">
             <summary>
             Calculates the minimum and maximum X values for the camera based off of its
@@ -6268,12 +6213,11 @@
             <param name="memberName">The name of the field or property to set.</param>
             <param name="valueToSet">The value of the field or property to set.</param>
         </member>
-        <member name="M:FlatRedBall.Instructions.InstructionManager.Update(System.Double)">
+        <member name="M:FlatRedBall.Instructions.InstructionManager.Update">
             <summary>
             Performs every-frame updates which include moving queued instructions to the main instruction list and
             executing instructions according to their TimeToExecute.
             </summary>
-            <param name="currentTime">The number of seconds since the start of application execution.</param>
         </member>
         <member name="T:FlatRedBall.Instructions.InstructionSet">
             <summary>
@@ -7238,6 +7182,26 @@
             A class storing enumerations for collisions.
             </summary>
         </member>
+        <member name="P:FlatRedBall.Math.Collision.CollisionManager.Relationships">
+            <summary>
+            The relationships which are currently part of the collision manager. This should not be added to
+            by regular game code. This is exposed so that collision manager extension methods can add new relationships.
+            </summary>
+        </member>
+        <member name="P:FlatRedBall.Math.Collision.CollisionRelationship.IsActive">
+            <summary>
+            Whether the CollisionManager autoamtically calls DoCollisions on this relationship every frame.
+            If set to false, the CollisionManager will not call DoCollision, but DoCollision can be called automatically
+            </summary>
+        </member>
+        <member name="P:FlatRedBall.Math.Collision.CollisionRelationship.FrameSkip">
+            <summary>
+            The number of frames to skip after performing collision logic. Default value is 0, which means no values are skipped.
+            </summary>
+            <remarks>
+            A value of 1 will result in 1 frame being skipped after performing collisio logic resulting in collision being performed every other frame.
+            </remarks>
+        </member>
         <member name="M:FlatRedBall.Math.Geometry.AxisAlignedRectangle.CollideAgainst(FlatRedBall.Math.Geometry.Circle)">
             <summary>
             Returns whether this instance collides against the argument Circle.
@@ -7279,6 +7243,23 @@
             </summary>
             <param name="shapeCollection">The ShapeCollection to test collision against.</param>
             <returns>Whether collision has occurred.</returns>
+        </member>
+        <member name="M:FlatRedBall.Math.Geometry.AxisAlignedRectangle.CollideAgainstMove(FlatRedBall.Math.Geometry.Polygon,System.Single,System.Single)">
+            <summary>
+            Performs a "move" collision (a collision that adjusts the Position of the calling objects 
+            to separate them if they overlap), moving each object according to its respective mass.
+            </summary>
+            <param name="polygon">The polygon to collide against.</param>
+            <param name="thisMass">The mass of the AxisAlignedRectangle. 
+            If value this is 0, the AxisAlignedRectangle will act as if it has no mass - the Polygon will not be pushed or stopped.</param>
+            <param name="otherMass">The mass of the Polygon. 
+            If this value is 0, The Polygon will act as if it has no mass - the AxisAlignedRectangle will not be pushed or stopped.</param>
+            <returns>Whether the caller collides against the argument Polygon.</returns>
+            <example>
+            // This shows how to perform a collision where the polygon is static - a common
+            // situation if the polygon is part of the static environment:
+            axisAlignedRectangle.CollideAgainstMove(polygon, 0, 1);
+            </example>
         </member>
         <member name="P:FlatRedBall.Math.Geometry.Circle.LastCollisionTangent">
             <summary>
@@ -7503,10 +7484,20 @@
             them using mPoints and position/rotation values.
             </remarks>
         </member>
+        <member name="P:FlatRedBall.Math.Geometry.Polygon.RepositionDirections">
+            <summary>
+            Sets the directions that the polygon can perform collision - this is only considered if the polygon is convex and clockwise.
+            </summary>
+        </member>
         <member name="P:FlatRedBall.Math.Geometry.Polygon.Points">
             <summary>
             The Position-relative points of the Polygon.
             </summary>
+            <remarks>
+            This value can be assigned to completely replace the points in a polygon.
+            Changing this list updates the Vertices internally and immediately
+            makes the polygon available for rendering.
+            </remarks>
         </member>
         <member name="P:FlatRedBall.Math.Geometry.Polygon.LastMoveCollisionReposition">
             <summary>
@@ -8492,8 +8483,8 @@
             the argument value.  In other words, if 0 is passed as the value, then objects with position values greater than (not equal to) will be returned.</param>
             <param name="axis">The axis representing the value to use (x, y, or z)</param>
             <param name="lowBoundIndex">The lower (inclusive) bound.</param>
-            <param name="highBoundIndex">The upper (exclusive) bound.</param>
-            <returns>The index of the first object after the given value.</returns>
+            <param name="highBoundIndexExclusive">The upper (exclusive) bound.</param>
+            <returns>The index of the first object after the given value. If low bound equals high bound, then the low bound is returned.</returns>
         </member>
         <member name="M:FlatRedBall.Math.PositionedObjectList`1.GetTopParents">
             <summary>
@@ -8520,6 +8511,16 @@
             Shifts all contained objects' RelativePosition by the argument vector.
             </summary>
             <param name="vector">The amount to change RelativePosition by.</param>
+        </member>
+        <member name="M:FlatRedBall.Math.PositionedObjectList`1.Shuffle">
+            <summary>
+            Shuffles all elements in the list such that the are in random order afer the call finishes.
+            </summary>
+            <remarks>
+            The Shuffle method can be used for elements which should be presented in a random order. For example,
+            a list of players may be shuffled before a game begins to randomize the turn order to prevent one player from
+            always going first.
+            </remarks>
         </member>
         <member name="T:FlatRedBall.Math.RollingAverage">
             <summary>
@@ -8922,8 +8923,14 @@
         </member>
         <member name="P:FlatRedBall.PositionedObject.ListsBelongingTo">
             <summary>
-            The List of IAttachableRemovables (containers) that this shares a two-way relationship with.
+            The List of lists that this belongs to. This member is how two-way relationships are established.
+            If an object is added to a list using a "one-way" add, then that list will not be in the 
+            object's ListsBelongingTo.
             </summary>
+            <remarks>
+            PositionedObjects are typically added to managers, children, and Glue lists using two-way relationships, so this
+            member provides information about where this object is referenced.
+            </remarks>
         </member>
         <member name="P:FlatRedBall.PositionedObject.Name">
             <summary>
@@ -8942,7 +8949,10 @@
         </member>
         <member name="P:FlatRedBall.PositionedObject.ParentRotationChangesRotation">
             <summary>
-            Gets and sets whether the parent's rotation should change the object's rotation.
+            Gets and sets whether the parent's rotation should change the object's rotation. The default is true, which means
+            if this is attached to a parent, it will rotate along with the parent, and it can have additional rotation applied through
+            its relative rotation values.
+            If this value is false, then the relative values are applied directly to the absolute values, ignoring the parent's rotation.
             </summary>
         </member>
         <member name="P:FlatRedBall.PositionedObject.RelativeX">
@@ -10003,6 +10013,19 @@
             <summary>
             Creates a new SpriteManager.
             </summary>
+        </member>
+        <member name="M:FlatRedBall.SpriteManager.AddToLayer(FlatRedBall.Sprite,FlatRedBall.Graphics.Layer)">
+            <summary>
+            Adds the argument Sprite to the argument Layer. If the Sprite is not already
+            managed by the SpriteManager, the Sprite will also be added to the internal list
+            for management. This method can be called multiple times to add a single Sprite to
+            multiple Layers.
+            
+            If the layerToAddTo argument is null then the Sprite is added as a regular un-layered Sprite.
+            </summary>
+            <param name="spriteToAdd">The Sprite to add.</param>
+            <param name="layerToAddTo">The Layer to add to. If null, the Sprite will be added as an un-layered Sprite.</param>
+            <exception cref="T:System.InvalidOperationException">Thrown if this is not called on the primary thread.</exception>
         </member>
         <member name="M:FlatRedBall.SpriteManager.AddToLayer(FlatRedBall.Graphics.IDrawableBatch,FlatRedBall.Graphics.Layer)">
             <summary>

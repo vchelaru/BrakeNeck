@@ -98,6 +98,7 @@
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -212,6 +213,7 @@
     <Compile Include="GumCore\ElementWithState.cs" />
     <Compile Include="GumCore\EventSave.cs" />
     <Compile Include="GumCore\FileManager.cs" />
+    <Compile Include="GumCore\FloatRectangle.cs" />
     <Compile Include="GumCore\GraphicalUiElement.cs" />
     <Compile Include="GumCore\GraphicalUiElement.IWindow.cs">
       <DependentUpon>GraphicalUiElement.cs</DependentUpon>
